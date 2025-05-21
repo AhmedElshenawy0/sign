@@ -9,7 +9,7 @@ const Navbar = () => {
     { name: "Show Reel", path: "/" },
     { name: "Branding", path: "/" },
     { name: "Our Services", path: "/" },
-    { name: "About", path: "/" },
+    { name: "About", path: "/about" },
     { name: "Contact Us", path: "/" },
   ];
 
