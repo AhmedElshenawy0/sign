@@ -1,0 +1,53 @@
+@import url("https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&family=Fira+Code:wght@300..700&family=Share+Tech&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+
+@import "tailwindcss";
+
+:root {
+  --font-share: "Share Tech", sans-serif;
+  --font-fira: "Fira Code", monospace;
+  --font-cairo: "Cairo", sans-serif;
+  --font-montserrat: "Montserrat", sans-serif;
+  --brand-color: #ff69b4;
+}
+body {
+  font-family: var(--font-montserrat);
+  @theme {
+    --font-share: Share Tech, sans-serif;
+    --color-main-bg: #e5e5e5;
+    --color-main-light-bg: #f5f5f4;
+    --color-main-color: #0d1b2a;
+    --color-accent-color: #c9a66b;
+  }
+}
+
+:lang(ar) {
+  font-family: var(--font-cairo);
+}
+
+a {
+  text-decoration: none;
+}
+
+* {
+  /* margin: 0;
+  padding: 0; */
+}
+
+.main-section {
+  background-image: url("/images/sign7.jpg");
+  background-position: top;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.contact-sec {
+  background-image: url("/images/sign1.jpg");
+  background-position: top;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+/* .main-section {
+  background-image: url("/images/service3.jpg");
+  background-position: top;
+  background-repeat: no-repeat;
+  background-size: cover;
+} */
