@@ -1,5 +1,7 @@
 import { useRef, useState } from "react";
 import { FaPause, FaPlay } from "react-icons/fa";
+import { motion } from "framer-motion";
+
 const Hero = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isPaused, setIsPaused] = useState(true);
@@ -16,55 +18,89 @@ const Hero = () => {
       }
     }
   };
-  return (
-    <>
-      {/* Top section */}
-      <div className="main-section relative w-full h-[calc(100vh+150px)] flex justify-center">
-        {/* Overlay */}
-        <div className="w-full h-full mt-[104px] absolute -top-26 z-0 right-0 bg-black/50"></div>
 
-        {/* Center content */}
-        <div className="z-10 relative mx-auto mt-64 text-center">
-          <div className="p-2 rounded-full border-1 shadow border-white w-fit mx-auto bg-[#3a0d4e] mb-6">
+  return (
+    <div className="bg-black text-white">
+      {/* Hero Top Section */}
+      <section className="main-section relative h-screen w-full overflow-hidden flex items-center justify-center mt-6">
+        {/* Background Overlay */}
+        <div className="absolute inset-0 bg-black/70 z-0" />
+
+        {/* Centered Content */}
+        <motion.div
+          className="z-10 text-center px-4"
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+        >
+          <motion.div
+            className="p-3 border border-white rounded-full w-fit mx-auto mb-6 bg-[#3a0d4e]/90 shadow-lg"
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ duration: 0.5 }}
+          >
             <img
               src="/images/SignUp Logo White.png"
               width={90}
               height={90}
-              loading="lazy"
               alt="Logo"
+              loading="lazy"
             />
-          </div>
-          <p className="text-white font-semibold text-shadow-2xs">
-            LET US CRAFT YOUR NEXT FILM
-          </p>
-        </div>
-      </div>
+          </motion.div>
 
-      {/* Bottom section with video */}
-      <div
-        className="relative bg-gradient-to-tr from-green-800 to-emerald-900
- py-28 sm:p-3 md:p-12 flex flex-col justify-center"
-      >
-        <h1 className="mb-10 font-semibold text-3xl tracking-widest px-4 lg:text-5xl bg-gradient-to-r from-white via-gray-500 to-gray-500 bg-clip-text text-transparent">
-          SHOWREEL
-        </h1>
-        {/* Video */}
-        <video
-          ref={videoRef}
-          src="/videos/intro.mp4"
-          className=" w-full md:rounded-xl"
-          loop
-        />
+          <motion.h1
+            className="text-4xl md:text-6xl font-extrabold text-green-700 mb-4"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+          >
+            Let Us Craft Your Next Film
+          </motion.h1>
 
-        {/* Pause/Play Button - Centered */}
-        <button
-          onClick={toggleVideo}
-          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 translate-y-2 md:-translate-y-1/2 bg-black/60 text-white p-4 rounded-full hover:bg-black/80 transition"
+          <motion.p
+            className="text-gray-300 text-lg md:text-xl max-w-2xl mx-auto"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.4 }}
+          >
+            We bring ideas to life with cinematic storytelling and brand-focused
+            visuals.
+          </motion.p>
+        </motion.div>
+      </section>
+
+      {/* Showreel Section */}
+      <section className="relative bg-gradient-to-tr from-green-800 to-emerald-900 py-28 px-6 flex flex-col  ">
+        <motion.h2
+          className="text-3xl md:text-5xl font-bold tracking-widest mb-12 bg-gradient-to-r from-white via-orange-500 to-white bg-clip-text text-transparent"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
         >
-          {isPaused ? <FaPlay size={24} /> : <FaPause size={24} />}
-        </button>
-      </div>
-    </>
+          SHOWREEL
+        </motion.h2>
+
+        <div className="relative w-full max-w-6xl shadow-2xl rounded-xl overflow-hidden">
+          <motion.video
+            ref={videoRef}
+            src="/videos/intro.mp4"
+            className="w-full h-full object-cover"
+            loop
+            playsInline
+          />
+
+          <motion.button
+            onClick={toggleVideo}
+            className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-black/70 text-white p-5 rounded-full hover:bg-black transition"
+            aria-label={isPaused ? "Play Video" : "Pause Video"}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            {isPaused ? <FaPlay size={24} /> : <FaPause size={24} />}
+          </motion.button>
+        </div>
+      </section>
+    </div>
   );
 };
 

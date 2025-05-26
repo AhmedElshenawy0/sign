@@ -1,28 +1,23 @@
 const AboutText = () => {
   return (
-    <div className="text-black bg-white px-10 md:px-[230px] py-14 md:py-24">
-      <p className="pb-4 text-lg text-justify">
-        So… What is MGV Creative? Don’t get us wrong we look to put as much
-        creativity into all the work we do however some content needs that extra
-        polish, that finer touch and precision that will elevate a brand on a
-        global scale. That’s where MGV Creative comes in, the commercial and
-        luxury brand arm of MGV Productions. <br /> <br />
-        Lead by Creative Director, Jonathan Palfrey, MGV Creative works closely
-        with leading and experienced luxury brand photographers, stylists and
-        art directors such as <span className=" underline">
-          Rupert Peace
-        </span> , <span className=" underline">Fiona Wilkins</span> and{" "}
-        <span className=" underline">Florence Rolfe</span>. Combined we provide
-        exceptional architectural and lifestyle branded motion and stills for
-        some of the most prestigious ultra luxury resort brands, super yachts
-        and private villas around the world. <br /> <br />
-        Our unique seamless integration of video, stills and drone effortlessly
-        elevates brands online and offline content without the disruption and
-        complications of most brand and resort shoots. With our wealth of
-        experience working in some of the most exclusive and prestigious
-        destinations in the world we understand the importance of discretion,
-        respect and privacy of guests while still being able to capture stunning
-        and captivating content for our clients.
+    <div className="text-black bg-white px-6 md:px-[230px] py-14 md:py-24">
+      <p className="pb-4 text-[16px] md:text-lg  leading-8 tracking-wider">
+        So… What is Signup? Don’t get us wrong — we bring strategy and
+        innovation to every project we touch. But some brands demand more. A
+        sharper edge. A deeper story. That’s where Signup steps in — the premium
+        marketing arm designed to craft bold campaigns and meaningful
+        connections that resonate on a global scale. <br /> <br />
+        Signup collaborates with a handpicked network of seasoned marketers,
+        designers, media planners, and digital growth specialists. Together,
+        we’ve launched impactful strategies for some of the world’s most
+        forward-thinking startups and established enterprises alike — across
+        industries from fashion and tech to real estate and hospitality. <br />{" "}
+        <br />
+        Our approach? Seamless integration across digital, social, video, and
+        branded content — eliminating the fragmentation that often slows brands
+        down. With years of experience navigating competitive landscapes, we
+        know how to make brands stand out — with clarity, consistency, and
+        creative firepower that doesn’t just impress… it converts.
       </p>
     </div>
   );

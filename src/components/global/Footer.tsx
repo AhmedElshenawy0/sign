@@ -6,26 +6,23 @@ const Footer = () => {
       <button className="flex justify-center border border-white rounded-full w-fit p-1 mx-auto">
         <FaInstagram color="white" />
       </button>
-      <p>contactus@mgvp.co.uk</p>
-      <p>
-        We work all around the world but we also work all over the UK: Aberdeen,
-        Alfreton, Belfast, Birmingham, Blackpool, Bradford, Brighton, Bristol,
-        Canary Wharf, Cardiff, Chesterfield, Cornwall, Coventry, Croydon, Derby,
-        Devon, Docklands, Doncaster, Dudley, Exeter, East Anglia, East Midlands,
-        Edinburgh, Four Counties, Glasgow, Greenwich, Hammersmith, Hull,
-        Kensington, Leeds, Leicester, Liverpool, London, Luton, Manchester,
-        Mansfield, Milton Keynes, Newcastle, North East, North Wales, North
-        West, Northampton, Northern Ireland, Nottingham, Plymouth, Portsmouth,
-        Reading, Rotherham, Sale, Salford, Scotland, Sheffield, Shepherds Bush,
-        Solihull, South East, South Wales, South West, Southampton,
-        Stoke-on-Trent, Sunderland, Sussex, Swansea, Swindon, Thames Valley,
-        Torquay, Warrington, West Bromwich, West Country, West Midlands,
-        Westminster, Wolverhampton, York, Yorkshire.
+
+      <p>contact@signupagency.eg</p>
+
+      <p className="leading-relaxed">
+        We proudly serve clients across Egypt — from Cairo, Alexandria, Giza,
+        and New Cairo, to the North Coast, Red Sea, and Upper Egypt. Whether
+        you're a rising local brand or an international business expanding into
+        the MENA region, Signup brings a fresh and results-driven approach to
+        marketing, tailored to your goals and audience.
       </p>
+
       <p className="mt-8 text-gray-300">
-        MGV Productions Ltd. Registered in England & Wales. Company Number.
-        07370664 | <span className="underline ">Privacy Policy</span>
+        Signup Agency LLC. Registered in Egypt. Commercial Registration No.
+        987654321 |{" "}
+        <span className="underline cursor-pointer">Privacy Policy</span>
       </p>
+
       <p className="text-gray-400 text-sm text-center">
         Website & Content ©{" "}
         <span className="text-white font-medium">Signup</span> 2025 — Powered by{" "}

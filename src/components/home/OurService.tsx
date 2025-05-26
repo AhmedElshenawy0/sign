@@ -1,182 +1,89 @@
 import { useRef, useState } from "react";
-import { FaPause, FaPlay } from "react-icons/fa";
+// import { FaPause, FaPlay } from "react-icons/fa";
+import Section from "./VideoSection";
 
 const OurService = () => {
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const [isPaused, setIsPaused] = useState(true);
+  const videoRef1 = useRef<HTMLVideoElement>(null);
+  const videoRef2 = useRef<HTMLVideoElement>(null);
+  const videoRef3 = useRef<HTMLVideoElement>(null);
+  const videoRef4 = useRef<HTMLVideoElement>(null);
+  const videoRef5 = useRef<HTMLVideoElement>(null);
+  const videoRef6 = useRef<HTMLVideoElement>(null);
 
-  const toggleVideo = () => {
-    const video = videoRef.current;
-    if (video) {
-      if (video.paused) {
-        video.play();
-        setIsPaused(false);
-      } else {
-        video.pause();
-        setIsPaused(true);
-      }
-    }
-  };
+  const [paused1, setPaused1] = useState(true);
+  const [paused2, setPaused2] = useState(true);
+  const [paused3, setPaused3] = useState(true);
+  const [paused4, setPaused4] = useState(true);
+  const [paused5, setPaused5] = useState(true);
+  const [paused6, setPaused6] = useState(true);
+
+  // const handleToggle = (
+  //   videoRef: React.RefObject<HTMLVideoElement>,
+  //   setPaused: (v: boolean) => void
+  // ) => {
+  //   const video = videoRef.current;
+  //   if (video) {
+  //     if (video.paused) {
+  //       video.play();
+  //       setPaused(false);
+  //     } else {
+  //       video.pause();
+  //       setPaused(true);
+  //     }
+  //   }
+  // };
+
   return (
     <div className="flex flex-col gap-20">
-      {/* Row 1: Video left, text right */}
-      <div className="flex flex-col md:flex-row items-center gap-8">
-        <div className="md:flex-1 relative w-full md:max-w-[60%]">
-          <video
-            ref={videoRef}
-            src="/videos/intro.mp4"
-            className="w-full"
-            loop
-          />
-          <button
-            onClick={toggleVideo}
-            className="absolute top-1/2 left-1/2 transform -translate-x-1/2 translate-y-[-23px] md:-translate-y-1/2 bg-black/60 text-white p-4 rounded-full hover:bg-black/80 transition"
-          >
-            {isPaused ? <FaPlay size={24} /> : <FaPause size={24} />}
-          </button>
-        </div>
-        <div className="md:flex-1 pl-8 md:px-0 w-full md:max-w-[40%] flex flex-col gap-8">
-          <h1 className="text-4xl font-semibold tracking-widest">
-            EMIRATES ONE&ONLY WOLGAN VALLEY
-          </h1>
-          <p>Resort Hero Film</p>
-          <p>Client: Emirates & One&Only Resorts</p>
-          <p>Location: SW, Australia</p>
-        </div>
-      </div>
+      {/* Section 1: Video Left */}
+      <Section
+        videoRef={videoRef1 as any}
+        isPaused={paused1}
+        setPaused={setPaused1}
+        layout="left"
+      />
 
-      {/* Row 2: Text left, video right */}
-      <div className="flex flex-col md:flex-row-reverse items-center gap-8">
-        <div className="md:flex-1 relative w-full md:max-w-[60%] ">
-          <video
-            ref={videoRef}
-            src="/videos/intro.mp4"
-            className="w-full"
-            loop
-          />
-          <button
-            onClick={toggleVideo}
-            className="absolute top-1/2 left-1/2 transform -translate-x-1/2 translate-y-[-23px] md:-translate-y-1/2 bg-black/60 text-white p-4 rounded-full hover:bg-black/80 transition"
-          >
-            {isPaused ? <FaPlay size={24} /> : <FaPause size={24} />}
-          </button>
-        </div>
-        <div className="md:flex-1 w-full md:max-w-[40%] flex flex-col gap-8 pl-8">
-          <h1 className="text-4xl font-semibold tracking-widest">
-            EMIRATES ONE&ONLY WOLGAN VALLEY
-          </h1>
-          <p>Resort Hero Film</p>
-          <p>Client: Emirates & One&Only Resorts</p>
-          <p>Location: SW, Australia</p>
-        </div>
-      </div>
+      {/* Section 2: Video Right */}
+      <Section
+        videoRef={videoRef2 as any}
+        isPaused={paused2}
+        setPaused={setPaused2}
+        layout="right"
+      />
 
-      {/* Row 3: Video left, text right */}
-      {/* Row 3: Video left, text right */}
-      <div className="flex flex-col md:flex-row items-center gap-8">
-        <div className="md:flex-1 relative w-full md:max-w-[70%] h-[200px] md:h-[300px]">
-          {" "}
-          {/* Adjust height here */}
-          <video
-            ref={videoRef}
-            src="/videos/intro.mp4"
-            className="w-full h-full object-cover"
-            loop
-          />
-          <button
-            onClick={toggleVideo}
-            className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-black/60 text-white p-4 rounded-full hover:bg-black/80 transition"
-          >
-            {isPaused ? <FaPlay size={24} /> : <FaPause size={24} />}
-          </button>
-        </div>
-        <div className="md:flex-1 w-full md:max-w-[30%] pl-8 flex flex-col gap-8">
-          <h1 className="text-4xl font-semibold tracking-widest">
-            EMIRATES ONE&ONLY WOLGAN VALLEY
-          </h1>
-          <p>Resort Hero Film</p>
-          <p>Client: Emirates & One&Only Resorts</p>
-          <p>Location: SW, Australia</p>
-        </div>
-      </div>
+      {/* Section 3: Custom height */}
+      <Section
+        videoRef={videoRef3 as any}
+        isPaused={paused3}
+        setPaused={setPaused3}
+        layout="left"
+        videoHeight="h-[200px] md:h-[300px]"
+        videoCover
+      />
 
-      {/* Row 4: Text left, video right */}
-      <div className="flex flex-col md:flex-row-reverse items-center gap-8">
-        <div className="md:flex-1 relative w-full md:max-w-[60%]">
-          <video
-            ref={videoRef}
-            src="/videos/intro.mp4"
-            className="w-full"
-            loop
-          />
-          <button
-            onClick={toggleVideo}
-            className="absolute top-1/2 left-1/2 transform -translate-x-1/2 translate-y-[-23px] md:-translate-y-1/2 bg-black/60 text-white p-4 rounded-full hover:bg-black/80 transition"
-          >
-            {isPaused ? <FaPlay size={24} /> : <FaPause size={24} />}
-          </button>
-        </div>
-        <div className="md:flex-1 w-full md:max-w-[40%] flex flex-col gap-8 pl-8">
-          <h1 className="text-4xl font-semibold tracking-widest">
-            EMIRATES ONE&ONLY WOLGAN VALLEY
-          </h1>
-          <p>Resort Hero Film</p>
-          <p>Client: Emirates & One&Only Resorts</p>
-          <p>Location: SW, Australia</p>
-        </div>
-      </div>
+      {/* Section 4: Video Right */}
+      <Section
+        videoRef={videoRef4 as any}
+        isPaused={paused4}
+        setPaused={setPaused4}
+        layout="right"
+      />
 
-      {/* Row 5: Video left, text right */}
-      <div className="flex flex-col md:flex-row items-center gap-8">
-        <div className="md:flex-1 relative w-full md:max-w-[60%]">
-          <video
-            ref={videoRef}
-            src="/videos/intro.mp4"
-            className="w-full"
-            loop
-          />
-          <button
-            onClick={toggleVideo}
-            className="absolute top-1/2 left-1/2 transform -translate-x-1/2 translate-y-[-23px] md:-translate-y-1/2 bg-black/60 text-white p-4 rounded-full hover:bg-black/80 transition"
-          >
-            {isPaused ? <FaPlay size={24} /> : <FaPause size={24} />}
-          </button>
-        </div>
-        <div className="md:flex-1 w-full md:max-w-[40%] flex flex-col pl-8 gap-8">
-          <h1 className="text-4xl font-semibold tracking-widest">
-            EMIRATES ONE&ONLY WOLGAN VALLEY
-          </h1>
-          <p>Resort Hero Film</p>
-          <p>Client: Emirates & One&Only Resorts</p>
-          <p>Location: SW, Australia</p>
-        </div>
-      </div>
+      {/* Section 5: Video Left */}
+      <Section
+        videoRef={videoRef5 as any}
+        isPaused={paused5}
+        setPaused={setPaused5}
+        layout="left"
+      />
 
-      {/* Row 6: Text left, video right */}
-      <div className="flex flex-col md:flex-row-reverse items-center gap-8">
-        <div className="md:flex-1 relative w-full md:max-w-[60%]">
-          <video
-            ref={videoRef}
-            src="/videos/intro.mp4"
-            className="w-full"
-            loop
-          />
-          <button
-            onClick={toggleVideo}
-            className="absolute top-1/2 left-1/2 transform -translate-x-1/2 translate-y-[-23px] md:-translate-y-1/2 bg-black/60 text-white p-4 rounded-full hover:bg-black/80 transition"
-          >
-            {isPaused ? <FaPlay size={24} /> : <FaPause size={24} />}
-          </button>
-        </div>
-        <div className="md:flex-1 w-full md:max-w-[40%] flex flex-col gap-8 pl-8">
-          <h1 className="text-4xl font-semibold tracking-widest">
-            EMIRATES ONE&ONLY WOLGAN VALLEY
-          </h1>
-          <p>Resort Hero Film</p>
-          <p>Client: Emirates & One&Only Resorts</p>
-          <p>Location: SW, Australia</p>
-        </div>
-      </div>
+      {/* Section 6: Video Right */}
+      <Section
+        videoRef={videoRef6 as any}
+        isPaused={paused6}
+        setPaused={setPaused6}
+        layout="right"
+      />
     </div>
   );
 };
