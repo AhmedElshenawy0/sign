@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FaPlay } from "react-icons/fa";
 import { IoIosArrowDown } from "react-icons/io";
 
@@ -53,6 +53,9 @@ const ShowReels = () => {
     },
   ];
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <div className="bg-black text-white">
       {/* Hero Section */}
@@ -61,8 +64,8 @@ const ShowReels = () => {
           src="/images/sign3.jpg"
           className="absolute w-full h-full inset-0 object-cover opacity-25"
           alt=""
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+          initial={{ scale: 1.1, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 1 }}
         />
         {/* Overlay */}

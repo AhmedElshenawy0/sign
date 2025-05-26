@@ -19,7 +19,7 @@ const Navbar = () => {
     <nav className="fixed top-0 left-0 w-full z-50 bg-gradient-to-r from-green-800 to-green-950 backdrop-blur-md shadow-md py-3 px-6 md:px-12">
       <div className="max-w-7xl mx-auto flex justify-between items-center">
         {/* Logo */}
-        <Link to="/home" className="w-14 h-14 rounded-full overflow-hidden">
+        <Link to="/" className="w-14 h-14 rounded-full overflow-hidden">
           <img
             src="/images/SignUp Logo White.png"
             alt="Logo"

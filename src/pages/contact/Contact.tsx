@@ -1,7 +1,11 @@
 import { motion } from "framer-motion";
+import { useEffect } from "react";
 import { FaEnvelope, FaPhoneAlt, FaMapMarkerAlt } from "react-icons/fa";
 
 const ContactPage = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <div className="bg-black text-white">
       {/* Hero Section */}
@@ -10,8 +14,8 @@ const ContactPage = () => {
           src="/images/sign5.jpg"
           alt="Contact Hero"
           className="absolute inset-0 w-full h-full object-cover"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+          initial={{ scale: 1.1, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 1 }}
         />
         <div className="absolute inset-0 w-full h-full bg-black opacity-80" />

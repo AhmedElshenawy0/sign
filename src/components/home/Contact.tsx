@@ -1,8 +1,18 @@
+import { motion } from "framer-motion";
+
 const Contact = () => {
   return (
-    <div className="contact-sec text-center relative aspect-[1/1.5] sm:aspect-[2.1/1] mt-24 px-3 flex justify-center items-center flex-col text-white gap-6 z-10">
+    <div className="relative text-center aspect-[1/1.5] sm:aspect-[2.1/1] mt-24 px-3 flex justify-center items-center flex-col text-white gap-6 z-10">
       <div className="bg-black/50 absolute top-0 right-0 w-full h-full" />
-
+      <motion.video
+        src="/videos/3141208-uhd_3840_2160_25fps.mp4"
+        className="w-full h-full object-cover absolute top-0 right-0"
+        loop
+        playsInline
+        autoPlay
+      />
+      {/* Overlay */}
+      <div className="absolute inset-0 bg-black/70 z-0" />
       <h1 className="z-10 text-3xl font-semibold tracking-wider">
         THE SEARCH IS OVER
       </h1>

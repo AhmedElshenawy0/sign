@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useEffect } from "react";
 import {
   FaBullhorn,
   FaPenNib,
@@ -48,6 +49,9 @@ const services = [
 ];
 
 const OurService = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <div className="bg-black text-white">
       {/* Hero Section */}
@@ -56,13 +60,13 @@ const OurService = () => {
           src="/images/sign5.jpg"
           alt="Our Services"
           className="absolute inset-0 w-full h-full object-cover opacity-20"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+          initial={{ scale: 1.1, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 1 }}
         />
         {/* Overlay */}
         <div className="absolute inset-0 bg-black/70 z-0" />
-        
+
         <div className="relative z-10 px-4">
           <motion.h1
             className="text-5xl md:text-7xl font-extrabold mb-6 text-green-700"

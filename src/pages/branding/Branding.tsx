@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useEffect } from "react";
 
 const coreValues = [
   {
@@ -34,6 +35,9 @@ const coreValues = [
 ];
 
 const BrandingPage = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <div className="bg-black text-white">
       {/* Hero Section */}

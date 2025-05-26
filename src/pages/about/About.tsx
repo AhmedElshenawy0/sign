@@ -1,8 +1,12 @@
+import { useEffect } from "react";
 import AboutContent from "../../components/about/AboutContent";
 import AboutText from "../../components/about/AboutText";
 import { motion } from "framer-motion";
 
 const About = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <>
       <section className="relative flex justify-center flex-col items-center h-screen overflow-hidden bg-black">

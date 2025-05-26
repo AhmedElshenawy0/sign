@@ -22,7 +22,16 @@ const Hero = () => {
   return (
     <div className="bg-black text-white">
       {/* Hero Top Section */}
-      <section className="main-section relative h-screen w-full overflow-hidden flex items-center justify-center mt-6">
+      <section className="relative h-screen w-full overflow-hidden flex items-center justify-center mt-6">
+        <motion.img
+          src="/images/sign10.jpg"
+          alt="Branding Hero"
+          className="absolute inset-0 w-full h-full object-cover"
+          initial={{ scale: 1.1, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 1 }}
+        />
+
         {/* Background Overlay */}
         <div className="absolute inset-0 bg-black/70 z-0" />
 
