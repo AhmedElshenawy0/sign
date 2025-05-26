@@ -80,7 +80,7 @@ const Hero = () => {
           SHOWREEL
         </motion.h2>
 
-        <div className="relative w-full max-w-6xl shadow-2xl rounded-xl overflow-hidden">
+        <div className="relative w-full shadow-2xl rounded-xl overflow-hidden">
           <motion.video
             ref={videoRef}
             src="/videos/intro.mp4"
