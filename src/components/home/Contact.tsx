@@ -12,7 +12,7 @@ const Contact = () => {
         autoPlay
       />
       {/* Overlay */}
-      <div className="absolute inset-0 bg-black/60 z-0" />
+      <div className="absolute inset-0 bg-black/50 z-0" />
       <h1 className="z-10 text-3xl font-semibold tracking-wider">
         THE SEARCH IS OVER
       </h1>
