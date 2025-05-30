@@ -54,15 +54,14 @@ const OurService = () => {
   }, []);
   return (
     <div className="bg-black text-white">
-      {/* Hero Section */}
+      {/* Hero Section */}3141208-uhd_3840_2160_25fps.mp4
       <section className="h-screen flex flex-col items-center justify-center text-center bg-black relative overflow-hidden pt-20">
-        <motion.img
-          src="/images/sign5.jpg"
-          alt="Our Services"
-          className="absolute inset-0 w-full h-full object-cover opacity-20"
-          initial={{ scale: 1.1, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 1 }}
+        <motion.video
+          src="/videos/3141208-uhd_3840_2160_25fps.mp4"
+          className="w-full h-full object-cover absolute top-0 right-0"
+          loop
+          playsInline
+          autoPlay
         />
         {/* Overlay */}
         <div className="absolute inset-0 bg-black/70 z-0" />
@@ -87,7 +86,6 @@ const OurService = () => {
           </motion.p>
         </div>
       </section>
-
       {/* Services Grid */}
       <section className="py-24 px-6 bg-gradient-to-t from-black to-zinc-900">
         <motion.h2
@@ -115,7 +113,6 @@ const OurService = () => {
           ))}
         </div>
       </section>
-
       {/* CTA Section */}
       <section className="py-20 px-6 text-center bg-black border-t border-gray-700">
         <motion.h4
