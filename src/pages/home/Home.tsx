@@ -9,7 +9,7 @@ const Home = () => {
     window.scrollTo(0, 0);
   }, []);
   return (
-    <div className="flex flex-col w-full min-h-screen">
+    <div className="flex flex-col w-full min-h-screen mt-8">
       <Hero />
       <AboutSignup />
       <OurService />
