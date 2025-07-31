@@ -9,14 +9,22 @@
   --font-montserrat: "Montserrat", sans-serif;
   --brand-color: #ff69b4;
 }
+
 body {
   font-family: var(--font-montserrat);
+
   @theme {
     --font-share: Share Tech, sans-serif;
     --color-main-bg: #e5e5e5;
     --color-main-light-bg: #f5f5f4;
     --color-main-color: #0d1b2a;
     --color-accent-color: #c9a66b;
+    --color-main-green: #0e985d;
+    --color-main-dark-green: #08563a;
+    --color-main-move: #552583;
+    --color-main-medium-move: #401a66;
+    --color-main-red: #e54411;
+    --color-main-white: #ffffff;
   }
 }
 
@@ -33,18 +41,54 @@ a {
   padding: 0; */
 }
 
+@keyframes scroll {
+  0% {
+    transform: translateX(0%);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-scroll {
+  display: flex;
+  animation: scroll 30s linear infinite;
+}
+
 .main-section {
   background-image: url("/images/sign10.jpg");
   background-position: top left;
   background-repeat: no-repeat;
   background-size: cover;
 }
+
 .contact-sec {
   background-image: url("/images/sign1.jpg");
   background-position: top;
   background-repeat: no-repeat;
   background-size: cover;
 }
+
+.get-in-touch {
+  background-image: url("/images/sign1.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+}
+
+.get-in-touch::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  right: 0;
+  background: #000000a1;
+  z-index: 0;
+}
+
 /* .main-section {
   background-image: url("/images/service3.jpg");
   background-position: top;

@@ -41,6 +41,11 @@ const OurService = () => {
         isPaused={paused1}
         setPaused={setPaused1}
         layout="left"
+        poster="/images/sign3.jpg"
+        videoHeight="h-[200px] md:h-[500px]"
+        videoCover
+
+
       />
 
       {/* Section 2: Video Right */}
@@ -49,6 +54,10 @@ const OurService = () => {
         isPaused={paused2}
         setPaused={setPaused2}
         layout="right"
+        poster="/images/sign3.jpg"
+        videoHeight="h-[200px] md:h-[500px]"
+        videoCover
+
       />
 
       {/* Section 3: Custom height */}
@@ -59,6 +68,9 @@ const OurService = () => {
         layout="left"
         videoHeight="h-[200px] md:h-[300px]"
         videoCover
+        poster="/images/sign3.jpg"
+
+
       />
 
       {/* Section 4: Video Right */}
@@ -67,6 +79,10 @@ const OurService = () => {
         isPaused={paused4}
         setPaused={setPaused4}
         layout="right"
+        poster="/images/sign3.jpg"
+        videoHeight="h-[200px] md:h-[500px]"
+        videoCover
+
       />
 
       {/* Section 5: Video Left */}
@@ -75,6 +91,10 @@ const OurService = () => {
         isPaused={paused5}
         setPaused={setPaused5}
         layout="left"
+        poster="/images/sign3.jpg"
+        videoHeight="h-[200px] md:h-[500px]"
+        videoCover
+
       />
 
       {/* Section 6: Video Right */}
@@ -83,6 +103,10 @@ const OurService = () => {
         isPaused={paused6}
         setPaused={setPaused6}
         layout="right"
+        poster="/images/sign3.jpg"
+        videoHeight="h-[200px] md:h-[500px]"
+        videoCover
+
       />
     </div>
   );

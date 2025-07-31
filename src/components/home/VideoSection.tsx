@@ -8,6 +8,7 @@ const Section = ({
   layout,
   videoHeight = "",
   videoCover = false,
+  poster
 }: {
   videoRef: React.RefObject<HTMLVideoElement>;
   isPaused: boolean;
@@ -15,29 +16,29 @@ const Section = ({
   layout: "left" | "right";
   videoHeight?: string;
   videoCover?: boolean;
+  poster: string
 }) => {
   const isVideoLeft = layout === "left";
 
   return (
     <motion.div
-      className={`flex flex-col ${
-        isVideoLeft ? "md:flex-row" : "md:flex-row-reverse"
-      } items-center gap-8`}
+      className={`flex flex-col ${isVideoLeft ? "md:flex-row" : "md:flex-row-reverse"
+        } items-center gap-8`}
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
-      //   viewport={{ once: true }}
+    //   viewport={{ once: true }}
     >
       <div
-        className={`md:flex-1 relative w-full ${
-          isVideoLeft ? "md:max-w-[60%]" : "md:max-w-[60%]"
-        } ${videoHeight}`}
+        className={`md:flex-1 relative w-full ${isVideoLeft ? "md:max-w-[60%]" : "md:max-w-[60%]"
+          } ${videoHeight}`}
       >
         <video
           ref={videoRef}
           src="/videos/intro.mp4"
           className={`w-full ${videoCover ? "h-full object-cover" : ""}`}
           loop
+          poster={poster}
         />
         <button
           onClick={() => {
@@ -59,9 +60,8 @@ const Section = ({
       </div>
 
       <motion.div
-        className={`md:flex-1 w-full ${
-          isVideoLeft ? "md:max-w-[40%]" : "md:max-w-[40%]"
-        } pl-8 flex flex-col gap-8`}
+        className={`md:flex-1 w-full ${isVideoLeft ? "md:max-w-[40%]" : "md:max-w-[40%]"
+          } pl-6 md:pl-14 flex flex-col gap-8`}
         whileInView={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.5 }}
       >

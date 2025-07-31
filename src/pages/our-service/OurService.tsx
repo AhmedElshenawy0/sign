@@ -52,23 +52,26 @@ const OurService = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
   return (
-    <div className="bg-black text-white">
-      {/* Hero Section */}3141208-uhd_3840_2160_25fps.mp4
-      <section className="h-screen flex flex-col items-center justify-center text-center bg-black relative overflow-hidden pt-20">
+    <div className="text-black bg-white">
+      {/* Hero Section */}
+      <section className="h-screen flex flex-col items-center justify-center text-center relative overflow-hidden pt-20 bg-black text-white">
         <motion.video
           src="/videos/3141208-uhd_3840_2160_25fps.mp4"
-          className="w-full h-full object-cover absolute top-0 right-0"
+          className="w-full h-full object-cover absolute top-0 right-0 z-0"
           loop
           playsInline
           autoPlay
+          muted
+          aria-label="Branding services promotional video"
         />
         {/* Overlay */}
-        <div className="absolute inset-0 bg-black/70 z-0" />
+        <div className="absolute inset-0 bg-black/70 z-10" />
 
-        <div className="relative z-10 px-4">
+        <div className="relative z-20 px-4 max-w-4xl">
           <motion.h1
-            className="text-5xl md:text-7xl font-extrabold mb-6 text-green-700"
+            className="text-5xl md:text-7xl font-extrabold mb-6 text-main-green"
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
@@ -86,10 +89,11 @@ const OurService = () => {
           </motion.p>
         </div>
       </section>
+
       {/* Services Grid */}
-      <section className="py-24 px-6 bg-gradient-to-t from-black to-zinc-900">
+      <section className="py-24 px-6 bg-white">
         <motion.h2
-          className="text-3xl font-semibold text-center mb-16 text-orange-500"
+          className="text-3xl font-semibold text-center mb-16 text-main-dark-green"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
@@ -101,42 +105,47 @@ const OurService = () => {
           {services.map((service, index) => (
             <motion.div
               key={index}
-              className="bg-black/60 p-6 rounded-xl shadow-lg text-center hover:bg-black/80 transition"
+              className="bg-gray-100 p-6 rounded-xl shadow-lg text-center transition"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: index * 0.1 }}
             >
-              <div className="text-green-700 mb-4">{service.icon}</div>
-              <h3 className="text-xl font-semibold mb-2">{service.title}</h3>
-              <p className="text-gray-400">{service.description}</p>
+              <div className="text-main-green mb-4">{service.icon}</div>
+              <h3 className="text-xl font-semibold mb-2 text-main-dark-green">
+                {service.title}
+              </h3>
+              <p className="text-gray-700">{service.description}</p>
             </motion.div>
           ))}
         </div>
       </section>
+
       {/* CTA Section */}
-      <section className="py-20 px-6 text-center bg-black border-t border-gray-700">
-        <motion.h4
-          className="text-3xl font-bold mb-6 text-orange-500"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-        >
-          Let's Elevate Your Brand Together
-        </motion.h4>
-        <motion.p
-          className="text-gray-400 mb-10 max-w-2xl mx-auto"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-        >
-          Whether you're starting fresh or scaling up — our team is ready to
-          help you make an impact.
-        </motion.p>
-        <motion.a
-          href="/contact"
-          className="inline-block bg-green-700 text-white font-bold py-3 px-8 rounded-full hover:bg-green-800 transition text-lg"
-          whileHover={{ scale: 1.05 }}
-        >
-          Get In Touch
-        </motion.a>
+      <section className="py-20 px-6 text-center get-in-touch relative z-10 border-t border-gray-700 h-screen flex justify-center items-center">
+        <div className="relative z-10">
+          <motion.h4
+            className="text-3xl md:text-4xl font-bold mb-6 text-white z-10"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+          >
+            Let's Elevate Your Brand Together
+          </motion.h4>
+          <motion.p
+            className="text-gray-400 mb-10 max-w-2xl mx-auto"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+          >
+            Whether you're starting fresh or scaling up — our team is ready to
+            help you make an impact.
+          </motion.p>
+          <motion.a
+            href="/contact"
+            className="inline-block bg-main-move text-white font-bold py-3 px-8 rounded-full hover:bg-main-medium-move transition text-lg"
+            whileHover={{ scale: 1.05 }}
+          >
+            Get In Touch
+          </motion.a>
+        </div>
       </section>
     </div>
   );

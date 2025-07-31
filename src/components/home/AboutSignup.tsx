@@ -1,3 +1,5 @@
+import MainBtn from "../global/MainBtn";
+
 const AboutSignup = () => {
   return (
     <section className="bg-white text-black px-6 md:px-14 py-20">
@@ -15,19 +17,9 @@ const AboutSignup = () => {
 
         {/* Info Sections */}
         <div className="grid md:grid-cols-2 gap-10">
-          {/* Vision */}
-          <div className="space-y-4">
-            <h3 className="text-2xl font-semibold text-orange-600">Vision</h3>
-            <p className="text-gray-700 text-lg leading-relaxed">
-              Helping MENA businesses shine through effective identity and
-              communication. Our creative direction is built around clarity and
-              authenticity.
-            </p>
-          </div>
-
           {/* What Makes Us Different */}
           <div className="space-y-4">
-            <h3 className="text-2xl font-semibold text-orange-600 uppercase">
+            <h3 className="text-2xl font-semibold text-main-red uppercase">
               What Makes Us Different
             </h3>
             <p className="text-gray-700 text-lg leading-relaxed">
@@ -35,10 +27,19 @@ const AboutSignup = () => {
               trends and creating tailored strategies that grow with your brand.
             </p>
           </div>
+          {/* Vision */}
+          <div className="space-y-4">
+            <h3 className="text-2xl font-semibold text-main-red">Vision</h3>
+            <p className="text-gray-700 text-lg leading-relaxed">
+              Helping MENA businesses shine through effective identity and
+              communication. Our creative direction is built around clarity and
+              authenticity.
+            </p>
+          </div>
 
           {/* Mission */}
           <div className="space-y-4">
-            <h3 className="text-2xl font-semibold text-orange-600 uppercase">
+            <h3 className="text-2xl font-semibold text-main-red uppercase">
               Mission
             </h3>
             <p className="text-gray-700 text-lg leading-relaxed">
@@ -50,9 +51,7 @@ const AboutSignup = () => {
 
         {/* CTA Button */}
         <div className="text-center pt-10">
-          <button className="inline-block bg-orange-500 text-white font-semibold text-lg py-3 px-8 rounded-full shadow-md hover:bg-black hover:text-white transition-all duration-300 ease-in-out">
-            Let's Talk
-          </button>
+          <MainBtn text="Let's Talk"/>
         </div>
       </div>
     </section>

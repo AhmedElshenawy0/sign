@@ -24,7 +24,7 @@ const About = () => {
         <div className="absolute inset-0 bg-black/70 z-0" />
 
         <motion.h1
-          className="uppercase text-center text-4xl md:text-7xl font-extrabold text-green-700 z-10 mb-4"
+          className="uppercase text-center text-4xl md:text-7xl font-extrabold text-main-green z-10 mb-4"
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}

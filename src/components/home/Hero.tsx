@@ -34,6 +34,28 @@ const Hero = () => {
     }
   };
 
+
+  const workedWith = [
+    { name: "القطان", logo: "/images/Partner/القطان.png" },
+    { name: "الزينى", logo: "/images/Partner/الزينى.png" },
+    { name: "المتبولى", logo: "/images/Partner/المتبولى.png" },
+    { name: "باب الحارة", logo: "/images/Partner/باب الحارة.png" },
+    { name: "كوتشى", logo: "/images/Partner/كوتشى.png" },
+    { name: "جيرلز", logo: "/images/Partner/جيرلز.png" },
+    { name: "الزميتى", logo: "/images/Partner/الزميتى.png" },
+    { name: "الجندى", logo: "/images/Partner/الجندى.png" },
+    { name: "هلال", logo: "/images/Partner/هلال.png" },
+    { name: "النخبة", logo: "/images/Partner/النخبة.png" },
+    { name: "هيرو", logo: "/images/Partner/هيرو.png" },
+    { name: "تمامى", logo: "/images/Partner/تمامى.png" },
+    { name: "سي", logo: "/images/Partner/سي (1).png" },
+    { name: "عيون المدينة", logo: "/images/Partner/عيون المدينة.png" },
+    { name: "قنديل", logo: "/images/Partner/قنديل.png" },
+    { name: "نجم", logo: "/images/Partner/نجم.png" },
+    { name: "نيو انجلاند", logo: "/images/Partner/نيو انجلاند.png" },
+  ];
+
+  const loopedItems = [...workedWith, ...workedWith]
   return (
     <div className="bg-black text-white">
       {/* Hero Section */}
@@ -58,7 +80,7 @@ const Hero = () => {
           transition={{ duration: 0.9 }}
         >
           <motion.div
-            className="p-4 border border-white/30 rounded-full w-fit mx-auto mb-6 bg-[#3a0d4e]/90 shadow-md backdrop-blur-sm"
+            className="p-4 border border-white/30 rounded-full w-fit mx-auto mb-6 bg-main-move shadow-md backdrop-blur-sm"
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             transition={{ duration: 0.5 }}
@@ -72,12 +94,12 @@ const Hero = () => {
             />
           </motion.div>
 
-          <h1 className="text-4xl md:text-6xl font-extrabold text-green-400 drop-shadow-md mb-4">
+          <h1 className="text-4xl md:text-6xl font-extrabold text-main-green drop-shadow-md mb-4">
             Your Creative Partners
           </h1>
 
           <p className="text-gray-200 text-lg md:text-xl leading-relaxed">
-            At <strong className="text-orange-400">Sign Up</strong>, we blend
+            At <strong className="text-main-red">Sign Up</strong>, we blend
             creativity, strategy, and a sprinkle of humor to turn brands into
             unforgettable vibes. Join us on a marketing journey where ideas come
             alive.
@@ -85,10 +107,33 @@ const Hero = () => {
         </motion.div>
       </section>
 
+      {/* Curosel */}
+      <div className=" py-6 border border-black bg-white">
+        <h3 className="text-black pb-6 font-bold text-lg text-center">Proudly worked with</h3>
+
+        <div className="animate-scroll gap-12">
+          {loopedItems.map((tech, i) => (
+            <div
+              key={i}
+              className="inline-flex flex-col items-center mx-6 min-w-max"
+            >
+
+              <img
+                src={tech.logo}
+                alt={tech.name}
+                width={80}
+                height={80}
+                className="w-40 h-40 mb-1 rounded-full"
+                loading="lazy"
+              />
+            </div>
+          ))}
+        </div>
+      </div>
       {/* Showreel Section */}
-      <section className="relative bg-gradient-to-tr from-green-800 to-emerald-900 py-28 px-6">
+      <section className="relative bg-gradient-to-tr from-main-green to-main-dark-green py-28 px-6">
         <motion.h2
-          className="text-center text-4xl md:text-5xl font-bold tracking-wide mb-12 bg-gradient-to-r from-white via-orange-500 to-white bg-clip-text text-transparent"
+          className="text-center text-4xl md:text-5xl font-bold tracking-wide mb-12 bg-gradient-to-r from-white to-main-red bg-clip-text text-transparent"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
@@ -100,7 +145,7 @@ const Hero = () => {
           <motion.video
             ref={videoRef}
             src="/videos/intro.mp4"
-            className="w-full h-full object-cover"
+            className="w-full h-[300px] sm:h-[450px] md:h-auto object-cover"
             loop
             playsInline
             muted
@@ -119,7 +164,7 @@ const Hero = () => {
             </motion.button>
           </div>
 
-          {/* Top-right Fullscreen Button (Only when playing) */}
+          {/* Top-right Fullscreen Button */}
           {!isPaused && (
             <motion.button
               onClick={openFullscreen}

@@ -13,13 +13,14 @@ const Contact = () => {
       />
       {/* Overlay */}
       <div className="absolute inset-0 bg-black/50 z-0" />
-      <h1 className="z-10 text-3xl font-semibold tracking-wider">
+      <h1 className="z-10 text-3xl md:text-4xl font-semibold tracking-wider">
         THE SEARCH IS OVER
       </h1>
       <p className="z-10">
         Get in touch and lets discover what we can do for your brand.
       </p>
-      <button className="p-3 z-10 rounded-3xl border border-orange-500 bg-orange-500 hover:bg-orange-600 text-white cursor-pointer transition">
+
+      <button className="py-3 px-8 z-10 rounded-full border border-main-move bg-main-move hover:bg-main-medium-move hover:border-main-medium-move text-white cursor-pointer transition">
         Contact
       </button>
     </div>

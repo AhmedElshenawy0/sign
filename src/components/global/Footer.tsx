@@ -2,7 +2,7 @@ import { FaInstagram } from "react-icons/fa6";
 
 const Footer = () => {
   return (
-    <div className="px-4 py-6 md:py-10 text-gray-300 bg-gradient-to-r from-green-900 to-green-950 flex flex-col justify-center text-center gap-4">
+    <div className="px-6 md:px-14 py-6 md:py-10 text-gray-300 bg-gradient-to-r from-green-900 to-green-950 flex flex-col justify-center text-center gap-4">
       <button className="flex justify-center border border-white rounded-full w-fit p-1 mx-auto">
         <FaInstagram color="white" />
       </button>
