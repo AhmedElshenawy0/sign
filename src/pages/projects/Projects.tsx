@@ -1,23 +1,35 @@
 import { motion } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
-import { FaPause, FaPlay } from "react-icons/fa";
+import { useEffect, useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import { galleries } from "../../dummyData";
+import { useTranslation } from "react-i18next";
 
 const ShowReels = () => {
-  const [playing, setPlaying] = useState(false);
-  const mainVideoRef = useRef<HTMLVideoElement>(null);
+  // const [playing, setPlaying] = useState(false);
+  // const mainVideoRef = useRef<HTMLVideoElement>(null);
 
-  const handleToggleMainVideo = () => {
-    const video = mainVideoRef.current;
-    if (video) {
-      video.paused ? video.play() : video.pause();
-      setPlaying(!video.paused);
-    }
-  };
+  // const handleToggleMainVideo = () => {
+  //   const video = mainVideoRef.current;
+  //   if (video) {
+  //     video.paused ? video.play() : video.pause();
+  //     setPlaying(!video.paused);
+  //   }
+  // };
+  const { t, i18n } = useTranslation();
+  const [isArabic, setIsArabic] = useState(false);
 
-  const categories = ["All", "Logos", "Designs", "Videos"];
-  const [selectedCategory, setSelectedCategory] = useState("All");
+  useEffect(() => {
+    setIsArabic(i18n.language === "ar");
+  }, [i18n.language]);
+
+  const categories = [
+    { id: "all", label: t("projects.categories.all") },
+    { id: "logos", label: t("projects.categories.logos") },
+    { id: "designs", label: t("projects.categories.designs") },
+    { id: "videos", label: t("projects.categories.videos") },
+  ];
+
+  const [selectedCategory, setSelectedCategory] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
 
@@ -27,11 +39,9 @@ const ShowReels = () => {
 
   // Filtering
   const filteredVideos =
-    selectedCategory === "All"
+    selectedCategory === "all"
       ? galleries
-      : galleries.filter(
-        (item) => item?.type === selectedCategory.toLowerCase()
-      );
+      : galleries.filter((item) => item?.type === selectedCategory);
 
   // Pagination logic
   const totalPages = Math.ceil(filteredVideos.length / itemsPerPage);
@@ -47,7 +57,7 @@ const ShowReels = () => {
   }, [selectedCategory]);
 
   return (
-    <div className="text-white">
+    <div className="text-white" dir={isArabic ? "rtl" : "ltr"}>
       {/* Hero Section */}
       <section className="h-screen w-full relative flex flex-col items-center justify-center text-center overflow-hidden pt-20">
         <motion.img
@@ -66,7 +76,7 @@ const ShowReels = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
           >
-            Our Projects
+            {t("projects.hero.title")}{" "}
           </motion.h1>
           <motion.p
             className="text-lg md:text-xl text-gray-300 max-w-xl mx-auto"
@@ -74,7 +84,7 @@ const ShowReels = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
           >
-            A collection of our best work — crafted to captivate and inspire.
+            {t("projects.hero.description")}
           </motion.p>
           <motion.div
             className="mt-20 flex flex-col items-center text-3xl animate-bounce"
@@ -108,10 +118,10 @@ const ShowReels = () => {
             />
           </motion.div>
           <h3 className="text-3xl font-bold text-main-dark-green text-center">
-            More Projects
+            {t("projects.moreProjects.heading")}
           </h3>
           <p className="text-gray-500 mt-2 text-center max-w-md">
-            Explore a collection of my work including logos, designs, and videos.
+            {t("projects.moreProjects.description")}
           </p>
         </div>
 
@@ -119,14 +129,15 @@ const ShowReels = () => {
         <div className="flex justify-center gap-4 mb-10 flex-wrap">
           {categories.map((category) => (
             <button
-              key={category}
-              onClick={() => setSelectedCategory(category)}
-              className={`px-4 py-2 cursor-pointer rounded-full border font-medium transition-all duration-200 ${selectedCategory === category
-                ? "bg-main-dark-green text-white"
-                : "bg-white border-main-dark-green text-main-dark-green hover:bg-main-dark-green hover:text-white"
-                }`}
+              key={category.id}
+              onClick={() => setSelectedCategory(category.id)}
+              className={`px-4 py-2 cursor-pointer rounded-full border font-medium transition-all duration-200 ${
+                selectedCategory === category.id
+                  ? "bg-main-dark-green text-white"
+                  : "bg-white border-main-dark-green text-main-dark-green hover:bg-main-dark-green hover:text-white"
+              }`}
             >
-              {category}
+              {category.label}
             </button>
           ))}
         </div>
@@ -169,10 +180,11 @@ const ShowReels = () => {
               <button
                 key={i}
                 onClick={() => setCurrentPage(i + 1)}
-                className={`w-10 h-10 rounded-full text-sm font-semibold transition ${currentPage === i + 1
-                  ? "bg-main-dark-green text-white"
-                  : "bg-white text-main-dark-green border border-main-dark-green hover:bg-main-dark-green hover:text-white"
-                  }`}
+                className={`w-10 h-10 rounded-full text-sm font-semibold transition ${
+                  currentPage === i + 1
+                    ? "bg-main-dark-green text-white"
+                    : "bg-white text-main-dark-green border border-main-dark-green hover:bg-main-dark-green hover:text-white"
+                }`}
               >
                 {i + 1}
               </button>
@@ -189,22 +201,21 @@ const ShowReels = () => {
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
           >
-            Let’s Create Something Amazing
+            {t("projects.cta.title")}
           </motion.h4>
           <motion.p
             className="text-gray-400 mb-10 max-w-2xl mx-auto"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
           >
-            Ready to take your brand to the next level with captivating visuals?
-            Let’s collaborate and make something unforgettable.
+            {t("projects.cta.description")}
           </motion.p>
           <motion.a
             href="/contact"
             className="inline-block bg-main-move text-white font-bold py-3 px-8 rounded-full hover:bg-main-medium-move transition text-lg"
             whileHover={{ scale: 1.05 }}
           >
-            Get In Touch
+            {t("projects.cta.button")}
           </motion.a>
         </div>
       </section>

@@ -1,57 +1,98 @@
 import MainBtn from "../global/MainBtn";
+import { useTranslation } from "react-i18next";
+import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 
 const AboutSignup = () => {
+  const { t, i18n } = useTranslation();
+  const [isArabic, setIsArabic] = useState(false);
+
+  useEffect(() => {
+    setIsArabic(i18n.language === "ar");
+  }, [i18n.language]);
+
   return (
-    <section className="bg-white text-black px-6 md:px-14 py-20">
-      <div className="max-w-5xl mx-auto space-y-16">
-        {/* Header */}
-        <header className="text-center">
-          <h2 className="text-4xl md:text-5xl font-extrabold leading-tight mb-4">
-            Who We Are
+    <section
+      dir={isArabic ? "rtl" : "ltr"}
+      className="bg-white text-slate-900 px-6 md:px-14 py-28 md:py-36 border-b border-neutral-100"
+    >
+      <div className="max-w-6xl mx-auto space-y-20">
+        {/* Header Layout Grid Block */}
+        <header className="text-center space-y-4 max-w-3xl mx-auto">
+          <span className="text-[10px] font-black tracking-[0.35em] uppercase text-main-red bg-main-red/5 px-4 py-1.5 rounded-full border border-main-red/10 select-none">
+            Corporate Blueprint
+          </span>
+          <h2 className="text-3xl md:text-5xl font-black tracking-tight leading-[1.15] uppercase text-slate-900">
+            {t("home.about.title")}
           </h2>
-          <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
-            We are a passionate team that creates irresistible brand experiences
-            that connect emotionally and drive results.
+          <p className="text-base md:text-lg text-slate-500 font-medium leading-relaxed">
+            {t("home.about.description")}
           </p>
         </header>
 
-        {/* Info Sections */}
-        <div className="grid md:grid-cols-2 gap-10">
-          {/* What Makes Us Different */}
-          <div className="space-y-4">
-            <h3 className="text-2xl font-semibold text-main-red uppercase">
-              What Makes Us Different
+        {/* Narrative Feature Layout Panels */}
+        <div className="grid md:grid-cols-3 gap-8 pt-6">
+          {/* Card Module 1 — Custom Value Proposition */}
+          <motion.div
+            className="p-8 rounded-[1.5rem] bg-neutral-50/60 border border-neutral-100 flex flex-col gap-4 group transition-all duration-300 hover:bg-white hover:shadow-xl hover:shadow-neutral-100 hover:border-transparent"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+          >
+            <span className="text-xs font-black tracking-widest text-main-red uppercase select-none">
+              // Distinction
+            </span>
+            <h3 className="text-xl font-black uppercase tracking-tight text-slate-900">
+              {t("home.about.whatMakesUsDifferentTitle")}
             </h3>
-            <p className="text-gray-700 text-lg leading-relaxed">
-              We embrace an evolving campaign approach—steering clear of tired
-              trends and creating tailored strategies that grow with your brand.
+            <p className="text-slate-600 text-sm font-medium leading-relaxed">
+              {t("home.about.whatMakesUsDifferentDesc")}
             </p>
-          </div>
-          {/* Vision */}
-          <div className="space-y-4">
-            <h3 className="text-2xl font-semibold text-main-red">Vision</h3>
-            <p className="text-gray-700 text-lg leading-relaxed">
-              Helping MENA businesses shine through effective identity and
-              communication. Our creative direction is built around clarity and
-              authenticity.
-            </p>
-          </div>
+          </motion.div>
 
-          {/* Mission */}
-          <div className="space-y-4">
-            <h3 className="text-2xl font-semibold text-main-red uppercase">
-              Mission
+          {/* Card Module 2 — Vision Framework */}
+          <motion.div
+            className="p-8 rounded-[1.5rem] bg-neutral-50/60 border border-neutral-100 flex flex-col gap-4 group transition-all duration-300 hover:bg-white hover:shadow-xl hover:shadow-neutral-100 hover:border-transparent"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
+            <span className="text-xs font-black tracking-widest text-main-move uppercase select-none">
+              // Horizon
+            </span>
+            <h3 className="text-xl font-black uppercase tracking-tight text-slate-900">
+              {t("home.about.visionTitle")}
             </h3>
-            <p className="text-gray-700 text-lg leading-relaxed">
-              Creating joyful, data-informed marketing campaigns that meet
-              business goals and leave lasting impressions.
+            <p className="text-slate-600 text-sm font-medium leading-relaxed">
+              {t("home.about.visionDesc")}
             </p>
-          </div>
+          </motion.div>
+
+          {/* Card Module 3 — Core Mission Platform */}
+          <motion.div
+            className="p-8 rounded-[1.5rem] bg-neutral-50/60 border border-neutral-100 flex flex-col gap-4 group transition-all duration-300 hover:bg-white hover:shadow-xl hover:shadow-neutral-100 hover:border-transparent"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+          >
+            <span className="text-xs font-black tracking-widest text-main-green uppercase select-none">
+              // Activation
+            </span>
+            <h3 className="text-xl font-black uppercase tracking-tight text-slate-900">
+              {t("home.about.missionTitle")}
+            </h3>
+            <p className="text-slate-600 text-sm font-medium leading-relaxed">
+              {t("home.about.missionDesc")}
+            </p>
+          </motion.div>
         </div>
 
-        {/* CTA Button */}
-        <div className="text-center pt-10">
-          <MainBtn text="Let's Talk"/>
+        {/* Global Button Action Anchor Alignment wrapper */}
+        <div className="text-center pt-8">
+          <MainBtn text={t("home.about.cta")} />
         </div>
       </div>
     </section>

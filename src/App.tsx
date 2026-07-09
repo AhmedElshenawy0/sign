@@ -7,6 +7,8 @@ import Projects from "./pages/projects/Projects";
 import BrandingPage from "./pages/branding/Branding";
 import OurService from "./pages/our-service/OurService";
 import ContactPage from "./pages/contact/Contact";
+import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 const router = createBrowserRouter([
   {
@@ -25,6 +27,11 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
+  const { i18n } = useTranslation();
+
+  useEffect(() => {
+    document.documentElement.lang = i18n.language;
+  }, [i18n.language]);
   return <RouterProvider router={router} />;
 }
 

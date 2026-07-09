@@ -1,0 +1,58 @@
+{
+  "nav": {
+    "home": "Accueil",
+    "projects": "Projets",
+    "branding": "Identité visuelle",
+    "services": "Nos Services",
+    "about": "À propos",
+    "contact": "Contactez-nous"
+  },
+  "hero": {
+    "title": "Vos partenaires créatifs",
+    "description": "Chez <1>S’inscrire</1>, nous mélangeons créativité, stratégie et une touche d’humour pour transformer les marques en expériences inoubliables. Rejoignez-nous pour un voyage marketing où les idées prennent vie.",
+    "showreel": "BANDE DÉMO",
+    "workedWith": "Fiers de travailler avec"
+  },
+  "about": {
+    "title": "Qui sommes-nous",
+    "description": "Nous sommes une équipe passionnée qui crée des expériences de marque irrésistibles, connectant émotionnellement et générant des résultats.",
+    "whatMakesUsDifferentTitle": "Ce qui nous distingue",
+    "whatMakesUsDifferentDesc": "Nous adoptons une approche évolutive des campagnes — loin des tendances dépassées, avec des stratégies sur mesure qui grandissent avec votre marque.",
+    "visionTitle": "Vision",
+    "visionDesc": "Aider les entreprises MENA à briller grâce à une identité et une communication efficaces. Notre direction créative repose sur la clarté et l’authenticité.",
+    "missionTitle": "Mission",
+    "missionDesc": "Créer des campagnes marketing joyeuses et basées sur les données, qui atteignent les objectifs commerciaux et laissent une impression durable.",
+    "cta": "Discutons-en"
+  },
+  "services": {
+    "section1": {
+      "title": "Campagnes créatives",
+      "description": "Des campagnes vidéo et contenu personnalisées pour stimuler l’engagement et la notoriété de la marque."
+    },
+    "section2": {
+      "title": "Identité de marque",
+      "description": "Nous façonnons la voix, les visuels et le style de votre marque pour résonner avec votre audience."
+    },
+    "section3": {
+      "title": "Réseaux sociaux",
+      "description": "Nous créons du contenu natif pour les plateformes qui performe sur TikTok, Instagram et au-delà."
+    },
+    "section4": {
+      "title": "Design animé",
+      "description": "Donnez vie à votre message grâce à l’animation et aux visuels dynamiques."
+    },
+    "section5": {
+      "title": "Développement Web",
+      "description": "Des sites rapides et responsives conçus selon vos objectifs de marque et l’expérience utilisateur."
+    },
+    "section6": {
+      "title": "Stratégie de contenu",
+      "description": "Des récits stratégiques alignés avec les objectifs de votre marque et le comportement du public."
+    }
+  },
+  "contact": {
+    "headline": "LA RECHERCHE EST TERMINÉE",
+    "subtext": "Contactez-nous et découvrons ensemble ce que nous pouvons faire pour votre marque.",
+    "cta": "Contact"
+  }
+}

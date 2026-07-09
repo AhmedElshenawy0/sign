@@ -1,5 +1,7 @@
 import { motion } from "framer-motion";
 import Contact from "../home/Contact";
+import { useTranslation } from "react-i18next";
+import { useEffect, useState } from "react";
 
 const fadeIn = (direction = "up", delay = 0) => {
   return {
@@ -16,10 +18,19 @@ const fadeIn = (direction = "up", delay = 0) => {
 };
 
 const AboutContent = () => {
+  const { t, i18n } = useTranslation();
+  const [isArabic, setIsArabic] = useState(false);
+
+  useEffect(() => {
+    setIsArabic(i18n.language === "ar");
+  }, [i18n.language]);
   return (
     <>
       {/* First Section */}
-      <div className="flex flex-col gap-4 px-6 md:px-[160px] py-10 md:pt-8">
+      <div
+        dir={isArabic ? "rtl" : "ltr"}
+        className="flex flex-col gap-4 px-6 md:px-[160px] py-10 md:pt-8"
+      >
         <motion.div
           className="flex flex-col md:flex-row md:justify-between md:items-stretch gap-4 md:gap-12 relative"
           initial="initial"
@@ -31,29 +42,21 @@ const AboutContent = () => {
             className="flex flex-col flex-2 gap-6 py-6 md:py-14"
             variants={fadeIn("up", 0.1)}
           >
-            <h1 className="font-bold text-3xl tracking-widest">
-              JONATHAN <br /> PALFREY
+            <h1 className="font-bold text-3xl tracking-widest uppercase">
+              {t("about.content.founderName")}
             </h1>
             <h3 className="font-semibold text-xl tracking-widest">
-              CREATIVE DIRECTOR & <br /> FOUNDER
+              {t("about.content.founderJob")}
             </h3>
             <p className="leading-8 tracking-wider text-gray-700">
-              Jonathan has always had a huge passion for film-making and video
-              content creation. Jonathan provides the creative eye into every
-              film the company produces, often working as the director,
-              cinematographer, or editor, working closely with global brands to
-              meet their creative needs. Jonathan is also an experienced drone
-              cinematographer capturing aerial footage for luxury resorts in
-              dozens of countries around the world. With impressive knowledge,
-              he also makes key decisions in how to utilise new technologies,
-              ensuring MGV’s clients always receive the highest quality content.
+              {t("about.content.aboutFounder")}
             </p>
           </motion.div>
 
           {/* Image Section */}
           <motion.div className="flex-1 relative" variants={fadeIn("up", 0.3)}>
             <img
-              src="/images/service3.jpg"
+              src="/founder.PNG"
               alt="Jonathan Palfrey"
               className="h-full w-full object-cover rounded-lg shadow-lg"
             />
@@ -68,26 +71,27 @@ const AboutContent = () => {
           viewport={{ once: true }}
         >
           {[0, 1, 2].map((_, index) => (
-            <motion.img
+            <motion.div
               key={index}
-              src="/images/service3.jpg"
-              alt=""
-              className="w-[33%] aspect-[1/1] sm:aspect-[1.4/1] md:aspect-[2.2/1] object-cover rounded-lg"
+              className="w-[33%] aspect-[1/1] sm:aspect-[1.4/1] md:aspect-[2.2/1] bg-gray-300 font-bold flex justify-center text-center items-center rounded-lg"
               variants={fadeIn("up", 0.4 + index * 0.1)}
-            />
+            >
+              Company Milestones or Events or Managers
+            </motion.div>
           ))}
         </motion.div>
       </div>
 
       {/* Second Section */}
-      <div className="flex flex-col gap-4 px-6 md:px-[140px] py-0 md:py-8">
+
+      {/* <div className="flex flex-col gap-4 px-6 md:px-[140px] py-0 md:py-8">
         <motion.div
           className="flex flex-col md:flex-row-reverse md:justify-between md:items-stretch gap-4 md:gap-12 relative"
           initial="initial"
           whileInView="animate"
           viewport={{ once: true }}
         >
-          {/* Text Section */}
+          Text Section
           <motion.div
             className="flex flex-col flex-2 gap-6 py-6 md:py-14"
             variants={fadeIn("up", 0.1)}
@@ -111,7 +115,7 @@ const AboutContent = () => {
             </p>
           </motion.div>
 
-          {/* Image Section */}
+          Image Section
           <motion.div className="flex-1 relative" variants={fadeIn("up", 0.3)}>
             <img
               src="/images/service3.jpg"
@@ -121,7 +125,7 @@ const AboutContent = () => {
           </motion.div>
         </motion.div>
 
-        {/* Gallery Section */}
+        {Gallery Section }
         <motion.div
           className="flex justify-between items-center gap-1"
           initial="initial"
@@ -138,7 +142,7 @@ const AboutContent = () => {
             />
           ))}
         </motion.div>
-      </div>
+      </div>  */}
 
       <Contact />
     </>

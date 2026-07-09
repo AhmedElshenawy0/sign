@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&family=Fira+Code:wght@300..700&family=Share+Tech&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&family=Fira+Code:wght@300..700&family=Share+Tech&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
 
 @import "tailwindcss";
 
@@ -7,9 +7,20 @@
   --font-fira: "Fira Code", monospace;
   --font-cairo: "Cairo", sans-serif;
   --font-montserrat: "Montserrat", sans-serif;
+  --font-roboto: "Roboto", sans-serif;
   --brand-color: #ff69b4;
 }
-
+@theme inline {
+  --animate-aurora: aurora 60s linear infinite;
+  @keyframes aurora {
+    from {
+      background-position: 50% 50%, 50% 50%;
+    }
+    to {
+      background-position: 350% 50%, 350% 50%;
+    }
+  }
+}
 body {
   font-family: var(--font-montserrat);
 
@@ -95,3 +106,76 @@ a {
   background-repeat: no-repeat;
   background-size: cover;
 } */
+
+/* =========================/
+
+*/
+
+.team-members {
+  padding-top: 60px;
+  padding-bottom: 60px;
+}
+.team-members .container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 30px;
+}
+.team-members .team-card {
+  position: relative;
+  margin-top: 50px;
+  text-align: center;
+}
+.team-members .team-card::before,
+.team-members .team-card::after {
+  content: "";
+  position: absolute;
+  width: 85%;
+  height: calc(100% + 50px);
+  top: -50px;
+  right: -10px;
+  border-radius: 10px;
+  transition: 0.3s;
+}
+.team-members .team-card::before {
+  z-index: -2;
+  background-color: rgb(236 236 236);
+}
+.team-members .team-card::after {
+  z-index: -1;
+  background-color: #e4e4e4;
+  width: 0;
+}
+.team-members .team-card:hover::after {
+  width: 85%;
+}
+.team-members .team-info {
+  display: flex;
+  justify-content: space-around;
+}
+.team-members .team-info img {
+  width: 85%;
+  border-radius: 10px;
+  transition: 0.3s;
+}
+.team-members .team-card:hover img {
+  filter: grayscale(100%);
+}
+.team-members .team-info .links {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.team-members .team-card h2 {
+  color: var(--main-color);
+}
+.team-members .team-card p {
+  font-weight: bold;
+  color: rgb(119 119 119);
+}
+.team-members .team-card i {
+  color: rgb(155, 150, 150);
+  cursor: pointer;
+}
+.team-members .team-card:hover i {
+  color: rgb(54, 51, 51);
+}

@@ -1,113 +1,89 @@
-import { useRef, useState } from "react";
-// import { FaPause, FaPlay } from "react-icons/fa";
 import Section from "./VideoSection";
+import { useTranslation } from "react-i18next";
+import { useEffect, useState, useRef } from "react";
 
 const OurService = () => {
-  const videoRef1 = useRef<HTMLVideoElement>(null);
-  const videoRef2 = useRef<HTMLVideoElement>(null);
-  const videoRef3 = useRef<HTMLVideoElement>(null);
-  const videoRef4 = useRef<HTMLVideoElement>(null);
-  const videoRef5 = useRef<HTMLVideoElement>(null);
-  const videoRef6 = useRef<HTMLVideoElement>(null);
+  const { t, i18n } = useTranslation();
+  const [isArabic, setIsArabic] = useState(false);
 
-  const [paused1, setPaused1] = useState(true);
-  const [paused2, setPaused2] = useState(true);
-  const [paused3, setPaused3] = useState(true);
-  const [paused4, setPaused4] = useState(true);
-  const [paused5, setPaused5] = useState(true);
-  const [paused6, setPaused6] = useState(true);
+  useEffect(() => {
+    setIsArabic(i18n.language === "ar");
+  }, [i18n.language]);
 
-  // const handleToggle = (
-  //   videoRef: React.RefObject<HTMLVideoElement>,
-  //   setPaused: (v: boolean) => void
-  // ) => {
-  //   const video = videoRef.current;
-  //   if (video) {
-  //     if (video.paused) {
-  //       video.play();
-  //       setPaused(false);
-  //     } else {
-  //       video.pause();
-  //       setPaused(true);
-  //     }
-  //   }
-  // };
+  // Dynamic Array Reference Management Engine
+  const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
+  const [pausedStates, setPausedStates] = useState(Array(6).fill(true));
+
+  const setPausedAt = (idx: number, state: boolean) => {
+    setPausedStates((prev) => prev.map((p, i) => (i === idx ? state : p)));
+  };
+
+  // Structured loop configuration schema array matrix mapped cleanly to translations references
+  const serviceLayouts = [
+    {
+      key: "section1",
+      layout: "left" as const,
+      height: "h-[260px] md:h-[500px]",
+    },
+    {
+      key: "section2",
+      layout: "right" as const,
+      height: "h-[260px] md:h-[460px]",
+    },
+    {
+      key: "section3",
+      layout: "left" as const,
+      height: "h-[260px] md:h-[420px]",
+    },
+    {
+      key: "section4",
+      layout: "right" as const,
+      height: "h-[260px] md:h-[460px]",
+    },
+    {
+      key: "section5",
+      layout: "left" as const,
+      height: "h-[260px] md:h-[460px]",
+    },
+    {
+      key: "section6",
+      layout: "right" as const,
+      height: "h-[260px] md:h-[460px]",
+    },
+  ];
 
   return (
-    <div className="flex flex-col gap-20">
-      {/* Section 1: Video Left */}
-      <Section
-        videoRef={videoRef1 as any}
-        isPaused={paused1}
-        setPaused={setPaused1}
-        layout="left"
-        poster="/images/sign3.jpg"
-        videoHeight="h-[200px] md:h-[500px]"
-        videoCover
+    <div
+      className="bg-white flex flex-col gap-36 py-32 border-t border-neutral-100"
+      dir={isArabic ? "rtl" : "ltr"}
+    >
+      {/* Structural Central Heading Title Block */}
+      <div className="text-center px-6 max-w-xl mx-auto space-y-4">
+        <span className="inline-flex items-center text-[10px] font-black tracking-[0.35em] uppercase text-main-move bg-main-move/5 px-4 py-1.5 rounded-full border border-main-move/10 select-none">
+          Portfolio Exhibition
+        </span>
+        <h2 className="text-3xl md:text-5xl font-black tracking-tighter text-slate-900 uppercase">
+          Selected Frameworks
+        </h2>
+      </div>
 
-
-      />
-
-      {/* Section 2: Video Right */}
-      <Section
-        videoRef={videoRef2 as any}
-        isPaused={paused2}
-        setPaused={setPaused2}
-        layout="right"
-        poster="/images/sign3.jpg"
-        videoHeight="h-[200px] md:h-[500px]"
-        videoCover
-
-      />
-
-      {/* Section 3: Custom height */}
-      <Section
-        videoRef={videoRef3 as any}
-        isPaused={paused3}
-        setPaused={setPaused3}
-        layout="left"
-        videoHeight="h-[200px] md:h-[300px]"
-        videoCover
-        poster="/images/sign3.jpg"
-
-
-      />
-
-      {/* Section 4: Video Right */}
-      <Section
-        videoRef={videoRef4 as any}
-        isPaused={paused4}
-        setPaused={setPaused4}
-        layout="right"
-        poster="/images/sign3.jpg"
-        videoHeight="h-[200px] md:h-[500px]"
-        videoCover
-
-      />
-
-      {/* Section 5: Video Left */}
-      <Section
-        videoRef={videoRef5 as any}
-        isPaused={paused5}
-        setPaused={setPaused5}
-        layout="left"
-        poster="/images/sign3.jpg"
-        videoHeight="h-[200px] md:h-[500px]"
-        videoCover
-
-      />
-
-      {/* Section 6: Video Right */}
-      <Section
-        videoRef={videoRef6 as any}
-        isPaused={paused6}
-        setPaused={setPaused6}
-        layout="right"
-        poster="/images/sign3.jpg"
-        videoHeight="h-[200px] md:h-[500px]"
-        videoCover
-
-      />
+      <div className="space-y-36 md:space-y-44">
+        {serviceLayouts.map((service, i) => (
+          <Section
+            key={service.key}
+            videoRef={(el) => (videoRefs.current[i] = el)}
+            isPaused={pausedStates[i]}
+            setPaused={(state) => setPausedAt(i, state)}
+            layout={service.layout}
+            poster="/images/sign3.jpg"
+            videoHeight={service.height}
+            videoCover
+            title={t(`home.services.${service.key}.title`)}
+            desc={t(`home.services.${service.key}.description`)}
+            index={i + 1}
+          />
+        ))}
+      </div>
     </div>
   );
 };

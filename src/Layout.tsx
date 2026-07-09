@@ -6,7 +6,7 @@ const Layout = () => {
   const location = useLocation();
   const hideHeaderRoutes = ["/"];
   return (
-    <div>
+    <div className="overflow-hidden">
       {!hideHeaderRoutes.includes(location.pathname) && <Navbar />}
       <Outlet />
       {!hideHeaderRoutes.includes(location.pathname) && <Footer />}

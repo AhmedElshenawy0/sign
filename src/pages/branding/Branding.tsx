@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 const coreValues = [
   {
@@ -38,9 +39,14 @@ const BrandingPage = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+  const { t, i18n } = useTranslation();
+  const [isArabic, setIsArabic] = useState(false);
 
+  useEffect(() => {
+    setIsArabic(i18n.language === "ar");
+  }, [i18n.language]);
   return (
-    <div className="text-white bg-black">
+    <div className="text-white bg-black" dir={isArabic ? "rtl" : "ltr"}>
       {/* Hero Section */}
       <section className="h-screen flex flex-col items-center justify-center text-center relative overflow-hidden pt-20">
         <motion.img
@@ -59,7 +65,7 @@ const BrandingPage = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
           >
-            Our Branding Philosophy
+            {t("branding.hero.title")}{" "}
           </motion.h1>
           <motion.p
             className="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed"
@@ -67,9 +73,7 @@ const BrandingPage = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
           >
-            Branding is more than a logo. It’s a story told across every
-            touchpoint — a lasting identity that inspires trust, loyalty, and
-            connection.
+            {t("branding.hero.description")}
           </motion.p>
         </div>
       </section>
@@ -82,10 +86,10 @@ const BrandingPage = () => {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
         >
-          Our Core Values
+          {t("branding.coreValues.title")}{" "}
         </motion.h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 max-w-6xl mx-auto">
-          {coreValues.map((value, index) => (
+          {coreValues.map((_, index) => (
             <motion.div
               key={index}
               className="bg-white p-6 rounded-xl border border-gray-200 shadow-md hover:shadow-lg hover:border-orange-500 transition-all duration-300 group"
@@ -94,10 +98,10 @@ const BrandingPage = () => {
               transition={{ duration: 0.5, delay: index * 0.1 }}
             >
               <h3 className="text-xl font-semibold text-main-dark-green mb-3 group-hover:text-main-red transition-colors">
-                {value.title}
+                {t(`branding.coreValues.values.${index}.title`)}
               </h3>
               <p className="text-gray-700 leading-relaxed">
-                {value.description}
+                {t(`branding.coreValues.values.${index}.description`)}
               </p>
             </motion.div>
           ))}
@@ -113,7 +117,7 @@ const BrandingPage = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            Let’s Build Something Great Together
+            {t("branding.cta.title")}
           </motion.h4>
           <motion.p
             className="text-white/80 mb-10 max-w-2xl mx-auto leading-relaxed"
@@ -121,15 +125,14 @@ const BrandingPage = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            Ready to elevate your brand with intentional, memorable design?
-            Let’s collaborate and create something timeless.
+            {t("branding.cta.description")}
           </motion.p>
           <motion.a
             href="/contact"
             className="inline-block bg-main-move hover:bg-main-medium-move text-white font-bold py-3 px-10 rounded-full transition text-lg shadow-md"
             whileHover={{ scale: 1.05 }}
           >
-            Get In Touch
+            {t("branding.cta.button")}{" "}
           </motion.a>
         </div>
       </section>

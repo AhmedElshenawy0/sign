@@ -1,0 +1,181 @@
+{
+  "nav": {
+    "home": "Home",
+    "projects": "Projects",
+    "branding": "Branding",
+    "services": "Our Services",
+    "about": "About",
+    "contact": "Contact Us"
+  },
+  "home": {
+    "hero": {
+      "title": "Your Creative Partners",
+      "description": "At <1>Sign Up</1>, we blend creativity, strategy, and a sprinkle of humor to turn brands into unforgettable vibes. Join us on a marketing journey where ideas come alive.",
+      "showreel": "SHOWREEL",
+      "workedWith": "Proudly worked with"
+    },
+    "about": {
+      "title": "Who We Are",
+      "description": "We are a passionate team that creates irresistible brand experiences that connect emotionally and drive results.",
+      "whatMakesUsDifferentTitle": "What Makes Us Different",
+      "whatMakesUsDifferentDesc": "We embrace an evolving campaign approach—steering clear of tired trends and creating tailored strategies that grow with your brand.",
+      "visionTitle": "Vision",
+      "visionDesc": "Helping MENA businesses shine through effective identity and communication. Our creative direction is built around clarity and authenticity.",
+      "missionTitle": "Mission",
+      "missionDesc": "Creating joyful, data-informed marketing campaigns that meet business goals and leave lasting impressions.",
+      "cta": "Let's Talk"
+    },
+    "services": {
+      "section1": {
+        "title": "Creative Campaigns",
+        "description": "Custom video + content campaigns to build engagement and brand recall."
+      },
+      "section2": {
+        "title": "Brand Identity",
+        "description": "We shape the voice, visuals, and vibe of your brand to resonate with your audience."
+      },
+      "section3": {
+        "title": "Social Media",
+        "description": "We craft platform-native content that thrives on TikTok, Instagram, and beyond."
+      },
+      "section4": {
+        "title": "Motion Design",
+        "description": "Bring your message to life through animation and kinetic visuals."
+      },
+      "section5": {
+        "title": "Web Development",
+        "description": "Fast, responsive websites tailored to brand goals and user experience."
+      },
+      "section6": {
+        "title": "Content Strategy",
+        "description": "Strategic storytelling that aligns with brand goals and audience behavior."
+      }
+    },
+    "contact": {
+      "headline": "THE SEARCH IS OVER",
+      "subtext": "Get in touch and let’s discover what we can do for your brand.",
+      "cta": "Contact"
+    }
+  },
+  "projects": {
+    "hero": {
+      "title": "Our Projects",
+      "description": "A collection of our best work — crafted to captivate and inspire."
+    },
+    "moreProjects": {
+      "heading": "More Projects",
+      "description": "Explore a collection of my work including logos, designs, and videos."
+    },
+    "categories": {
+      "all": "All",
+      "logos": "Logos",
+      "designs": "Designs",
+      "videos": "Videos"
+    },
+    "cta": {
+      "title": "Let’s Create Something Amazing",
+      "description": "Ready to take your brand to the next level with captivating visuals? Let’s collaborate and make something unforgettable.",
+      "button": "Get In Touch"
+    }
+  },
+  "branding": {
+    "hero": {
+      "title": "Our Branding Philosophy",
+      "description": "Branding is more than a logo. It’s a story told across every touchpoint — a lasting identity that inspires trust, loyalty, and connection."
+    },
+    "coreValues": {
+      "title": "Our Core Values",
+      "values": [
+        {
+          "title": "Innovation",
+          "description": "We embrace creativity and new ideas to craft unique brand experiences."
+        },
+        {
+          "title": "Integrity",
+          "description": "Transparency and trust are the foundation of every client relationship."
+        },
+        {
+          "title": "Collaboration",
+          "description": "We believe powerful branding comes from working closely together."
+        },
+        {
+          "title": "Excellence",
+          "description": "From concept to execution, we strive for exceptional quality in everything we do."
+        },
+        {
+          "title": "Sustainability",
+          "description": "We’re committed to practices that support long-term growth and responsibility."
+        },
+        {
+          "title": "Community",
+          "description": "Building strong, inclusive brands that uplift and connect people."
+        }
+      ]
+    },
+    "cta": {
+      "title": "Let’s Build Something Great Together",
+      "description": "Ready to elevate your brand with intentional, memorable design? Let’s collaborate and create something timeless.",
+      "button": "Get In Touch"
+    }
+  },
+  "about": {
+    "hero": {
+      "title": "Who Are We?",
+      "description": "We’re a team of creatives, strategists, and makers — dedicated to building brands with heart and vision."
+    },
+    "text": {
+      "description": "So… What is Signup? Don’t get us wrong — we bring strategy and innovation to every project we touch. But some brands demand more. A sharper edge. A deeper story. That’s where Signup steps in — the premium marketing arm designed to craft bold campaigns and meaningful connections that resonate on a global scale.\n\nSignup collaborates with a handpicked network of seasoned marketers, designers, media planners, and digital growth specialists. Together, we’ve launched impactful strategies for some of the world’s most forward-thinking startups and established enterprises alike — across industries from fashion and tech to real estate and hospitality.\n\nOur approach? Seamless integration across digital, social, video, and branded content — eliminating the fragmentation that often slows brands down. With years of experience navigating competitive landscapes, we know how to make brands stand out — with clarity, consistency, and creative firepower that doesn’t just impress… it converts."
+    },
+    "content": {
+      "founderName": "hossam abuzaid",
+      "founderJob": "CREATIVE DIRECTOR FOUNDER",
+      "aboutFounder": "Hossam has always had a huge passion for film-making and video content creation. Hossam provides the creative eye into every film the company produces, often working as the director, cinematographer, or editor, working closely with global brands to meet their creative needs. Hossam is also an experienced drone cinematographer capturing aerial footage for luxury resorts in dozens of countries around the world."
+    }
+  },
+  "ourServices": {
+    "heroSection": {
+      "title": "Our Services",
+      "subtitle": "From branding to digital, we create with strategy, style, and impact."
+    },
+    "servicesSection": {
+      "sectionTitle": "What We Offer",
+      "services": [
+        {
+          "title": "Brand Strategy",
+          "description": "We build identities with purpose — aligning mission, vision, and values.",
+          "icon": "FaBullhorn"
+        },
+        {
+          "title": "Creative Direction",
+          "description": "From concept to execution, we guide the full visual narrative of your brand.",
+          "icon": "FaPenNib"
+        },
+        {
+          "title": "Video Production",
+          "description": "High-impact storytelling through cinematic and commercial-grade visuals.",
+          "icon": "FaVideo"
+        },
+        {
+          "title": "Photography",
+          "description": "Capturing timeless visuals that connect emotionally with your audience.",
+          "icon": "FaCameraRetro"
+        },
+        {
+          "title": "Graphic Design",
+          "description": "Custom design for digital & print — logos, brochures, packaging and more.",
+          "icon": "FaPalette"
+        },
+        {
+          "title": "Web & Digital",
+          "description": "Web experiences that are fast, responsive, and aligned with your brand.",
+          "icon": "FaGlobe"
+        }
+      ]
+    },
+    "ctaSection": {
+      "heading": "Let's Elevate Your Brand Together",
+      "description": "Whether you're starting fresh or scaling up — our team is ready to help you make an impact.",
+      "ctaText": "Get In Touch"
+    }
+  }
+}

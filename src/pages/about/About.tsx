@@ -1,15 +1,26 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import AboutContent from "../../components/about/AboutContent";
 import AboutText from "../../components/about/AboutText";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 const About = () => {
+  const { t, i18n } = useTranslation();
+  const [isArabic, setIsArabic] = useState(false);
+
+  useEffect(() => {
+    setIsArabic(i18n.language === "ar");
+  }, [i18n.language]);
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
   return (
     <>
-      <section className="relative flex justify-center flex-col items-center h-screen overflow-hidden bg-black">
+      <section
+        dir={isArabic ? "rtl" : "ltr"}
+        className="relative flex justify-center flex-col items-center h-screen overflow-hidden bg-black"
+      >
         {/* Background Image */}
         <motion.img
           src="/images/sign8.jpg"
@@ -29,7 +40,7 @@ const About = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          Who Are We?
+          {t("about.hero.title")}
         </motion.h1>
 
         <motion.p
@@ -38,8 +49,7 @@ const About = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.6 }}
         >
-          We’re a team of creatives, strategists, and makers — dedicated to
-          building brands with heart and vision.
+          {t("about.hero.description")}
         </motion.p>
       </section>
       <AboutText />
