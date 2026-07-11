@@ -244,20 +244,25 @@ const Navbar = () => {
               transition={{ duration: 0.5, delay: 0.2 }}
               className="flex flex-col gap-4 border-t border-white/10 pt-6 mt-8"
             >
-              <span className="text-[10px] font-black tracking-[0.2em] uppercase text-white/40 block text-center sm:text-left rtl:text-center">
+              <span className="text-[10px] font-black tracking-[0.2em] uppercase text-white/40 block text-center">
                 Select Language
               </span>
-              <div className="flex justify-center sm:justify-start gap-3 w-full">
+
+              {/* FIX: was a flex row of three w-full buttons — each one demanding
+                  full width inside a horizontal row is what broke the layout on
+                  small screens (squeezed/overflowing). A 3-column grid gives each
+                  button an equal, predictable share of the row at any width. */}
+              <div className="grid grid-cols-3 gap-2 xs:gap-3 w-full">
                 {languages.map((lang) => (
                   <button
                     key={lang.code}
                     onClick={() => changeLanguage(lang.code)}
-                    className="flex items-center gap-2.5 px-5 py-3 rounded-xl text-xs font-black uppercase tracking-wider border transition-all duration-300 w-full justify-center bg-white text-black border-white shadow-xl"
+                    className="flex flex-col xs:flex-row items-center justify-center gap-1 xs:gap-2 px-2 xs:px-4 py-2.5 xs:py-3 rounded-xl text-[11px] xs:text-xs font-black uppercase tracking-wider border transition-all duration-300 bg-white text-black border-white shadow-xl"
                   >
                     <img
                       src={lang.flag}
                       alt={lang.short}
-                      className="w-5 h-3 rounded-sm object-cover"
+                      className="w-5 h-3 rounded-sm object-cover shrink-0"
                     />
                     <span>{lang.short}</span>
                   </button>
