@@ -13,10 +13,9 @@ const Navbar = () => {
   const { t, i18n } = useTranslation();
   const langRef = useRef<HTMLDivElement>(null);
 
-  // حساب اتجاه اللغة مباشرة بدون State إضافية لتسريع الـ Render
   const isArabic = i18n.language === "ar";
 
-  // تأثير السكرول الذكي
+  // تفعيل مستمع السكرول لتحديث حالة الخلفية فوراً عند النزول
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 40);
     handleScroll();
@@ -24,7 +23,6 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // منع السكرول في الصفحة عند فتح قائمة الموبايل
   useEffect(() => {
     if (menuOpen) {
       document.body.style.overflow = "hidden";
@@ -36,7 +34,6 @@ const Navbar = () => {
     };
   }, [menuOpen]);
 
-  // إغلاق قائمة الموبايل تلقائياً إذا قام المستخدم بتكبير الشاشة لـ Desktop
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 768) setMenuOpen(false);
@@ -45,7 +42,6 @@ const Navbar = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // إغلاق قائمة اللغات عند الضغط في أي مكان خارجها (TypeScript Safe)
   useEffect(() => {
     const handler = (e: MouseEvent) => {
       if (langRef.current && !langRef.current.contains(e.target as Node)) {
@@ -81,32 +77,30 @@ const Navbar = () => {
     setMenuOpen(false);
   };
 
-  const textTone = scrolled || menuOpen ? "text-slate-900" : "text-white";
-
   return (
     <nav
       dir={isArabic ? "rtl" : "ltr"}
-      className={`fixed top-0 left-0 w-full z-50 px-6 py-3 md:px-14 transition-all duration-500 ${
+      className={`fixed top-0 left-0 w-full z-50 px-6 py-3 md:px-14 border-b transition-all duration-500 ease-in-out ${
         scrolled || menuOpen
-          ? "bg-white/90 backdrop-blur-xl border-b border-neutral-100 shadow-sm"
-          : "bg-gradient-to-b from-black/50 to-transparent "
+          ? "bg-black/60 backdrop-blur-2xl border-white/5 shadow-2xl"
+          : "bg-transparent border-transparent"
       }`}
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between h-14">
         {/* Logo */}
         <Link
           to="/"
-          className={`w-15 h-15 p-1  rounded-full overflow-hidden relative shrink-0 ring-1 ring-black/5`}
+          className="w-14 h-14 p-1 rounded-full overflow-hidden relative shrink-0 z-50"
         >
           <img
-            src={`${scrolled || menuOpen ? "/apple-touch-icon.png" : "/images/SignUp Logo White.png"}`}
+            src="/images/SignUp Logo White.png"
             alt="Logo"
-            className="w-full h-full object-cover transition-all duration-500"
+            className="w-full h-full object-cover"
           />
         </Link>
 
-        {/* Desktop Nav */}
-        <ul className="hidden md:flex gap-8 text-[13px] font-black uppercase tracking-widest relative">
+        {/* Desktop Nav Links */}
+        <ul className="hidden md:flex gap-8 text-[13px] font-black uppercase tracking-widest relative text-white">
           {navLinks.map(({ name, path }, i) => {
             const isActive = pathname === path;
             return (
@@ -116,7 +110,7 @@ const Navbar = () => {
                   className={`relative pb-1.5 transition-colors duration-300 ${
                     isActive
                       ? "text-main-red"
-                      : `${textTone} hover:text-main-red`
+                      : "text-white/80 hover:text-main-red"
                   }`}
                 >
                   {name}
@@ -132,19 +126,13 @@ const Navbar = () => {
           })}
         </ul>
 
-        {/* Right Section */}
-        <div className="flex items-center gap-3 z-50">
+        {/* Right Action Trigger Controllers */}
+        <div className="flex items-center gap-4 z-50">
           {/* Lang Switcher - Desktop */}
-          <div ref={langRef} className="relative hidden lg:block">
+          <div ref={langRef} className="relative hidden md:block">
             <button
               onClick={() => setLangOpen((prev) => !prev)}
-              className={`flex items-center gap-2 rounded-full px-3.5 py-1.5 text-xs font-black tracking-wide uppercase border transition-all duration-300 ${
-                scrolled || menuOpen
-                  ? "bg-main-red/5 border-main-red/10 text-slate-900 hover:bg-main-red/10"
-                  : "bg-white/10 border-white/15 text-white hover:bg-white/20"
-              }`}
-              aria-haspopup="true"
-              aria-expanded={langOpen}
+              className="flex items-center gap-2 rounded-full px-3.5 py-1.5 text-xs font-black tracking-wide uppercase border bg-white/10 border-white/15 text-white hover:bg-white/20 transition-all duration-300"
             >
               <img
                 src={currentLang.flag}
@@ -163,9 +151,7 @@ const Navbar = () => {
                   initial={{ opacity: 0, y: -8, scale: 0.96 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: -8, scale: 0.96 }}
-                  transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
-                  className="absolute right-0 rtl:right-auto rtl:left-0 mt-2 w-40 bg-white/95 backdrop-blur-xl border border-neutral-100 rounded-2xl shadow-2xl z-50 overflow-hidden p-1.5"
-                  role="menu"
+                  className="absolute right-0 rtl:right-auto rtl:left-0 mt-2 w-40 bg-black/40 backdrop-blur-2xl border border-white/10 rounded-2xl shadow-2xl overflow-hidden p-1.5"
                 >
                   {languages
                     .filter((l) => l.code !== currentLang.code)
@@ -173,8 +159,7 @@ const Navbar = () => {
                       <button
                         key={lang.code}
                         onClick={() => changeLanguage(lang.code)}
-                        className="w-full flex items-center gap-2.5 px-3 py-2 text-xs font-black uppercase tracking-wide text-slate-600 hover:bg-main-red/5 hover:text-main-red rounded-xl transition-colors"
-                        role="menuitem"
+                        className="w-full flex items-center gap-2.5 px-3 py-2 text-xs font-black uppercase tracking-wide text-white/80 hover:bg-white/10 hover:text-white rounded-xl transition-colors"
                       >
                         <img
                           src={lang.flag}
@@ -189,76 +174,96 @@ const Navbar = () => {
             </AnimatePresence>
           </div>
 
-          {/* Mobile Hamburger */}
+          {/* Mobile Hamburger Button */}
           <button
             onClick={() => setMenuOpen((prev) => !prev)}
-            className={`md:hidden focus:outline-none transition-colors duration-300 ${textTone}`}
+            className={`md:hidden focus:outline-none p-2 rounded-full transition-all duration-300 text-white ${
+              menuOpen ? "bg-white/10 rotate-90" : ""
+            }`}
             aria-label="Toggle mobile menu"
-            aria-expanded={menuOpen}
           >
-            {menuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
+            {menuOpen ? <FiX size={22} /> : <FiMenu size={22} />}
           </button>
         </div>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Full-Screen Immersive Mobile Menu Overlay */}
       <AnimatePresence>
         {menuOpen && (
           <motion.div
-            id="mobile-menu"
-            initial={{ opacity: 0, y: -16 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -16 }}
-            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="fixed top-[64px] left-0 w-full h-[calc(100vh-64px)] bg-white/95 backdrop-blur-xl md:hidden z-40 border-t border-neutral-100 overflow-y-auto"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 w-full h-screen bg-black/40 backdrop-blur-2xl md:hidden z-45 flex flex-col justify-between px-8 pt-28 pb-12 overflow-y-auto"
           >
-            <div className="pt-10 pb-10 flex flex-col items-center gap-2 text-lg">
+            {/* Nav Links Stack */}
+            <div className="flex flex-col gap-1.5 w-full">
               {navLinks.map(({ name, path }, i) => {
                 const isActive = pathname === path;
                 return (
                   <motion.div
                     key={i}
-                    initial={{ opacity: 0, y: 12 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.35, delay: i * 0.05 }}
+                    initial={{ opacity: 0, x: isArabic ? 30 : -30 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: isArabic ? 20 : -20 }}
+                    transition={{
+                      duration: 0.4,
+                      delay: i * 0.04,
+                      ease: [0.16, 1, 0.3, 1],
+                    }}
                   >
                     <Link
                       to={path}
                       onClick={() => setMenuOpen(false)}
-                      className={`block px-6 py-3 font-black uppercase tracking-widest text-sm transition-colors ${
-                        isActive
-                          ? "text-main-red"
-                          : "text-slate-700 hover:text-main-red"
-                      }`}
+                      className="group flex items-baseline gap-4 py-3 border-b border-white/5 w-full text-left rtl:text-right transition-all"
                     >
-                      {name}
+                      <span className="text-[10px] font-black tracking-widest text-white/30 group-hover:text-main-red transition-colors font-mono">
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                      <span
+                        className={`text-2xl font-black uppercase tracking-wider transition-all transform group-active:scale-98 ${
+                          isActive
+                            ? "text-main-red pl-2 rtl:pl-0 rtl:pr-2"
+                            : "text-white/80 hover:text-white"
+                        }`}
+                      >
+                        {name}
+                      </span>
                     </Link>
                   </motion.div>
                 );
               })}
+            </div>
 
-              {/* Lang Switcher - Mobile */}
-              <div className="flex gap-3 pt-8">
+            {/* Mobile Language Selector */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 15 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="flex flex-col gap-4 border-t border-white/10 pt-6 mt-8"
+            >
+              <span className="text-[10px] font-black tracking-[0.2em] uppercase text-white/40 block text-center sm:text-left rtl:text-center">
+                Select Language
+              </span>
+              <div className="flex justify-center sm:justify-start gap-3 w-full">
                 {languages.map((lang) => (
                   <button
                     key={lang.code}
                     onClick={() => changeLanguage(lang.code)}
-                    className={`flex items-center gap-2 px-4 py-2 rounded-full text-xs font-black uppercase tracking-wide border transition-colors ${
-                      lang.code === currentLang.code
-                        ? "bg-main-red text-white border-main-red"
-                        : "text-slate-600 border-neutral-200 hover:border-main-red/30 hover:text-main-red"
-                    }`}
+                    className="flex items-center gap-2.5 px-5 py-3 rounded-xl text-xs font-black uppercase tracking-wider border transition-all duration-300 w-full justify-center bg-white text-black border-white shadow-xl"
                   >
                     <img
                       src={lang.flag}
                       alt={lang.short}
                       className="w-5 h-3 rounded-sm object-cover"
                     />
-                    {lang.short}
+                    <span>{lang.short}</span>
                   </button>
                 ))}
               </div>
-            </div>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
