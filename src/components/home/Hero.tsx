@@ -159,17 +159,20 @@ const Hero = () => {
         <div className="pointer-events-none absolute top-0 right-0 h-full w-24 md:w-48 bg-gradient-to-l from-white to-transparent z-10" />
 
         <div className="w-full overflow-hidden whitespace-nowrap">
-          <div className="animate-scroll items-center gap-14 py-2 inline-flex hover:[animation-play-state:paused]">
+          <div
+            className="animate-scroll items-center gap-14 py-2 inline-flex hover:[animation-play-state:paused]"
+            style={{ animationDuration: "15s" }}
+          >
             {loopedItems.map((tech, i) => (
               <div
                 key={`partner-${i}`}
                 className="flex flex-col items-center justify-center cursor-pointer group px-4 shrink-0 transition-transform duration-300"
               >
-                <div className="w-24 h-24 p-3 bg-neutral-50 border border-neutral-100 rounded-2xl flex items-center justify-center transition-all duration-300 ease-out transform group-hover:-translate-y-1 group-hover:scale-105 group-hover:bg-white group-hover:shadow-lg group-hover:border-transparent">
+                <div className="w-28 h-28 p-3 bg-neutral-50 border border-neutral-100 rounded-2xl flex items-center justify-center transition-all duration-300 ease-out transform group-hover:-translate-y-1 group-hover:scale-105 group-hover:bg-white group-hover:shadow-lg group-hover:border-transparent">
                   <img
                     src={tech.logo}
                     alt={tech.name}
-                    className="max-w-full max-h-full object-contain filter grayscale transition-all duration-500"
+                    className="max-w-full max-h-full object-contain filter transition-all duration-500"
                     loading="lazy"
                   />
                 </div>
