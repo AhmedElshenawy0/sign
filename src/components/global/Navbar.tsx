@@ -8,6 +8,7 @@ const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
 
   const { pathname } = useLocation();
   const { t, i18n } = useTranslation();
@@ -17,7 +18,17 @@ const Navbar = () => {
 
   // تفعيل مستمع السكرول لتحديث حالة الخلفية فوراً عند النزول
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 40);
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 40);
+
+      // Page scroll progress, driving the thin gradient line under the
+      // navbar — a quiet nod to the same rising-arc brand motif used
+      // elsewhere on the site (red → move → green), rather than a bare
+      // functional progress bar.
+      const doc = document.documentElement;
+      const max = doc.scrollHeight - doc.clientHeight;
+      setScrollProgress(max > 0 ? (window.scrollY / max) * 100 : 0);
+    };
     handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
@@ -80,17 +91,17 @@ const Navbar = () => {
   return (
     <nav
       dir={isArabic ? "rtl" : "ltr"}
-      className={`fixed top-0 left-0 w-full z-50 px-6 py-3 md:px-14 border-b transition-all duration-500 ease-in-out ${
+      className={`fixed top-0 left-0 w-full z-50 pt-[env(safe-area-inset-top)] px-4 sm:px-6 md:px-14 border-b transition-all duration-500 ease-in-out ${
         scrolled || menuOpen
-          ? "bg-black/60 backdrop-blur-2xl border-white/5 shadow-2xl"
-          : "bg-transparent border-transparent"
+          ? "bg-black/60 backdrop-blur-2xl border-white/5 shadow-2xl shadow-black/40"
+          : "bg-gradient-to-b from-black/40 via-black/10 to-transparent border-transparent"
       }`}
     >
-      <div className="max-w-7xl mx-auto flex items-center justify-between h-14">
+      <div className="max-w-7xl mx-auto flex items-center justify-between h-14 sm:h-16 py-3">
         {/* Logo */}
         <Link
           to="/"
-          className="w-14 h-14 p-1 rounded-full overflow-hidden relative shrink-0 z-50"
+          className="w-11 h-11 sm:w-14 sm:h-14 p-1 rounded-full overflow-hidden relative shrink-0 z-50 ring-1 ring-white/10 hover:ring-white/25 transition-all duration-300"
         >
           <img
             src="/images/SignUp Logo White.png"
@@ -100,7 +111,7 @@ const Navbar = () => {
         </Link>
 
         {/* Desktop Nav Links */}
-        <ul className="hidden md:flex gap-8 text-[13px] font-black uppercase tracking-widest relative text-white">
+        <ul className="hidden md:flex gap-6 lg:gap-8 text-[12px] lg:text-[13px] font-black uppercase tracking-widest relative text-white">
           {navLinks.map(({ name, path }, i) => {
             const isActive = pathname === path;
             return (
@@ -127,7 +138,7 @@ const Navbar = () => {
         </ul>
 
         {/* Right Action Trigger Controllers */}
-        <div className="flex items-center gap-4 z-50">
+        <div className="flex items-center gap-3 sm:gap-4 z-50">
           {/* Lang Switcher - Desktop */}
           <div ref={langRef} className="relative hidden md:block">
             <button
@@ -151,7 +162,7 @@ const Navbar = () => {
                   initial={{ opacity: 0, y: -8, scale: 0.96 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: -8, scale: 0.96 }}
-                  className="absolute right-0 rtl:right-auto rtl:left-0 mt-2 w-40 bg-black/40 backdrop-blur-2xl border border-white/10 rounded-2xl shadow-2xl overflow-hidden p-1.5"
+                  className="absolute right-0 rtl:right-auto rtl:left-0 mt-2 w-40 bg-black/70 backdrop-blur-2xl border border-white/10 rounded-2xl shadow-2xl overflow-hidden p-1.5"
                 >
                   {languages
                     .filter((l) => l.code !== currentLang.code)
@@ -177,14 +188,23 @@ const Navbar = () => {
           {/* Mobile Hamburger Button */}
           <button
             onClick={() => setMenuOpen((prev) => !prev)}
-            className={`md:hidden focus:outline-none p-2 rounded-full transition-all duration-300 text-white ${
-              menuOpen ? "bg-white/10 rotate-90" : ""
+            className={`md:hidden focus:outline-none w-11 h-11 flex items-center justify-center rounded-full transition-all duration-300 text-white ${
+              menuOpen ? "bg-white/10 rotate-90" : "active:bg-white/10"
             }`}
             aria-label="Toggle mobile menu"
           >
             {menuOpen ? <FiX size={22} /> : <FiMenu size={22} />}
           </button>
         </div>
+      </div>
+
+      {/* Scroll progress hairline — same red → move → green arc used
+          throughout the site, here compressed into a thin functional bar */}
+      <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-white/5 overflow-hidden">
+        <div
+          className="h-full bg-gradient-to-r from-main-red via-main-move to-main-green transition-[width] duration-150 ease-out"
+          style={{ width: `${scrollProgress}%` }}
+        />
       </div>
 
       {/* Full-Screen Immersive Mobile Menu Overlay */}
@@ -195,10 +215,16 @@ const Navbar = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 w-full h-screen bg-black/40 backdrop-blur-2xl md:hidden z-45 flex flex-col justify-between px-8 pt-28 pb-12 overflow-y-auto"
+            className="fixed inset-0 w-full h-[100dvh] bg-black/70 backdrop-blur-2xl md:hidden z-40 flex flex-col justify-between px-6 sm:px-8 pt-24 sm:pt-28 pb-[calc(2rem+env(safe-area-inset-bottom))] overflow-y-auto"
           >
+            {/* Ambient brand glow, echoes the hero's glowing logo hub */}
+            <div
+              aria-hidden
+              className="pointer-events-none absolute -top-24 -right-24 w-72 h-72 rounded-full bg-main-move/20 blur-3xl"
+            />
+
             {/* Nav Links Stack */}
-            <div className="flex flex-col gap-1.5 w-full">
+            <div className="relative flex flex-col gap-1 sm:gap-1.5 w-full">
               {navLinks.map(({ name, path }, i) => {
                 const isActive = pathname === path;
                 return (
@@ -216,13 +242,13 @@ const Navbar = () => {
                     <Link
                       to={path}
                       onClick={() => setMenuOpen(false)}
-                      className="group flex items-baseline gap-4 py-3 border-b border-white/5 w-full text-left rtl:text-right transition-all"
+                      className="group flex items-baseline gap-3 sm:gap-4 py-2.5 sm:py-3 border-b border-white/5 w-full text-left rtl:text-right transition-all"
                     >
                       <span className="text-[10px] font-black tracking-widest text-white/30 group-hover:text-main-red transition-colors font-mono">
                         {String(i + 1).padStart(2, "0")}
                       </span>
                       <span
-                        className={`text-2xl font-black uppercase tracking-wider transition-all transform group-active:scale-98 ${
+                        className={`text-xl sm:text-2xl font-black uppercase tracking-wider transition-all transform group-active:scale-98 ${
                           isActive
                             ? "text-main-red pl-2 rtl:pl-0 rtl:pr-2"
                             : "text-white/80 hover:text-white"
@@ -242,22 +268,21 @@ const Navbar = () => {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 15 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="flex flex-col gap-4 border-t border-white/10 pt-6 mt-8"
+              className="relative flex flex-col gap-3 sm:gap-4 border-t border-white/10 pt-5 sm:pt-6 mt-6 sm:mt-8"
             >
               <span className="text-[10px] font-black tracking-[0.2em] uppercase text-white/40 block text-center">
                 Select Language
               </span>
 
-              {/* FIX: was a flex row of three w-full buttons — each one demanding
-                  full width inside a horizontal row is what broke the layout on
-                  small screens (squeezed/overflowing). A 3-column grid gives each
-                  button an equal, predictable share of the row at any width. */}
+              {/* Grid instead of a flex row of `w-full` buttons — each
+                  button now gets a reliable, equal third of the row at
+                  any screen width instead of fighting for space. */}
               <div className="grid grid-cols-3 gap-2 xs:gap-3 w-full">
                 {languages.map((lang) => (
                   <button
                     key={lang.code}
                     onClick={() => changeLanguage(lang.code)}
-                    className="flex flex-col xs:flex-row items-center justify-center gap-1 xs:gap-2 px-2 xs:px-4 py-2.5 xs:py-3 rounded-xl text-[11px] xs:text-xs font-black uppercase tracking-wider border transition-all duration-300 bg-white text-black border-white shadow-xl"
+                    className="flex flex-col xs:flex-row items-center justify-center gap-1 xs:gap-2 px-2 xs:px-4 py-2.5 xs:py-3 rounded-xl text-[11px] xs:text-xs font-black uppercase tracking-wider border transition-all duration-300 bg-white text-black border-white shadow-xl active:scale-95"
                   >
                     <img
                       src={lang.flag}

@@ -1,12 +1,27 @@
 import { useRef, useState } from "react";
 import { FaPause, FaPlay, FaExpand } from "react-icons/fa";
-import { motion, useScroll, useTransform } from "framer-motion";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  useAnimationFrame,
+  useMotionValue,
+} from "framer-motion";
 import { useTranslation, Trans } from "react-i18next";
 import NoisyBg from "../global/NoisyBg";
+
+// Constant visual speed for the partner ticker, in pixels/second.
+// This drives the scroll directly via JS (see useAnimationFrame below)
+// instead of relying on a CSS `animate-scroll` class — so there's no
+// external stylesheet, media query, or !important rule that can silently
+// override the speed on some screen sizes and not others. Raise this
+// number to go faster, lower it to go slower. That's the only knob.
+const TICKER_SPEED_PX_PER_SEC = 90;
 
 const Hero = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const tickerTrackRef = useRef<HTMLDivElement>(null);
   const [isPaused, setIsPaused] = useState(true);
   const { t, i18n } = useTranslation();
   const isArabic = i18n.language === "ar";
@@ -68,12 +83,39 @@ const Hero = () => {
     { name: "نيو انجلاند", logo: "/images/Partner/نيو انجلاند.png" },
   ];
 
-  const loopedItems = [
-    ...workedWith,
-    ...workedWith,
-    ...workedWith,
-    ...workedWith,
-  ];
+  // Two copies is enough for a seamless loop.
+  const loopedItems = [...workedWith, ...workedWith];
+
+  // JS-driven marquee: we track our own x position with a motion value and
+  // advance it every frame by (speed * elapsed time), then wrap it back to 0
+  // once a full set of logos has scrolled past. This is deliberately NOT a
+  // CSS animation — a CSS class can be silently overridden by a media query,
+  // a more specific selector, or an `!important` elsewhere in the stylesheet,
+  // which is almost certainly why changing the old animationDuration value
+  // had no visible effect on small screens. Driving it in JS means this
+  // component is the only thing that ever controls its speed, full stop.
+  const x = useMotionValue(0);
+  const isHovering = useRef(false);
+
+  useAnimationFrame((_, delta) => {
+    if (isHovering.current) return;
+    const track = tickerTrackRef.current;
+    if (!track) return;
+
+    const singleSetWidth = track.scrollWidth / 2;
+    if (singleSetWidth <= 0) return;
+
+    const distance = (TICKER_SPEED_PX_PER_SEC * delta) / 1000;
+    let next = x.get() - distance;
+
+    // Once we've scrolled exactly one full set width, snap back to 0.
+    // Because it's an exact multiple of the set width, the loop is seamless.
+    if (Math.abs(next) >= singleSetWidth) {
+      next += singleSetWidth;
+    }
+
+    x.set(next);
+  });
 
   return (
     <div
@@ -158,17 +200,22 @@ const Hero = () => {
         <div className="pointer-events-none absolute top-0 left-0 h-full w-24 md:w-48 bg-gradient-to-r from-white to-transparent z-10" />
         <div className="pointer-events-none absolute top-0 right-0 h-full w-24 md:w-48 bg-gradient-to-l from-white to-transparent z-10" />
 
-        <div className="w-full overflow-hidden whitespace-nowrap">
-          <div
-            className="animate-scroll items-center gap-14 py-2 inline-flex hover:[animation-play-state:paused]"
-            style={{ animationDuration: "15s" }}
+        <div
+          className="w-full overflow-hidden whitespace-nowrap"
+          onMouseEnter={() => (isHovering.current = true)}
+          onMouseLeave={() => (isHovering.current = false)}
+        >
+          <motion.div
+            ref={tickerTrackRef}
+            className="items-center gap-14 py-2 inline-flex"
+            style={{ x }}
           >
             {loopedItems.map((tech, i) => (
               <div
                 key={`partner-${i}`}
                 className="flex flex-col items-center justify-center cursor-pointer group px-4 shrink-0 transition-transform duration-300"
               >
-                <div className="w-28 h-28 p-3 bg-neutral-50 border border-neutral-100 rounded-2xl flex items-center justify-center transition-all duration-300 ease-out transform group-hover:-translate-y-1 group-hover:scale-105 group-hover:bg-white group-hover:shadow-lg group-hover:border-transparent">
+                <div className="w-30 h-30 p-3 bg-neutral-50 border border-neutral-100 rounded-2xl flex items-center justify-center transition-all duration-300 ease-out transform group-hover:-translate-y-1 group-hover:scale-105 group-hover:bg-white group-hover:shadow-lg group-hover:border-transparent">
                   <img
                     src={tech.logo}
                     alt={tech.name}
@@ -178,7 +225,7 @@ const Hero = () => {
                 </div>
               </div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </div>
 
