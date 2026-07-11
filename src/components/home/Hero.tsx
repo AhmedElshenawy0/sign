@@ -1,14 +1,26 @@
 import { useRef, useState } from "react";
 import { FaPause, FaPlay, FaExpand } from "react-icons/fa";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { useTranslation, Trans } from "react-i18next";
 import NoisyBg from "../global/NoisyBg";
 
 const Hero = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const [isPaused, setIsPaused] = useState(true);
   const { t, i18n } = useTranslation();
   const isArabic = i18n.language === "ar";
+
+  // Track scroll values specifically within this hero module context
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end start"],
+  });
+
+  // Smooth cinematic transforms over scroll transitions
+  const bgScale = useTransform(scrollYProgress, [0, 1], [1, 1.15]);
+  const textY = useTransform(scrollYProgress, [0, 1], [0, -100]);
+  const textOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
 
   const toggleVideo = () => {
     const video = videoRef.current;
@@ -56,7 +68,6 @@ const Hero = () => {
     { name: "نيو انجلاند", logo: "/images/Partner/نيو انجلاند.png" },
   ];
 
-  // Quadruple items to prevent white space breaking in fast loops
   const loopedItems = [
     ...workedWith,
     ...workedWith,
@@ -66,39 +77,36 @@ const Hero = () => {
 
   return (
     <div
-      className="bg-black text-white antialiased overflow-x-hidden"
+      ref={containerRef}
+      className="bg-black text-white antialiased overflow-x-hidden relative"
       dir={isArabic ? "rtl" : "ltr"}
     >
-      {/* Immersive Splash Frame Container */}
-      <section className="relative h-[125vh] w-full">
-        <div className="sticky top-0 h-screen w-full overflow-hidden flex flex-col justify-between items-center pt-24 pb-12">
-          {/* Cinematic Canvas Backdrops */}
+      {/* ── IMMERSIVE STICKY PARALLAX CONTAINER ── */}
+      <section className="relative h-[140vh] w-full">
+        {/* Pinned Cinematic Image Canvas layer */}
+        <div className="sticky top-0 h-screen w-full overflow-hidden z-0">
           <motion.img
             src="/images/sign7.jpg"
+            style={{ scale: bgScale }}
             className="absolute inset-0 w-full h-full object-cover select-none pointer-events-none"
             alt="Hero Background"
             initial={{ scale: 1.15 }}
             animate={{ scale: 1 }}
-            transition={{ duration: 1.8, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 1.8, ease: "easeOut" }}
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/90 via-black/40 to-black z-10" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/90 via-black/30 to-black z-10" />
+        </div>
 
+        {/* Floating Content Interface Area (Translates upwards away from backdrop smoothly) */}
+        <motion.div
+          style={{ y: textY, opacity: textOpacity }}
+          className="absolute inset-0 h-screen w-full z-20 flex flex-col justify-between items-center pt-32 pb-12 px-6"
+        >
           <div className="hidden md:block h-4" />
 
-          {/* Core Content Presentation Block */}
-          <motion.div
-            className="z-20 text-center px-6 max-w-4xl my-auto flex flex-col items-center"
-            initial={{ opacity: 0, y: 35 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-          >
-            {/* Soft Glow Ambient Logo Container */}
-            <motion.div
-              className="relative mb-8 group"
-              initial={{ scale: 0.85, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.7, delay: 0.2 }}
-            >
+          <div className="text-center max-w-4xl flex flex-col items-center">
+            {/* Ambient Glowing Brand Hub */}
+            <div className="relative mb-8 group">
               <span className="absolute inset-0 rounded-full bg-main-move/20 blur-3xl group-hover:bg-main-move/30 transition-all duration-500 animate-pulse" />
               <div className="relative p-5 border border-white/10 rounded-full bg-white/[0.03] backdrop-blur-2xl shadow-2xl transition-transform duration-500 group-hover:scale-105">
                 <img
@@ -108,9 +116,9 @@ const Hero = () => {
                   loading="lazy"
                 />
               </div>
-            </motion.div>
+            </div>
 
-            {/* Strategic Subheading pill */}
+            {/* Studio Pill */}
             <span className="inline-block text-[10px] font-black tracking-[0.35em] uppercase text-main-move mb-6 bg-main-move/10 px-5 py-2 rounded-full border border-main-move/20 select-none">
               Creative Marketing Studio
             </span>
@@ -129,25 +137,24 @@ const Hero = () => {
                 }}
               />
             </p>
-          </motion.div>
+          </div>
 
-          {/* Secure Interactive structural Scroll Prompt Footer Element */}
-          <div className="z-20 flex flex-col items-center gap-3 shrink-0 mt-6 select-none pointer-events-none">
+          {/* Prompt Action Pin Indicator */}
+          <div className="flex flex-col items-center gap-3 select-none pointer-events-none">
             <span className="text-[10px] font-black tracking-[0.3em] uppercase text-white/30">
               Scroll
             </span>
             <div className="w-[2px] h-10 bg-gradient-to-b from-main-move to-transparent rounded-full animate-bounce" />
           </div>
-        </div>
+        </motion.div>
       </section>
 
-      {/* Modern High-End Continuous Partner Carousel Ticker */}
-      <div className="relative py-10 bg-white border-y border-neutral-100 overflow-hidden">
+      {/* ── PARTNER LOGO TICKER (NOW SEPARATED IN DOM ORDER FLOW) ── */}
+      <div className="relative z-30 py-12 bg-white border-y border-neutral-100 overflow-hidden shadow-2xl">
         <h3 className="text-neutral-400 pb-10 font-black tracking-[0.25em] text-[11px] uppercase text-center select-none">
           {t("home.hero.workedWith")}
         </h3>
 
-        {/* Dynamic Vignette Edge Masks */}
         <div className="pointer-events-none absolute top-0 left-0 h-full w-24 md:w-48 bg-gradient-to-r from-white to-transparent z-10" />
         <div className="pointer-events-none absolute top-0 right-0 h-full w-24 md:w-48 bg-gradient-to-l from-white to-transparent z-10" />
 
@@ -162,7 +169,7 @@ const Hero = () => {
                   <img
                     src={tech.logo}
                     alt={tech.name}
-                    className="max-w-full max-h-full object-contain filter grayscale  grayscale-0 opacity-100 transition-all duration-500"
+                    className="max-w-full max-h-full object-contain filter grayscale transition-all duration-500"
                     loading="lazy"
                   />
                 </div>
@@ -172,8 +179,8 @@ const Hero = () => {
         </div>
       </div>
 
-      {/* Cinematic Agency Showreel Core Frame Section */}
-      <section className="relative bg-gradient-to-tr from-neutral-900 to-black py-32 px-6 border-b border-white/5 overflow-hidden">
+      {/* ── CINEMATIC INTERACTIVE SHOWREEL SECTION ── */}
+      <section className="relative z-30 bg-gradient-to-tr from-neutral-900 to-black py-32 px-6 border-b border-white/5 overflow-hidden">
         <NoisyBg />
         <div className="max-w-5xl mx-auto relative z-10">
           <motion.div
@@ -207,7 +214,6 @@ const Hero = () => {
               muted
             />
 
-            {/* Premium Button Matrix Overlay Layer */}
             <div className="absolute inset-0 bg-black/10 group-hover:bg-black/40 transition-colors duration-300 flex items-center justify-center z-10">
               <motion.button
                 onClick={toggleVideo}
@@ -223,7 +229,6 @@ const Hero = () => {
               </motion.button>
             </div>
 
-            {/* Immersive Top Edge Actions Panel */}
             {!isPaused && (
               <motion.button
                 onClick={openFullscreen}

@@ -5,22 +5,8 @@ import { galleries } from "../../dummyData";
 import { useTranslation } from "react-i18next";
 
 const ShowReels = () => {
-  // const [playing, setPlaying] = useState(false);
-  // const mainVideoRef = useRef<HTMLVideoElement>(null);
-
-  // const handleToggleMainVideo = () => {
-  //   const video = mainVideoRef.current;
-  //   if (video) {
-  //     video.paused ? video.play() : video.pause();
-  //     setPlaying(!video.paused);
-  //   }
-  // };
   const { t, i18n } = useTranslation();
-  const [isArabic, setIsArabic] = useState(false);
-
-  useEffect(() => {
-    setIsArabic(i18n.language === "ar");
-  }, [i18n.language]);
+  const isArabic = i18n.language === "ar";
 
   const categories = [
     { id: "all", label: t("projects.categories.all") },
@@ -37,104 +23,111 @@ const ShowReels = () => {
     window.scrollTo(0, 0);
   }, []);
 
-  // Filtering
   const filteredVideos =
     selectedCategory === "all"
       ? galleries
       : galleries.filter((item) => item?.type === selectedCategory);
 
-  // Pagination logic
   const totalPages = Math.ceil(filteredVideos.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const paginatedVideos = filteredVideos.slice(
     startIndex,
-    startIndex + itemsPerPage
+    startIndex + itemsPerPage,
   );
 
-  // Reset page when filter changes
   useEffect(() => {
     setCurrentPage(1);
   }, [selectedCategory]);
 
   return (
-    <div className="text-white" dir={isArabic ? "rtl" : "ltr"}>
-      {/* Hero Section */}
-      <section className="h-screen w-full relative flex flex-col items-center justify-center text-center overflow-hidden pt-20">
+    // 1. Root wrapper is relative with no solid color to let background bleed through
+    <div
+      className="relative min-h-screen text-white select-none"
+      dir={isArabic ? "rtl" : "ltr"}
+    >
+      {/* 2. FIXED BACKDROP WINDOW: This keeps the image pinned while you scroll */}
+      <div className="fixed inset-0 w-full h-full z-0 overflow-hidden bg-slate-950">
         <motion.img
           src="/images/sign3.jpg"
-          className="absolute w-full h-full inset-0 object-cover opacity-25"
+          className="w-full h-full object-cover opacity-25 pointer-events-none"
           alt=""
-          initial={{ scale: 1.1, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 1 }}
+          initial={{ scale: 1.08, opacity: 0 }}
+          animate={{ scale: 1, opacity: 0.25 }}
+          transition={{ duration: 1.2, ease: "easeOut" }}
         />
-        <div className="absolute inset-0 bg-black/70 z-0" />
-        <div className="z-10 px-4">
+        {/* Deep linear vignette masking effect */}
+        {/* <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-slate-950/40 to-slate-950" /> */}
+      </div>
+
+      {/* 3. HERO LAYER (Transparent z-10) */}
+      <section className="h-screen w-full relative z-10 flex flex-col items-center justify-center text-center px-4">
+        <div className="max-w-4xl mx-auto space-y-6">
           <motion.h1
-            className="text-5xl md:text-7xl font-extrabold mb-4 text-main-green"
-            initial={{ opacity: 0, y: 40 }}
+            className="text-5xl md:text-7xl font-black tracking-tight text-main-green uppercase"
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7 }}
+            transition={{ duration: 0.6 }}
           >
-            {t("projects.hero.title")}{" "}
+            {t("projects.hero.title")}
           </motion.h1>
           <motion.p
-            className="text-lg md:text-xl text-gray-300 max-w-xl mx-auto"
+            className="text-lg md:text-xl text-slate-300 max-w-xl mx-auto font-medium leading-relaxed"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
+            transition={{ delay: 0.2, duration: 0.6 }}
           >
             {t("projects.hero.description")}
           </motion.p>
           <motion.div
-            className="mt-20 flex flex-col items-center text-3xl animate-bounce"
+            className="pt-16 flex justify-center text-slate-400 text-3xl"
             initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1 }}
+            animate={{ opacity: [0.4, 1, 0.4], y: [0, 10, 0] }}
+            transition={{
+              repeat: Infinity,
+              duration: 2,
+              ease: "easeInOut",
+              delay: 0.6,
+            }}
           >
-            <IoIosArrowDown />
-            <IoIosArrowDown />
             <IoIosArrowDown />
           </motion.div>
         </div>
       </section>
 
-      {/* Projects Section */}
-      <section className="px-6 md:px-14 py-24 bg-gradient-to-t from-white to-gray-50">
-        {/* Header */}
-        <div className="flex flex-col items-center mb-14">
+      {/* 4. CONTENT PRESENTATION DECK (Opaque z-20 rolls directly OVER the fixed image) */}
+      <section className="px-6 md:px-14 py-28 bg-neutral-50 text-slate-900 rounded-t-[2rem] md:rounded-t-[3rem] relative z-20 shadow-[-0px_-20px_50px_rgba(0,0,0,0.3)]">
+        <div className="flex flex-col items-center text-center mb-16 max-w-2xl mx-auto space-y-4">
           <motion.div
-            className="p-4 border border-white/30 rounded-full w-fit mx-auto mb-6 bg-main-move shadow-md backdrop-blur-sm"
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ duration: 0.5 }}
+            className="p-3 border border-white/20 rounded-full bg-main-move shadow-lg backdrop-blur-sm"
+            initial={{ scale: 0.8, opacity: 0 }}
+            whileInView={{ scale: 1, opacity: 1 }}
+            viewport={{ once: true }}
           >
             <img
               src="/images/SignUp Logo White.png"
-              width={90}
-              height={90}
+              className="w-[72px] h-[72px] object-contain"
               alt="Sign Up Logo"
               loading="lazy"
             />
           </motion.div>
-          <h3 className="text-3xl font-bold text-main-dark-green text-center">
+          <h3 className="text-3xl md:text-4xl font-black tracking-tight text-slate-900 uppercase">
             {t("projects.moreProjects.heading")}
           </h3>
-          <p className="text-gray-500 mt-2 text-center max-w-md">
+          <p className="text-slate-500 font-medium max-w-md">
             {t("projects.moreProjects.description")}
           </p>
         </div>
 
-        {/* Category Tabs */}
-        <div className="flex justify-center gap-4 mb-10 flex-wrap">
+        {/* Categories Tab Bar */}
+        <div className="flex justify-center gap-2.5 mb-12 flex-wrap">
           {categories.map((category) => (
             <button
               key={category.id}
               onClick={() => setSelectedCategory(category.id)}
-              className={`px-4 py-2 cursor-pointer rounded-full border font-medium transition-all duration-200 ${
+              className={`px-5 py-2.5 text-xs font-black uppercase tracking-wider rounded-full border transition-all duration-200 cursor-pointer ${
                 selectedCategory === category.id
-                  ? "bg-main-dark-green text-white"
-                  : "bg-white border-main-dark-green text-main-dark-green hover:bg-main-dark-green hover:text-white"
+                  ? "bg-main-dark-green text-white border-main-dark-green shadow-md shadow-main-dark-green/10"
+                  : "bg-white border-neutral-200 text-slate-600 hover:border-main-dark-green hover:text-main-dark-green"
               }`}
             >
               {category.label}
@@ -142,31 +135,36 @@ const ShowReels = () => {
           ))}
         </div>
 
-        {/* Grid */}
+        {/* Media Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {paginatedVideos.map((item, index) => (
             <motion.div
-              key={index}
-              className="relative overflow-hidden rounded-xl shadow-lg group bg-white"
-              initial={{ opacity: 0, y: 30 }}
+              key={item.id || `${selectedCategory}-${index}`}
+              className="relative overflow-hidden rounded-2xl shadow-sm border border-neutral-200/60 group bg-white"
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: index * 0.1 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
             >
-              {item.type === "videos" ? (
-                <video
-                  src={item.src}
-                  className="w-full h-64 object-cover"
-                  controls
-                  poster={item.poster}
-                />
-              ) : (
-                <img
-                  src={item.src}
-                  alt={item.title}
-                  className="w-full h-64 object-cover"
-                />
-              )}
-              <div className="absolute bottom-0 left-0 w-full bg-black/60 p-3 text-sm text-white font-medium opacity-0 group-hover:opacity-100 transition-opacity">
+              <div className="w-full h-64 overflow-hidden relative bg-neutral-900">
+                {item.type === "videos" ? (
+                  <video
+                    src={item.src}
+                    className="w-full h-full object-cover"
+                    controls
+                    poster={item.poster}
+                    preload="metadata"
+                  />
+                ) : (
+                  <img
+                    src={item.src}
+                    alt={item.title}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    loading="lazy"
+                  />
+                )}
+              </div>
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent p-4 pt-10 text-xs font-bold tracking-wide uppercase text-white opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
                 {item.title}
               </div>
             </motion.div>
@@ -175,48 +173,60 @@ const ShowReels = () => {
 
         {/* Pagination Controls */}
         {totalPages > 1 && (
-          <div className="flex justify-center mt-12 gap-2 flex-wrap">
-            {[...Array(totalPages)].map((_, i) => (
-              <button
-                key={i}
-                onClick={() => setCurrentPage(i + 1)}
-                className={`w-10 h-10 rounded-full text-sm font-semibold transition ${
-                  currentPage === i + 1
-                    ? "bg-main-dark-green text-white"
-                    : "bg-white text-main-dark-green border border-main-dark-green hover:bg-main-dark-green hover:text-white"
-                }`}
-              >
-                {i + 1}
-              </button>
-            ))}
+          <div className="flex justify-center mt-16 gap-2 flex-wrap">
+            {[...Array(totalPages)].map((_, i) => {
+              const activePage = i + 1;
+              return (
+                <button
+                  key={activePage}
+                  onClick={() => setCurrentPage(activePage)}
+                  className={`w-11 h-11 rounded-full text-xs font-black transition-all ${
+                    currentPage === activePage
+                      ? "bg-main-dark-green text-white shadow-md shadow-main-dark-green/10"
+                      : "bg-white text-slate-600 border border-neutral-200 hover:border-main-dark-green hover:text-main-dark-green"
+                  }`}
+                >
+                  {activePage}
+                </button>
+              );
+            })}
           </div>
         )}
       </section>
 
-      {/* Call to Action */}
-      <section className="px-6 md:px-14 py-20 text-center border-t border-gray-700 get-in-touch h-screen flex justify-center items-center">
-        <div className="relative z-10">
+      {/* 5. CTA CLOSING (Transparent bg allows user to see the pinned picture background again) */}
+      <section className="px-6 md:px-14 min-h-[70vh] text-center relative z-10 flex justify-center items-center overflow-hidden">
+        <div className="max-w-2xl mx-auto space-y-8">
           <motion.h4
-            className="text-3xl md:text-4xl font-bold mb-6 text-white"
-            initial={{ opacity: 0, y: 30 }}
+            className="text-3xl md:text-5xl font-black uppercase tracking-tight text-white"
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
           >
             {t("projects.cta.title")}
           </motion.h4>
           <motion.p
-            className="text-gray-400 mb-10 max-w-2xl mx-auto"
-            initial={{ opacity: 0, y: 20 }}
+            className="text-slate-300 font-medium text-base md:text-lg max-w-xl mx-auto leading-relaxed"
+            initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
           >
             {t("projects.cta.description")}
           </motion.p>
-          <motion.a
-            href="/contact"
-            className="inline-block bg-main-move text-white font-bold py-3 px-8 rounded-full hover:bg-main-medium-move transition text-lg"
-            whileHover={{ scale: 1.05 }}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
           >
-            {t("projects.cta.button")}
-          </motion.a>
+            <motion.a
+              href="/contact"
+              className="inline-block bg-main-move text-white text-xs font-black uppercase tracking-widest py-4 px-10 rounded-full hover:bg-main-medium-move transition-all shadow-lg shadow-main-move/10"
+              whileHover={{ y: -2, scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              {t("projects.cta.button")}
+            </motion.a>
+          </motion.div>
         </div>
       </section>
     </div>

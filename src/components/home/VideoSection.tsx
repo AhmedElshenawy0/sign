@@ -1,5 +1,6 @@
-import { FaPause, FaPlay } from "react-icons/fa";
+import { FaPause, FaPlay, FaArrowRight } from "react-icons/fa";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
 interface SectionProps {
   videoRef: React.RefObject<HTMLVideoElement | null>;
@@ -12,6 +13,11 @@ interface SectionProps {
   title: string;
   desc: string;
   index: number;
+  caseLabel: string;
+  tag?: string;
+  stat?: string;
+  ctaText?: string;
+  ctaHref?: string;
 }
 
 const Section = ({
@@ -25,6 +31,11 @@ const Section = ({
   title,
   desc,
   index,
+  caseLabel,
+  tag,
+  stat,
+  ctaText,
+  ctaHref = "/projects",
 }: SectionProps) => {
   const isVideoLeft = layout === "left";
 
@@ -104,6 +115,19 @@ const Section = ({
             )}
           </button>
         </div>
+
+        {/* Result stat badge — sits on the video corner as quick social proof */}
+        {stat && (
+          <div
+            className={`absolute bottom-4 ${isVideoLeft ? "left-4" : "right-4"} rtl:left-4 rtl:right-auto bg-white/90 backdrop-blur-md rounded-2xl px-4 py-2.5 shadow-lg border border-white/40`}
+          >
+            <span
+              className={`text-sm font-black ${activeStyle.text.split(" ")[0]}`}
+            >
+              {stat}
+            </span>
+          </div>
+        )}
       </div>
 
       {/* Narrative Context Details Typography box Layout panel */}
@@ -116,8 +140,15 @@ const Section = ({
       >
         <div className="flex items-center justify-between border-b border-slate-100 pb-2">
           <span className="text-[10px] font-black tracking-[0.35em] uppercase text-slate-400 select-none">
-            Case Studio No // {String(index).padStart(2, "0")}
+            {caseLabel} // {String(index).padStart(2, "0")}
           </span>
+          {tag && (
+            <span
+              className={`text-[10px] font-black uppercase tracking-widest rounded-full px-3 py-1 border ${activeStyle.text}`}
+            >
+              {tag}
+            </span>
+          )}
         </div>
 
         <h3 className="text-2xl md:text-3xl font-black tracking-tight leading-[1.15] text-slate-900 uppercase">
@@ -127,6 +158,19 @@ const Section = ({
         <p className="text-slate-600 text-sm font-medium leading-relaxed">
           {desc}
         </p>
+
+        {ctaText && (
+          <Link
+            to={ctaHref}
+            className={`group/cta inline-flex items-center gap-2 w-fit mt-1 text-xs font-black uppercase tracking-widest ${activeStyle.text.split(" ")[0]} hover:gap-3 transition-all duration-300`}
+          >
+            {ctaText}
+            <FaArrowRight
+              size={11}
+              className="rtl:rotate-180 transition-transform group-hover/cta:translate-x-1 rtl:group-hover/cta:-translate-x-1"
+            />
+          </Link>
+        )}
       </motion.div>
     </motion.div>
   );

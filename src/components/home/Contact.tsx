@@ -1,44 +1,51 @@
 import { motion } from "framer-motion";
-import { useTranslation } from "react-i18next";
-import { AuroraBackground } from "../ui/aurora-background";
+import { FaArrowRight } from "react-icons/fa";
 
 const Contact = () => {
-  const { t, i18n } = useTranslation();
-  const isArabic = i18n.language === "ar";
-
   return (
-    <AuroraBackground>
+    <section className="relative w-full max-w-[92%] mx-auto aspect-[1/1.2] sm:aspect-[2.2/1] my-32 rounded-[2rem] md:rounded-[3.5rem] overflow-hidden flex items-center justify-center text-white bg-main-color border border-zinc-800 shadow-2xl">
+      <video
+        src="/images/89985-620432901.mp4"
+        className="w-full h-full object-cover absolute inset-0 scale-105"
+        loop
+        playsInline
+        autoPlay
+        muted
+      />
+
+      {/* Modern High-End Vignette Grading Layer */}
+      <div className="absolute inset-0 bg-gradient-to-r from-main-color/95 via-main-color/60 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-t from-main-color via-transparent to-transparent" />
+
       <motion.div
-        initial={{ opacity: 0.0, y: 30 }}
+        className="relative z-10 text-center md:text-left px-8 md:px-20 w-full flex flex-col items-center md:items-start gap-6 max-w-4xl"
+        initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        transition={{
-          delay: 0.2,
-          duration: 0.8,
-          ease: [0.16, 1, 0.3, 1],
-        }}
-        className="relative flex flex-col gap-6 items-center justify-center px-6 max-w-4xl mx-auto text-center z-20"
-        dir={isArabic ? "rtl" : "ltr"}
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
       >
-        <span className="text-[10px] font-black tracking-[0.4em] uppercase text-neutral-400 dark:text-neutral-500 select-none">
-          Get In Touch
+        <span className="text-[10px] font-black tracking-[0.35em] uppercase text-accent-color border border-accent-color/30 rounded-full px-5 py-2 backdrop-blur-xl bg-black/20">
+          Let's Create Together
         </span>
 
-        <h2 className="text-4xl md:text-7xl font-black tracking-tight leading-[1.05] text-slate-900 dark:text-white uppercase max-w-3xl">
-          {t("home.contact.headline")}
+        <h2 className="text-4xl md:text-7xl font-black tracking-tighter uppercase leading-[0.95] max-w-xl">
+          The Search <br />
+          Is Over.
         </h2>
 
-        <p className="font-medium text-base md:text-xl text-slate-500 dark:text-neutral-300 max-w-2xl mx-auto leading-relaxed">
-          {t("home.contact.subtext")}
+        <p className="text-zinc-300 text-base md:text-lg max-w-sm font-medium leading-relaxed">
+          Partner with our creative laboratory and shift your business into
+          absolute regional prominence.
         </p>
 
-        <div className="pt-4">
-          <button className="bg-slate-950 dark:bg-white text-white dark:text-slate-950 font-black text-xs uppercase tracking-widest px-8 py-4 rounded-full shadow-2xl hover:scale-105 transition-all duration-300 cursor-pointer border border-transparent dark:hover:bg-transparent dark:hover:text-white dark:hover:border-white/20">
-            {t("home.contact.subtext")}
-          </button>
-        </div>
+        <button className="group mt-4 inline-flex items-center gap-3 py-4 px-10 rounded-full border border-main-move bg-main-move text-main-white hover:bg-main-medium-move font-bold tracking-wide cursor-pointer transition-all duration-300 shadow-xl">
+          <span className="text-sm uppercase tracking-wider">
+            Launch Project
+          </span>
+          <FaArrowRight className="text-xs transition-transform group-hover:translate-x-1.5" />
+        </button>
       </motion.div>
-    </AuroraBackground>
+    </section>
   );
 };
 

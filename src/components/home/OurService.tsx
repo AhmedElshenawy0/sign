@@ -60,10 +60,10 @@ const OurService = () => {
       {/* Structural Central Heading Title Block */}
       <div className="text-center px-6 max-w-xl mx-auto space-y-4">
         <span className="inline-flex items-center text-[10px] font-black tracking-[0.35em] uppercase text-main-move bg-main-move/5 px-4 py-1.5 rounded-full border border-main-move/10 select-none">
-          Portfolio Exhibition
+          {t("home.servicesSection.eyebrow")}
         </span>
         <h2 className="text-3xl md:text-5xl font-black tracking-tighter text-slate-900 uppercase">
-          Selected Frameworks
+          {t("home.servicesSection.title")}
         </h2>
       </div>
 
@@ -78,8 +78,13 @@ const OurService = () => {
             poster="/images/sign3.jpg"
             videoHeight={service.height}
             videoCover
+            caseLabel={t("home.servicesSection.caseLabel")}
+            tag={t(`home.services.${service.key}.tag`)}
+            stat={t(`home.services.${service.key}.stat`)}
             title={t(`home.services.${service.key}.title`)}
             desc={t(`home.services.${service.key}.description`)}
+            ctaText={t("home.servicesSection.cta")}
+            ctaHref="/projects"
             index={i + 1}
           />
         ))}

@@ -25,30 +25,103 @@
       "missionDesc": "Creating joyful, data-informed marketing campaigns that meet business goals and leave lasting impressions.",
       "cta": "Let's Talk"
     },
+    "stats": {
+      "eyebrow": "By The Numbers",
+      "title": "Results You Can Measure",
+      "subtitle": "Every number here is a client who trusted us, a campaign that delivered, and a partnership that kept growing.",
+      "experience": "Years of Experience",
+      "experienceContext": "Nearly a decade navigating trends, platforms, and what actually moves the needle.",
+      "clients": "Clients We're Proud Of",
+      "clientsContext": "From ambitious startups to established enterprises across the region.",
+      "campaigns": "Successful Campaigns",
+      "campaignsContext": "Each one built on strategy first, creativity second — never the other way around.",
+      "satisfaction": "Client Satisfaction",
+      "satisfactionContext": "Measured by repeat projects and referrals, not just a survey score.",
+      "highlightAward": "Award-Winning Team",
+      "highlightReach": "Nationwide Reach",
+      "highlightSupport": "24/7 Support",
+      "highlightData": "Data-Driven Strategy"
+    },
+    "process": {
+      "eyebrow": "Our Process",
+      "title": "From Idea to Impact",
+      "description": "A clear method, just three steps, that turn any idea into a real result on the ground.",
+      "discover": {
+        "title": "Discover",
+        "desc": "We dive into your market, competitors, and target audience to understand the game before we play it."
+      },
+      "strategy": {
+        "title": "Strategy",
+        "desc": "We turn that understanding into a clear plan with measurable goals and steps, not just talk."
+      },
+      "execute": {
+        "title": "Execute",
+        "desc": "We bring the plan to life with daily follow-up and continuous optimization until we hit the target."
+      }
+    },
+    "chart": {
+      "eyebrow": "Growth In Numbers",
+      "title": "A Journey of Continuous Growth",
+      "description": "Every year we grow the number of campaigns and clients we work with — a reflection of the market's trust in us.",
+      "growthTitle": "Yearly Growth",
+      "splitTitle": "Where We Focus",
+      "skillsTitle": "What We're Best At",
+      "coverage": "Coverage",
+      "split": {
+        "social": "Social Media",
+        "branding": "Branding",
+        "production": "Production",
+        "ads": "Paid Ads"
+      },
+      "skills": {
+        "strategy": "Strategy",
+        "creative": "Creative",
+        "production": "Production",
+        "growth": "Growth"
+      }
+    },
+    "servicesSection": {
+      "eyebrow": "Portfolio Exhibition",
+      "title": "Selected Frameworks",
+      "caseLabel": "Case Studio No",
+      "cta": "View Case Study"
+    },
     "services": {
       "section1": {
         "title": "Creative Campaigns",
-        "description": "Custom video + content campaigns to build engagement and brand recall."
+        "description": "Custom video + content campaigns to build engagement and brand recall.",
+        "tag": "Content & Video",
+        "stat": "+40% Engagement"
       },
       "section2": {
         "title": "Brand Identity",
-        "description": "We shape the voice, visuals, and vibe of your brand to resonate with your audience."
+        "description": "We shape the voice, visuals, and vibe of your brand to resonate with your audience.",
+        "tag": "Branding",
+        "stat": "+65% Brand Recall"
       },
       "section3": {
         "title": "Social Media",
-        "description": "We craft platform-native content that thrives on TikTok, Instagram, and beyond."
+        "description": "We craft platform-native content that thrives on TikTok, Instagram, and beyond.",
+        "tag": "Social Media",
+        "stat": "+80% Reach"
       },
       "section4": {
         "title": "Motion Design",
-        "description": "Bring your message to life through animation and kinetic visuals."
+        "description": "Bring your message to life through animation and kinetic visuals.",
+        "tag": "Motion & Animation",
+        "stat": "+50% Watch Time"
       },
       "section5": {
         "title": "Web Development",
-        "description": "Fast, responsive websites tailored to brand goals and user experience."
+        "description": "Fast, responsive websites tailored to brand goals and user experience.",
+        "tag": "Web & Digital",
+        "stat": "+35% Conversions"
       },
       "section6": {
         "title": "Content Strategy",
-        "description": "Strategic storytelling that aligns with brand goals and audience behavior."
+        "description": "Strategic storytelling that aligns with brand goals and audience behavior.",
+        "tag": "Strategy",
+        "stat": "+45% Retention"
       }
     },
     "contact": {
@@ -57,6 +130,7 @@
       "cta": "Contact"
     }
   },
+
   "projects": {
     "hero": {
       "title": "Our Projects",
@@ -80,11 +154,17 @@
   },
   "branding": {
     "hero": {
+      "eyebrow": "Brand Philosophy",
       "title": "Our Branding Philosophy",
-      "description": "Branding is more than a logo. It’s a story told across every touchpoint — a lasting identity that inspires trust, loyalty, and connection."
+      "description": "Branding is more than a logo. It’s a story told across every touchpoint — a lasting identity that inspires trust, loyalty, and connection.",
+      "statYears": "Years Building Brands",
+      "statBrands": "Brands Shaped",
+      "statValues": "Core Values"
     },
     "coreValues": {
+      "eyebrow": "What We Stand On",
       "title": "Our Core Values",
+      "subtitle": "The principles behind every identity we build — not slogans, working rules.",
       "values": [
         {
           "title": "Innovation",
@@ -112,7 +192,17 @@
         }
       ]
     },
+    "deliverables": {
+      "title": "What You Actually Get",
+      "logo": "Logo & Mark",
+      "typography": "Typography System",
+      "color": "Color Palette",
+      "voice": "Voice & Messaging",
+      "guidelines": "Brand Guidelines",
+      "templates": "Application Templates"
+    },
     "cta": {
+      "eyebrow": "Ready When You Are",
       "title": "Let’s Build Something Great Together",
       "description": "Ready to elevate your brand with intentional, memorable design? Let’s collaborate and create something timeless.",
       "button": "Get In Touch"
@@ -120,16 +210,37 @@
   },
   "about": {
     "hero": {
+      "eyebrow": "Our Story",
       "title": "Who Are We?",
-      "description": "We’re a team of creatives, strategists, and makers — dedicated to building brands with heart and vision."
+      "description": "We’re a team of creatives, strategists, and makers — dedicated to building brands with heart and vision.",
+      "statYears": "Years of Experience",
+      "statClients": "Clients Served",
+      "statCampaigns": "Campaigns Delivered"
     },
     "text": {
+      "eyebrow": "Beyond Strategy",
+      "title": "What Is Signup?",
       "description": "So… What is Signup? Don’t get us wrong — we bring strategy and innovation to every project we touch. But some brands demand more. A sharper edge. A deeper story. That’s where Signup steps in — the premium marketing arm designed to craft bold campaigns and meaningful connections that resonate on a global scale.\n\nSignup collaborates with a handpicked network of seasoned marketers, designers, media planners, and digital growth specialists. Together, we’ve launched impactful strategies for some of the world’s most forward-thinking startups and established enterprises alike — across industries from fashion and tech to real estate and hospitality.\n\nOur approach? Seamless integration across digital, social, video, and branded content — eliminating the fragmentation that often slows brands down. With years of experience navigating competitive landscapes, we know how to make brands stand out — with clarity, consistency, and creative firepower that doesn’t just impress… it converts."
     },
     "content": {
+      "eyebrow": "Meet The Founder",
       "founderName": "hossam abuzaid",
       "founderJob": "CREATIVE DIRECTOR FOUNDER",
       "aboutFounder": "Hossam has always had a huge passion for film-making and video content creation. Hossam provides the creative eye into every film the company produces, often working as the director, cinematographer, or editor, working closely with global brands to meet their creative needs. Hossam is also an experienced drone cinematographer capturing aerial footage for luxury resorts in dozens of countries around the world."
+    },
+    "milestones": {
+      "founded": {
+        "value": "2016",
+        "label": "Studio Founded"
+      },
+      "reach": {
+        "value": "MENA",
+        "label": "Regional Reach"
+      },
+      "recognition": {
+        "value": "Award-Winning",
+        "label": "Industry Recognition"
+      }
     }
   },
   "ourServices": {
