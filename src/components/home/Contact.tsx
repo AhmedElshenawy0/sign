@@ -1,9 +1,10 @@
 import { motion } from "framer-motion";
 import { FaArrowRight } from "react-icons/fa";
+import GridBg from "../global/GridBg";
 
 const Contact = () => {
   return (
-    <section className="relative w-full max-w-[92%] mx-auto aspect-[1/1.2] sm:aspect-[2.2/1] my-32 rounded-[2rem] md:rounded-[3.5rem] overflow-hidden flex items-center justify-center text-white bg-main-color border border-zinc-800 shadow-2xl">
+    <section className="relative  w-full max-w-[92%] mx-auto aspect-[1/1.2] sm:aspect-[2.2/1] my-32 rounded-[2rem] md:rounded-[3.5rem] overflow-hidden flex items-center justify-center text-white bg-white border border-zinc-800 shadow-2xl">
       <video
         src="/images/89985-620432901.mp4"
         className="w-full h-full object-cover absolute inset-0 scale-105"
@@ -13,10 +14,7 @@ const Contact = () => {
         muted
       />
 
-      {/* Modern High-End Vignette Grading Layer */}
-      <div className="absolute inset-0 bg-gradient-to-r from-main-color/95 via-main-color/60 to-transparent" />
-      <div className="absolute inset-0 bg-gradient-to-t from-main-color via-transparent to-transparent" />
-
+      <GridBg variant="light" />
       <motion.div
         className="relative z-10 text-center md:text-left px-8 md:px-20 w-full flex flex-col items-center md:items-start gap-6 max-w-4xl"
         initial={{ opacity: 0, y: 30 }}

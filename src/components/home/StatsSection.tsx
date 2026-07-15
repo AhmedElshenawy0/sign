@@ -12,6 +12,7 @@ import {
   FaHeadset,
   FaChartLine,
 } from "react-icons/fa";
+import GridBg from "../global/GridBg";
 
 const STATS = [
   {
@@ -191,8 +192,10 @@ const StatsSection = () => {
   return (
     <section
       dir={isArabic ? "rtl" : "ltr"}
-      className="relative bg-white text-slate-900 px-6 md:px-14 py-24 md:py-32 border-b border-neutral-100 overflow-hidden"
+      className="relative bg-white text-slate-900 px-6 md:px-14 py-24 md:py-32 overflow-hidden"
     >
+      <GridBg variant="light" />
+
       {/* Ambient corner glow — quiet texture, consistent with AboutSignup's ambient mark */}
       <div
         aria-hidden

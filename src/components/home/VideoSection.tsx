@@ -1,9 +1,15 @@
 import { FaPause, FaPlay, FaArrowRight } from "react-icons/fa";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import { useRef } from "react";
 
 interface SectionProps {
-  videoRef: React.RefObject<HTMLVideoElement | null>;
+  // Callback ref, not a RefObject — matches how the parent actually
+  // populates its `videoRefs.current[i]` array. (Was typed as
+  // React.RefObject here before, which silently broke play/pause: the
+  // parent was passing a function, so `videoRef.current` inside this
+  // component was always undefined at runtime.)
+  videoRef: (el: HTMLVideoElement | null) => void;
   isPaused: boolean;
   setPaused: (v: boolean) => void;
   layout: "left" | "right";
@@ -39,6 +45,16 @@ const Section = ({
 }: SectionProps) => {
   const isVideoLeft = layout === "left";
 
+  // A local ref this component actually controls, used for play/pause —
+  // kept separate from (but in sync with) the parent's callback ref, so
+  // both the parent's array AND this component's own playback logic work.
+  const localVideoRef = useRef<HTMLVideoElement | null>(null);
+
+  const attachVideoRef = (el: HTMLVideoElement | null) => {
+    localVideoRef.current = el;
+    videoRef(el);
+  };
+
   const brandPills = [
     {
       text: "text-main-move bg-main-move/5 border-main-move/10",
@@ -60,9 +76,10 @@ const Section = ({
     },
   ];
   const activeStyle = brandPills[(index - 1) % brandPills.length];
+  const accentTextClass = activeStyle.text.split(" ")[0];
 
   const handleVideoPlayback = () => {
-    const video = videoRef.current;
+    const video = localVideoRef.current;
     if (video) {
       if (video.paused) {
         video.play().catch((err) => console.log("Playback interrupted:", err));
@@ -89,7 +106,7 @@ const Section = ({
         className={`w-full md:w-[58%] relative ${videoHeight} rounded-[1.75rem] overflow-hidden border border-slate-100 bg-slate-50 transition-all duration-500 ease-out transform group-hover:-translate-y-1.5 ${activeStyle.glow}`}
       >
         <video
-          ref={videoRef}
+          ref={attachVideoRef}
           src="/videos/intro.mp4"
           className={`w-full transition-transform duration-700 ${videoCover ? "h-full object-cover" : ""} ${!isPaused ? "scale-[1.015]" : "scale-100"}`}
           loop
@@ -102,7 +119,8 @@ const Section = ({
         <div className="absolute inset-0 bg-black/[0.01] group-hover:bg-black/10 transition-colors duration-300 flex items-center justify-center">
           <button
             onClick={handleVideoPlayback}
-            className={`w-16 h-16 rounded-full shadow-xl flex items-center justify-center backdrop-blur-md transition-all duration-300 ease-out cursor-pointer scale-90 md:scale-95 group-hover:scale-100 md:opacity-0 group-hover:opacity-100 border border-white/20 ${
+            aria-label={isPaused ? "Play video" : "Pause video"}
+            className={`w-16 h-16 rounded-full shadow-xl flex items-center justify-center backdrop-blur-md transition-all duration-300 ease-out cursor-pointer scale-90 md:scale-95 group-hover:scale-100 md:opacity-0 group-hover:opacity-100 focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60 border border-white/20 ${
               isPaused
                 ? "bg-white text-slate-900 hover:bg-slate-900 hover:text-white"
                 : activeStyle.btnGlow
@@ -119,11 +137,13 @@ const Section = ({
         {/* Result stat badge — sits on the video corner as quick social proof */}
         {stat && (
           <div
-            className={`absolute bottom-4 ${isVideoLeft ? "left-4" : "right-4"} rtl:left-4 rtl:right-auto bg-white/90 backdrop-blur-md rounded-2xl px-4 py-2.5 shadow-lg border border-white/40`}
+            className={`absolute bottom-4 ${isVideoLeft ? "left-4" : "right-4"} rtl:left-4 rtl:right-auto bg-white/90 backdrop-blur-md rounded-2xl px-4 py-2.5 shadow-lg border border-white/40 flex items-center gap-2`}
           >
             <span
-              className={`text-sm font-black ${activeStyle.text.split(" ")[0]}`}
-            >
+              className={`w-1.5 h-1.5 rounded-full ${accentTextClass}`}
+              style={{ backgroundColor: "currentColor" }}
+            />
+            <span className={`text-sm font-black ${accentTextClass}`}>
               {stat}
             </span>
           </div>
@@ -139,7 +159,10 @@ const Section = ({
         transition={{ duration: 0.6, delay: 0.15 }}
       >
         <div className="flex items-center justify-between border-b border-slate-100 pb-2">
-          <span className="text-[10px] font-black tracking-[0.35em] uppercase text-slate-400 select-none">
+          <span className="inline-flex items-center gap-2 text-[10px] font-black tracking-[0.35em] uppercase text-slate-400 select-none">
+            <span
+              className={`w-1 h-1 rounded-full ${accentTextClass.replace("text-", "bg-")}`}
+            />
             {caseLabel} // {String(index).padStart(2, "0")}
           </span>
           {tag && (
@@ -151,9 +174,16 @@ const Section = ({
           )}
         </div>
 
-        <h3 className="text-2xl md:text-3xl font-black tracking-tight leading-[1.15] text-slate-900 uppercase">
-          {title}
-        </h3>
+        <div className="space-y-2">
+          <h3 className="text-2xl md:text-3xl font-black tracking-tight leading-[1.15] text-slate-900 uppercase">
+            {title}
+          </h3>
+          {/* Small accent underline — a quiet anchor point under the
+              title, tinted per-section like the rest of the accent system */}
+          <span
+            className={`block w-10 h-[3px] rounded-full ${accentTextClass.replace("text-", "bg-")}`}
+          />
+        </div>
 
         <p className="text-slate-600 text-sm font-medium leading-relaxed">
           {desc}
@@ -162,7 +192,7 @@ const Section = ({
         {ctaText && (
           <Link
             to={ctaHref}
-            className={`group/cta inline-flex items-center gap-2 w-fit mt-1 text-xs font-black uppercase tracking-widest ${activeStyle.text.split(" ")[0]} hover:gap-3 transition-all duration-300`}
+            className={`group/cta inline-flex items-center gap-2 w-fit mt-1 text-xs font-black uppercase tracking-widest ${accentTextClass} hover:gap-3 focus-visible:outline-none focus-visible:underline transition-all duration-300`}
           >
             {ctaText}
             <FaArrowRight

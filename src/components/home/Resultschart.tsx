@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import GridBg from "../global/GridBg";
 
 // Growth in completed campaigns per year — replace with real numbers when available
 const GROWTH_DATA = [
@@ -181,8 +182,9 @@ const ResultsChart = () => {
   return (
     <section
       dir={isArabic ? "rtl" : "ltr"}
-      className="relative bg-white text-slate-900 px-6 md:px-14 py-24 md:py-32 border-b border-neutral-100"
+      className="relative bg-white text-slate-900 px-6 md:px-14 py-24 md:py-32"
     >
+      <GridBg variant="light" />
       <div className="max-w-6xl mx-auto space-y-16">
         <header className="max-w-2xl mx-auto text-center space-y-4">
           <span className="inline-flex items-center gap-2 text-[10px] font-black tracking-[0.35em] uppercase text-main-red bg-main-red/5 px-4 py-1.5 rounded-full border border-main-red/10 select-none">
@@ -196,7 +198,6 @@ const ResultsChart = () => {
             {t("home.chart.description")}
           </p>
         </header>
-
         {/* Primary chart: year-over-year growth, full width */}
         <motion.div
           className="relative bg-neutral-50/60 border border-neutral-100 rounded-[1.75rem] p-8 md:p-12"
@@ -253,7 +254,7 @@ const ResultsChart = () => {
         {/* Secondary charts: service split (donut) + capability scores (bars), side by side */}
         <div className="grid md:grid-cols-2 gap-8">
           <motion.div
-            className="bg-neutral-50/60 border border-neutral-100 rounded-[1.75rem] p-8 md:p-10 flex flex-col items-center gap-8"
+            className="bg-neutral-50/60 border border-neutral-100 z-50 rounded-[1.75rem] p-8 md:p-10 flex flex-col items-center gap-8"
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -266,7 +267,7 @@ const ResultsChart = () => {
           </motion.div>
 
           <motion.div
-            className="bg-neutral-50/60 border border-neutral-100 rounded-[1.75rem] p-8 md:p-10 flex flex-col gap-8"
+            className="bg-neutral-50/60 border z-50 border-neutral-100 rounded-[1.75rem] p-8 md:p-10 flex flex-col gap-8"
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}

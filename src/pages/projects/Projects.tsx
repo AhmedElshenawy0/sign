@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import { galleries } from "../../dummyData";
 import { useTranslation } from "react-i18next";
+import GridBg from "../../components/global/GridBg";
 
 const ShowReels = () => {
   const { t, i18n } = useTranslation();
@@ -95,7 +96,9 @@ const ShowReels = () => {
       </section>
 
       {/* 4. CONTENT PRESENTATION DECK (Opaque z-20 rolls directly OVER the fixed image) */}
-      <section className="px-6 md:px-14 py-28 bg-neutral-50 text-slate-900 rounded-t-[2rem] md:rounded-t-[3rem] relative z-20 shadow-[-0px_-20px_50px_rgba(0,0,0,0.3)]">
+      <section className="px-6 relative md:px-14 py-28 bg-neutral-50 text-slate-900 rounded-t-[2rem] md:rounded-t-[3rem]  z-20 shadow-[-0px_-20px_50px_rgba(0,0,0,0.3)]">
+        <GridBg variant="light" />
+
         <div className="flex flex-col items-center text-center mb-16 max-w-2xl mx-auto space-y-4">
           <motion.div
             className="p-3 border border-white/20 rounded-full bg-main-move shadow-lg backdrop-blur-sm"

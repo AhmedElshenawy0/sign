@@ -7,6 +7,8 @@ import {
   useTransform,
   useReducedMotion,
 } from "framer-motion";
+import NoisyBg from "../global/NoisyBg";
+import GridBg from "../global/GridBg";
 
 const PANELS = [
   {
@@ -102,10 +104,9 @@ const AboutSignup = () => {
     <section
       dir={isArabic ? "rtl" : "ltr"}
       ref={sectionRef}
-      className="relative bg-white text-slate-900 px-6 md:px-14 py-28 md:py-40 border-b border-neutral-100 overflow-hidden"
+      className="relative bg-white text-slate-900 px-6 md:px-14 py-28 md:py-40  overflow-hidden"
     >
-      {/* Blueprint sheet framing — corner brackets + coordinate tag.
-          Grounded in the "Corporate Blueprint" eyebrow copy itself. */}
+      <GridBg variant="light" />
       <div
         aria-hidden
         className="pointer-events-none absolute inset-6 md:inset-10 hidden md:block"
