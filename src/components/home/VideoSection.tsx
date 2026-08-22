@@ -1,6 +1,6 @@
 import { FaPause, FaPlay, FaArrowRight } from "react-icons/fa";
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import { useRef } from "react";
 
 interface SectionProps {
@@ -191,7 +191,7 @@ const Section = ({
 
         {ctaText && (
           <Link
-            to={ctaHref}
+            href={ctaHref}
             className={`group/cta inline-flex items-center gap-2 w-fit mt-1 text-xs font-black uppercase tracking-widest ${accentTextClass} hover:gap-3 focus-visible:outline-none focus-visible:underline transition-all duration-300`}
           >
             {ctaText}

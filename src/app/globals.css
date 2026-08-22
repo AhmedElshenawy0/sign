@@ -1,0 +1,178 @@
+@import url("https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&family=Fira+Code:wght@300..700&family=Share+Tech&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+
+@import "tailwindcss";
+
+:root {
+  --font-share: "Share Tech", sans-serif;
+  --font-fira: "Fira Code", monospace;
+  --font-cairo: "Cairo", sans-serif;
+  --font-montserrat: "Montserrat", sans-serif;
+  --font-roboto: "Roboto", sans-serif;
+  --brand-color: #ff69b4;
+}
+@theme inline {
+  --font-share: "Share Tech", sans-serif;
+  --color-main-bg: #e5e5e5;
+  --color-main-light-bg: #f5f5f4;
+  --color-main-color: #0d1b2a;
+  --color-accent-color: #c9a66b;
+  --color-main-green: #0e985d;
+  --color-main-dark-green: #08563a;
+  --color-main-move: #552583;
+  --color-main-medium-move: #401a66;
+  --color-main-red: #e54411;
+  --color-main-white: #ffffff;
+  --animate-aurora: aurora 60s linear infinite;
+  @keyframes aurora {
+    from {
+      background-position: 50% 50%, 50% 50%;
+    }
+    to {
+      background-position: 350% 50%, 350% 50%;
+    }
+  }
+}
+body {
+  font-family: var(--font-montserrat);
+}
+
+:lang(ar) {
+  font-family: var(--font-cairo);
+}
+
+a {
+  text-decoration: none;
+}
+
+* {
+  /* margin: 0;
+  padding: 0; */
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0%);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-scroll {
+  display: flex;
+  animation: scroll 30s linear infinite;
+}
+
+.main-section {
+  background-image: url("/images/sign10.jpg");
+  background-position: top left;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.contact-sec {
+  background-image: url("/images/sign1.jpg");
+  background-position: top;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.get-in-touch {
+  background-image: url("/images/sign1.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+}
+
+.get-in-touch::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  right: 0;
+  background: #000000a1;
+  z-index: 0;
+}
+
+/* .main-section {
+  background-image: url("/images/service3.jpg");
+  background-position: top;
+  background-repeat: no-repeat;
+  background-size: cover;
+} */
+
+/* =========================/
+
+*/
+
+.team-members {
+  padding-top: 60px;
+  padding-bottom: 60px;
+}
+.team-members .container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 30px;
+}
+.team-members .team-card {
+  position: relative;
+  margin-top: 50px;
+  text-align: center;
+}
+.team-members .team-card::before,
+.team-members .team-card::after {
+  content: "";
+  position: absolute;
+  width: 85%;
+  height: calc(100% + 50px);
+  top: -50px;
+  right: -10px;
+  border-radius: 10px;
+  transition: 0.3s;
+}
+.team-members .team-card::before {
+  z-index: -2;
+  background-color: rgb(236 236 236);
+}
+.team-members .team-card::after {
+  z-index: -1;
+  background-color: #e4e4e4;
+  width: 0;
+}
+.team-members .team-card:hover::after {
+  width: 85%;
+}
+.team-members .team-info {
+  display: flex;
+  justify-content: space-around;
+}
+.team-members .team-info img {
+  width: 85%;
+  border-radius: 10px;
+  transition: 0.3s;
+}
+.team-members .team-card:hover img {
+  filter: grayscale(100%);
+}
+.team-members .team-info .links {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.team-members .team-card h2 {
+  color: var(--main-color);
+}
+.team-members .team-card p {
+  font-weight: bold;
+  color: rgb(119 119 119);
+}
+.team-members .team-card i {
+  color: rgb(155, 150, 150);
+  cursor: pointer;
+}
+.team-members .team-card:hover i {
+  color: rgb(54, 51, 51);
+}

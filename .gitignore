@@ -10,7 +10,15 @@ lerna-debug.log*
 node_modules
 dist
 dist-ssr
+.next
+out
+.env
+.env.*
+!.env.example
 *.local
+server/uploads/tmp
+server/uploads/videos/*
+!server/uploads/videos/.gitkeep
 
 # Editor directories and files
 .vscode/*

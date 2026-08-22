@@ -1,0 +1,55 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum ProjectType {
+  logos
+  designs
+  videos
+  prints
+}
+
+enum StorageDriver {
+  cloudinary
+  local
+  public_asset
+}
+
+model User {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+}
+
+model Project {
+  id                 String         @id @default(uuid())
+  title              String
+  type               ProjectType
+  mediaUrl           String
+  posterUrl          String?
+  sortOrder          Int            @default(0)
+  storageDriver      StorageDriver  @default(public_asset)
+  cloudinaryPublicId String?
+  posterPublicId     String?
+  createdAt          DateTime       @default(now())
+  updatedAt          DateTime       @updatedAt
+
+  @@index([type])
+  @@index([sortOrder, createdAt])
+}
+
+model SiteSetting {
+  key                String         @id
+  mediaUrl           String
+  posterUrl          String?
+  storageDriver      StorageDriver  @default(public_asset)
+  cloudinaryPublicId String?
+  updatedAt          DateTime       @updatedAt
+}
+

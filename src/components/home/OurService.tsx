@@ -202,9 +202,16 @@ const OurService = () => {
 
       <div className="space-y-36 md:space-y-44">
         {serviceLayouts.map((service, i) => (
-          <div key={service.key} ref={(el) => (sectionRefs.current[i] = el)}>
+          <div
+            key={service.key}
+            ref={(el) => {
+              sectionRefs.current[i] = el;
+            }}
+          >
             <Section
-              videoRef={(el) => (videoRefs.current[i] = el)}
+              videoRef={(el) => {
+                videoRefs.current[i] = el;
+              }}
               isPaused={pausedStates[i]}
               setPaused={(state) => setPausedAt(i, state)}
               layout={service.layout}

@@ -24,7 +24,7 @@ const Hero = () => {
   const tickerTrackRef = useRef<HTMLDivElement>(null);
   const [isPaused, setIsPaused] = useState(true);
   const { t, i18n } = useTranslation();
-  const isArabic = i18n.language === "ar";
+  const isArabic = i18n.language.startsWith("ar");
 
   // Track scroll values specifically within this hero module context
   const { scrollYProgress } = useScroll({

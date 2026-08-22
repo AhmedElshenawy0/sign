@@ -1,4 +1,5 @@
 import { FaInstagram } from "react-icons/fa6";
+import Link from "next/link";
 import NoisyBg from "./NoisyBg";
 
 const Footer = () => {
@@ -76,6 +77,13 @@ const Footer = () => {
             >
               Rikaz
             </a>
+            {" · "}
+            <Link
+              href="/admin/login"
+              className="text-white/75 hover:text-white underline decoration-white/30 underline-offset-4 transition-colors tracking-wide"
+            >
+              Studio
+            </Link>
           </p>
         </div>
       </div>
