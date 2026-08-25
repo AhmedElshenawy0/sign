@@ -34,13 +34,6 @@ const SPLIT_DATA = [
   { key: "ads", value: 13, color: "#64748b", accent: "slate-400" },
 ];
 
-const SKILL_DATA = [
-  { key: "strategy", value: 96, accent: "main-red" },
-  { key: "creative", value: 92, accent: "main-move" },
-  { key: "production", value: 88, accent: "main-green" },
-  { key: "growth", value: 90, accent: "main-red" },
-] as const;
-
 const MAX_VALUE = Math.max(...GROWTH_DATA.map((d) => d.value));
 
 const accent = {
@@ -65,6 +58,15 @@ const accent = {
     hex: "#64748b",
   },
 } as const;
+
+type AccentName = keyof typeof accent;
+
+const SKILL_DATA: { key: string; value: number; accent: AccentName }[] = [
+  { key: "strategy", value: 96, accent: "main-red" },
+  { key: "creative", value: 92, accent: "main-move" },
+  { key: "production", value: 88, accent: "main-green" },
+  { key: "growth", value: 90, accent: "main-red" },
+];
 
 const cardClass =
   "relative bg-white border border-[#e8edf2] rounded-[28px] p-5 md:p-7 shadow-[0_1px_1px_rgba(15,23,42,0.03),0_10px_28px_rgba(15,23,42,0.06)]";
@@ -416,7 +418,7 @@ const SkillBars = () => {
     <div className="flex w-full flex-col justify-center gap-1">
       {SKILL_DATA.map((skill, index) => {
         const on = active === skill.key;
-        const tone = accent[skill.accent];
+        const tone = accent[skill.accent as keyof typeof accent];
         return (
           <div
             key={skill.key}
