@@ -39,7 +39,7 @@ const SKILL_DATA = [
   { key: "creative", value: 92, accent: "main-move" },
   { key: "production", value: 88, accent: "main-green" },
   { key: "growth", value: 90, accent: "main-red" },
-];
+] as const;
 
 const MAX_VALUE = Math.max(...GROWTH_DATA.map((d) => d.value));
 
