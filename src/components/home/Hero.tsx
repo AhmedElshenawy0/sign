@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
-import { FaPause, FaPlay, FaExpand } from "react-icons/fa";
+import Link from "next/link";
+import { FaPause, FaPlay, FaExpand, FaArrowRight, FaArrowLeft } from "react-icons/fa";
 import {
   motion,
   useScroll,
@@ -9,6 +10,7 @@ import {
 } from "framer-motion";
 import { useTranslation, Trans } from "react-i18next";
 import NoisyBg from "../global/NoisyBg";
+import type { Showreel } from "@/lib/settings";
 
 // Constant visual speed for the partner ticker, in pixels/second.
 // This drives the scroll directly via JS (see useAnimationFrame below)
@@ -17,14 +19,18 @@ import NoisyBg from "../global/NoisyBg";
 // override the speed on some screen sizes and not others. Raise this
 // number to go faster, lower it to go slower. That's the only knob.
 const TICKER_SPEED_PX_PER_SEC = 90;
+const TICKER_COPIES = 4;
 
-const Hero = () => {
+const Hero = ({ showreel }: { showreel: Showreel }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const tickerTrackRef = useRef<HTMLDivElement>(null);
   const [isPaused, setIsPaused] = useState(true);
   const { t, i18n } = useTranslation();
   const isArabic = i18n.language.startsWith("ar");
+  const videoSrc = showreel.media_url;
+  const eyebrow = isArabic ? showreel.copy.eyebrowAr : showreel.copy.eyebrowEn;
+  const showreelTitle = isArabic ? showreel.copy.titleAr : showreel.copy.titleEn;
 
   // Track scroll values specifically within this hero module context
   const { scrollYProgress } = useScroll({
@@ -83,8 +89,7 @@ const Hero = () => {
     { name: "نيو انجلاند", logo: "/images/Partner/نيو انجلاند.png" },
   ];
 
-  // Two copies is enough for a seamless loop.
-  const loopedItems = [...workedWith, ...workedWith];
+  const loopedItems = Array.from({ length: TICKER_COPIES }, () => workedWith).flat();
 
   // JS-driven marquee: we track our own x position with a motion value and
   // advance it every frame by (speed * elapsed time), then wrap it back to 0
@@ -102,15 +107,15 @@ const Hero = () => {
     const track = tickerTrackRef.current;
     if (!track) return;
 
-    const singleSetWidth = track.scrollWidth / 2;
+    const singleSetWidth = track.scrollWidth / TICKER_COPIES;
     if (singleSetWidth <= 0) return;
 
-    const distance = (TICKER_SPEED_PX_PER_SEC * delta) / 1000;
+    const distance = (TICKER_SPEED_PX_PER_SEC * Math.min(delta, 48)) / 1000;
     let next = x.get() - distance;
 
-    // Once we've scrolled exactly one full set width, snap back to 0.
-    // Because it's an exact multiple of the set width, the loop is seamless.
-    if (Math.abs(next) >= singleSetWidth) {
+    // Snap back by whole set widths so a background tab (huge delta) or RTL
+    // parent never leaves a blank gap after the last logo.
+    while (next <= -singleSetWidth) {
       next += singleSetWidth;
     }
 
@@ -162,7 +167,7 @@ const Hero = () => {
 
             {/* Studio Pill */}
             <span className="inline-block text-[10px] font-black tracking-[0.35em] uppercase text-main-move mb-6 bg-main-move/10 px-5 py-2 rounded-full border border-main-move/20 select-none">
-              Creative Marketing Studio
+              {t("home.hero.studioPill")}
             </span>
 
             <h1 className="text-4xl md:text-7xl font-black tracking-tight leading-[1.05] text-white uppercase mb-6 max-w-3xl">
@@ -184,7 +189,7 @@ const Hero = () => {
           {/* Prompt Action Pin Indicator */}
           <div className="flex flex-col items-center gap-3 select-none pointer-events-none">
             <span className="text-[10px] font-black tracking-[0.3em] uppercase text-white/30">
-              Scroll
+              {t("home.hero.scroll")}
             </span>
             <div className="w-[2px] h-10 bg-gradient-to-b from-main-move to-transparent rounded-full animate-bounce" />
           </div>
@@ -193,7 +198,10 @@ const Hero = () => {
 
       {/* ── PARTNER LOGO TICKER (NOW SEPARATED IN DOM ORDER FLOW) ── */}
       <div className="relative z-30 py-12 bg-white border-y border-neutral-100 overflow-hidden shadow-2xl">
-        <h3 className="text-neutral-400 pb-10 font-black tracking-[0.25em] text-[11px] uppercase text-center select-none">
+        <h3
+          className="text-neutral-400 pb-10 font-black tracking-[0.25em] text-[11px] uppercase text-center select-none"
+          dir={isArabic ? "rtl" : "ltr"}
+        >
           {t("home.hero.workedWith")}
         </h3>
 
@@ -201,6 +209,7 @@ const Hero = () => {
         <div className="pointer-events-none absolute top-0 right-0 h-full w-24 md:w-48 bg-gradient-to-l from-white to-transparent z-10" />
 
         <div
+          dir="ltr"
           className="w-full overflow-hidden whitespace-nowrap"
           onMouseEnter={() => (isHovering.current = true)}
           onMouseLeave={() => (isHovering.current = false)}
@@ -220,7 +229,8 @@ const Hero = () => {
                     src={tech.logo}
                     alt={tech.name}
                     className="max-w-full max-h-full object-contain filter transition-all duration-500"
-                    loading="lazy"
+                    loading="eager"
+                    decoding="async"
                   />
                 </div>
               </div>
@@ -241,10 +251,10 @@ const Hero = () => {
             transition={{ duration: 0.6 }}
           >
             <span className="text-xs font-black tracking-[0.3em] uppercase text-main-green mb-3 block select-none">
-              Visual Proof
+              {eyebrow}
             </span>
             <h2 className="text-3xl md:text-5xl font-black tracking-tight uppercase text-transparent bg-clip-text bg-gradient-to-b from-white to-neutral-400">
-              {t("home.hero.showreel")}
+              {showreelTitle}
             </h2>
           </motion.div>
 
@@ -256,8 +266,9 @@ const Hero = () => {
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           >
             <video
+              key={videoSrc}
               ref={videoRef}
-              src="/videos/intro.mp4"
+              src={videoSrc}
               className={`w-full h-full object-cover transition-transform duration-700 ${!isPaused ? "scale-[1.02]" : "scale-100"}`}
               loop
               playsInline
@@ -290,6 +301,28 @@ const Hero = () => {
                 <FaExpand size={14} />
               </motion.button>
             )}
+          </motion.div>
+
+          <motion.div
+            className="mt-12 flex justify-center"
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+          >
+            <Link
+              href="/projects"
+              className="group relative inline-flex items-center gap-4 overflow-hidden rounded-full border border-white/15 bg-white/5 px-2 py-2 ps-7 text-sm font-black uppercase tracking-[0.22em] text-white backdrop-blur-md transition-all duration-300 hover:border-[#0e985d]/50 hover:bg-[#0e985d] hover:shadow-[0_0_40px_rgba(14,152,93,0.35)]"
+            >
+              <span>{t("home.hero.seeProjects")}</span>
+              <span className="grid h-11 w-11 place-items-center rounded-full bg-white text-black transition-transform duration-300 group-hover:scale-110 group-hover:bg-black group-hover:text-white">
+                {isArabic ? (
+                  <FaArrowLeft size={12} />
+                ) : (
+                  <FaArrowRight size={12} />
+                )}
+              </span>
+            </Link>
           </motion.div>
         </div>
       </section>

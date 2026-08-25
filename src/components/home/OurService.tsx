@@ -138,10 +138,7 @@ const OurService = () => {
 
         <span className="inline-block text-[11px] font-mono font-bold tracking-[0.25em] uppercase text-slate-400">
           {String(serviceLayouts.length).padStart(2, "0")}{" "}
-          {t(
-            "home.servicesSection.countLabel",
-            isArabic ? "خدمات متكاملة" : "Integrated Capabilities",
-          )}
+          {t("home.servicesSection.countLabel")}
         </span>
 
         {/* Quick-jump pills — mainly useful on mobile, where the fixed

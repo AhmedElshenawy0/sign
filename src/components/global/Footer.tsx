@@ -1,8 +1,12 @@
+"use client";
+
 import { FaInstagram } from "react-icons/fa6";
 import Link from "next/link";
+import { useTranslation } from "react-i18next";
 import NoisyBg from "./NoisyBg";
 
 const Footer = () => {
+  const { t } = useTranslation();
   return (
     <footer className="relative px-6 md:px-14 py-12 md:py-16 text-gray-200 bg-gradient-to-r from-main-green to-main-dark-green backdrop-blur-md overflow-hidden select-none">
       <NoisyBg />
@@ -13,14 +17,10 @@ const Footer = () => {
           {/* Left Side: Brand Pitch & Reach */}
           <div className="space-y-4 text-center lg:text-left">
             <h4 className="text-xl font-black uppercase tracking-wider text-white">
-              Signup Agency
+              {t("footer.brand")}
             </h4>
             <p className="leading-relaxed text-sm md:text-base text-gray-200/80 max-w-xl mx-auto lg:mx-0">
-              We proudly serve clients across Egypt — from Cairo, Alexandria,
-              Giza, and New Cairo, to the North Coast, Red Sea, and Upper Egypt.
-              Whether you're a rising local brand or an international business
-              expanding into the MENA region, Signup brings a fresh and
-              results-driven approach to marketing.
+              {t("footer.pitch")}
             </p>
           </div>
 
@@ -28,7 +28,7 @@ const Footer = () => {
           <div className="flex flex-col items-center lg:items-end justify-center gap-6 h-full">
             <div className="text-center lg:text-right">
               <span className="text-[10px] font-black tracking-[0.2em] uppercase text-emerald-300 block mb-1">
-                Drop us a line
+                {t("footer.dropLine")}
               </span>
               <a
                 href="mailto:contact@signupagency.eg"
@@ -55,20 +55,20 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row items-center justify-between gap-6 text-xs md:text-sm text-gray-300/70 font-medium">
           {/* Legal Info */}
           <p className="text-center md:text-left max-w-md md:max-w-none leading-relaxed">
-            Signup Agency LLC. Registered in Egypt. CR No. 987654321 |{" "}
+            {t("footer.legal")} |{" "}
             <a
               href="/privacy"
               className="underline hover:text-white transition-colors"
             >
-              Privacy Policy
+              {t("footer.privacy")}
             </a>
           </p>
 
           {/* Copyright & Credits */}
           <p className="text-center md:text-right">
-            Website & Content ©{" "}
-            <span className="text-white font-bold">Signup</span> 2026 — Powered
-            by{" "}
+            {t("footer.copyright")}{" "}
+            <span className="text-white font-bold">Signup</span> 2026 —{" "}
+            {t("footer.poweredBy")}{" "}
             <a
               href="https://rikaz.co"
               target="_blank"
@@ -82,7 +82,7 @@ const Footer = () => {
               href="/admin/login"
               className="text-white/75 hover:text-white underline decoration-white/30 underline-offset-4 transition-colors tracking-wide"
             >
-              Studio
+              {t("footer.studio")}
             </Link>
           </p>
         </div>

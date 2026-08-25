@@ -2,6 +2,7 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState, FormEvent } from "react";
+import { useTranslation } from "react-i18next";
 import {
   FaEnvelope,
   FaPhoneAlt,
@@ -11,6 +12,7 @@ import {
 } from "react-icons/fa";
 
 const ContactPage = () => {
+  const { t, i18n } = useTranslation();
   const [status, setStatus] = useState<
     "idle" | "submitting" | "success" | "error"
   >("idle");
@@ -50,7 +52,10 @@ const ContactPage = () => {
   };
 
   return (
-    <div className="bg-slate-950 text-white min-h-screen relative overflow-hidden selection:bg-main-green/30">
+    <div
+      dir={i18n.language.startsWith("ar") ? "rtl" : "ltr"}
+      className="bg-slate-950 text-white min-h-screen relative overflow-hidden selection:bg-main-green/30"
+    >
       {/* Pinned Cinematic Background Blur Window Frame */}
       <div className="absolute inset-0 w-full h-[60vh] z-0 pointer-events-none">
         <motion.img
@@ -72,7 +77,7 @@ const ContactPage = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
         >
-          Get In Touch
+          {t("contactPage.title")}
         </motion.h1>
         <motion.p
           className="text-base md:text-xl text-slate-400 max-w-xl mx-auto font-medium leading-relaxed"
@@ -80,8 +85,7 @@ const ContactPage = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.15, duration: 0.7 }}
         >
-          We'd love to hear from you. Let’s build something unforgettable
-          together.
+          {t("contactPage.subtitle")}
         </motion.p>
       </section>
 
@@ -91,7 +95,7 @@ const ContactPage = () => {
           {/* Dynamic Interactive Processing Card Form Column Container */}
           <div className="lg:col-span-7 space-y-6">
             <h2 className="text-2xl md:text-3xl font-black uppercase tracking-tight text-slate-900">
-              Send Us a Message
+              {t("contactPage.formTitle")}
             </h2>
 
             <AnimatePresence mode="wait">
@@ -106,17 +110,16 @@ const ContactPage = () => {
                     <FaCheckCircle />
                   </div>
                   <h3 className="text-xl font-bold text-emerald-900">
-                    Message Sent Successfully!
+                    {t("contactPage.successTitle")}
                   </h3>
                   <p className="text-emerald-700 text-sm font-medium">
-                    Thank you for reaching out. Our development specialists will
-                    review your criteria and respond shortly.
+                    {t("contactPage.successBody")}
                   </p>
                   <button
                     onClick={() => setStatus("idle")}
                     className="mt-2 text-xs font-black uppercase tracking-widest text-emerald-600 hover:text-emerald-700 underline transition-all"
                   >
-                    Send Another Message
+                    {t("contactPage.sendAnother")}
                   </button>
                 </motion.div>
               ) : (
@@ -133,27 +136,27 @@ const ContactPage = () => {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="space-y-1.5">
                       <label className="text-xs font-black uppercase tracking-wider text-slate-500">
-                        Your Name
+                        {t("contactPage.name")}
                       </label>
                       <input
                         type="text"
                         name="name"
                         required
                         disabled={status === "submitting"}
-                        placeholder="Ahmed Elshnawy"
+                        placeholder={t("contactPage.namePlaceholder")}
                         className="w-full p-4 rounded-xl bg-neutral-50 text-slate-900 border border-neutral-200 focus:outline-none focus:border-main-dark-green font-medium transition-all text-sm disabled:opacity-50"
                       />
                     </div>
                     <div className="space-y-1.5">
                       <label className="text-xs font-black uppercase tracking-wider text-slate-500">
-                        Email Address
+                        {t("contactPage.email")}
                       </label>
                       <input
                         type="email"
                         name="email"
                         required
                         disabled={status === "submitting"}
-                        placeholder="name@company.com"
+                        placeholder={t("contactPage.emailPlaceholder")}
                         className="w-full p-4 rounded-xl bg-neutral-50 text-slate-900 border border-neutral-200 focus:outline-none focus:border-main-dark-green font-medium transition-all text-sm disabled:opacity-50"
                       />
                     </div>
@@ -161,14 +164,14 @@ const ContactPage = () => {
 
                   <div className="space-y-1.5">
                     <label className="text-xs font-black uppercase tracking-wider text-slate-500">
-                      Project Strategy Parameters
+                      {t("contactPage.message")}
                     </label>
                     <textarea
                       name="message"
                       required
                       disabled={status === "submitting"}
                       rows={5}
-                      placeholder="Tell us about your brand goals, interface scope requirements, or pipeline timelines..."
+                      placeholder={t("contactPage.messagePlaceholder")}
                       className="w-full p-4 rounded-xl bg-neutral-50 text-slate-900 border border-neutral-200 focus:outline-none focus:border-main-dark-green font-medium transition-all text-sm resize-none disabled:opacity-50"
                     />
                   </div>
@@ -181,17 +184,16 @@ const ContactPage = () => {
                     >
                       {status === "submitting" ? (
                         <>
-                          <FaSpinner className="animate-spin" /> Processing...
+                          <FaSpinner className="animate-spin" /> {t("contactPage.submitting")}
                         </>
                       ) : (
-                        "Submit Request"
+                        t("contactPage.submit")
                       )}
                     </button>
 
                     {status === "error" && (
                       <p className="text-red-600 text-xs font-bold tracking-wide animate-pulse">
-                        ❌ Network pipeline error. Please re-verify metrics and
-                        try again.
+                        {t("contactPage.error")}
                       </p>
                     )}
                   </div>
@@ -204,11 +206,10 @@ const ContactPage = () => {
           <div className="lg:col-span-5 lg:border-l lg:border-neutral-200/80 lg:pl-12 space-y-8 self-center lg:py-4">
             <div className="space-y-2">
               <h2 className="text-2xl md:text-3xl font-black uppercase tracking-tight text-slate-900">
-                Contact Details
+                {t("contactPage.detailsTitle")}
               </h2>
               <p className="text-slate-500 text-sm font-medium">
-                Prefer direct communication pipelines? Drop an asset payload
-                directly on our addresses.
+                {t("contactPage.detailsBody")}
               </p>
             </div>
 
@@ -219,7 +220,7 @@ const ContactPage = () => {
                 </div>
                 <div className="space-y-0.5">
                   <p className="text-xs font-black uppercase tracking-wider text-slate-400">
-                    Direct Email
+                    {t("contactPage.emailLabel")}
                   </p>
                   <a
                     href="mailto:hello@signup.com"
@@ -236,7 +237,7 @@ const ContactPage = () => {
                 </div>
                 <div className="space-y-0.5">
                   <p className="text-xs font-black uppercase tracking-wider text-slate-400">
-                    Phone Hotline
+                    {t("contactPage.phoneLabel")}
                   </p>
                   <a
                     href="tel:+201002364021"
@@ -253,7 +254,7 @@ const ContactPage = () => {
                 </div>
                 <div className="space-y-0.5">
                   <p className="text-xs font-black uppercase tracking-wider text-slate-400">
-                    HQ Studio Location
+                    {t("contactPage.locationLabel")}
                   </p>
                   <p className="font-bold text-slate-800 text-base leading-tight">
                     123 Creative Avenue, NY 10001

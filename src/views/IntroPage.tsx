@@ -1,7 +1,11 @@
+"use client";
+
 import Link from "next/link";
 import { FaBoxOpen, FaLightbulb } from "react-icons/fa";
+import { useTranslation } from "react-i18next";
 
 const IntroPage = ({ videoSrc }: { videoSrc: string }) => {
+  const { t } = useTranslation();
   return (
     <div className="relative w-full h-screen overflow-hidden flex justify-center items-center font-sans bg-black select-none">
       {/* Video Background */}
@@ -34,13 +38,12 @@ const IntroPage = ({ videoSrc }: { videoSrc: string }) => {
 
         {/* Headline */}
         <h1 className="text-white text-2xl md:text-4xl font-black uppercase tracking-tight max-w-lg leading-tight mb-3">
-          Choose Your Experience
+            {t("intro.title")}
         </h1>
 
         {/* Subtitle */}
         <p className="text-gray-300 text-sm md:text-base max-w-md mb-10 font-medium opacity-80 leading-relaxed">
-          We’ve got you covered with tailored digital innovation and immersive
-          creative experiences.
+          {t("intro.subtitle")}
         </p>
 
         {/* Identity Grid: Two distinct paths */}
@@ -56,7 +59,7 @@ const IntroPage = ({ videoSrc }: { videoSrc: string }) => {
               className="text-emerald-400 group-hover:text-black transition-colors"
               size={16}
             />
-            <span>NFC Solutions</span>
+            <span>{t("intro.nfc")}</span>
           </a>
 
           {/* Path 2: Creative */}
@@ -68,7 +71,7 @@ const IntroPage = ({ videoSrc }: { videoSrc: string }) => {
               className="text-white group-hover:animate-pulse"
               size={16}
             />
-            <span>Creative Studio</span>
+            <span>{t("intro.studio")}</span>
           </Link>
         </div>
       </div>
@@ -78,7 +81,7 @@ const IntroPage = ({ videoSrc }: { videoSrc: string }) => {
         className="group absolute bottom-6 right-6 z-30 flex items-center gap-2 rounded-full border border-white/30 bg-black/45 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/80 backdrop-blur-md transition-all duration-300 hover:border-emerald-400/60 hover:bg-white/10 hover:text-white"
       >
         <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 opacity-80 group-hover:opacity-100" />
-        Studio
+        {t("intro.admin")}
       </Link>
     </div>
   );

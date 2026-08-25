@@ -14,8 +14,6 @@ const PANELS = [
   {
     key: "different",
     eyebrow: "01",
-    label: "Distinction",
-    fig: "FIG. 01 — BASELINE",
     accent: "main-red",
     // path height: lower number = higher on the curve
     y: 64,
@@ -25,8 +23,6 @@ const PANELS = [
   {
     key: "vision",
     eyebrow: "02",
-    label: "Horizon",
-    fig: "FIG. 02 — MIDPOINT",
     accent: "main-move",
     y: 34,
     titleKey: "home.about.visionTitle",
@@ -35,8 +31,6 @@ const PANELS = [
   {
     key: "mission",
     eyebrow: "03",
-    label: "Activation",
-    fig: "FIG. 03 — APEX",
     accent: "main-green",
     y: 10,
     titleKey: "home.about.missionTitle",
@@ -224,11 +218,6 @@ const AboutSignup = () => {
                   />
 
                   <div className="flex items-center justify-between">
-                    <span
-                      className={`text-[10px] font-mono tracking-[0.2em] uppercase ${accent.text} select-none`}
-                    >
-                      {panel.fig}
-                    </span>
                     <span className="text-[11px] font-mono text-slate-300 select-none">
                       {panel.eyebrow}
                     </span>
@@ -238,7 +227,7 @@ const AboutSignup = () => {
                     <span
                       className={`text-[11px] font-black tracking-[0.3em] uppercase ${accent.text} select-none`}
                     >
-                      {panel.label}
+                      {t(`home.about.panels.${panel.key}.label`)}
                     </span>
                   </div>
 

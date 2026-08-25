@@ -22,99 +22,55 @@ const ProcessSection = () => {
   const steps = [
     {
       id: "01",
-      title: t("home.process.discover.title", "Discovery & Strategy"),
-      desc: t(
-        "home.process.discover.desc",
-        "We deep dive into your brand DNA, analyze competitors, and map out a bulletproof digital social media blueprint.",
-      ),
+      title: t("home.process.discover.title"),
+      desc: t("home.process.discover.desc"),
       color: "#0e985d", // الأخضر الذكي
       glowClass:
         "group-hover:border-[#0e985d]/40 group-hover:shadow-[0_20px_50px_rgba(14,152,93,0.1)]",
-      metrics: { progress: "100%", status: "COMPLETE", hash: "0x8F92" },
+      metrics: { progress: "100%" },
       yTransform: yShape1,
-      deliverables: isArabic
-        ? [
-            "تحليل المنافسين والسوق",
-            "تحديد الجمهور المستهدف",
-            "بناء استراتيجية القنوات",
-          ]
-        : [
-            "Competitor & Market Audit",
-            "Audience Persona Mapping",
-            "Channel Ecosystem Blueprint",
-          ],
+      deliverables: t("home.process.discover.deliverables", {
+        returnObjects: true,
+      }) as string[],
     },
     {
       id: "02",
-      title: t("home.process.strategy.title", "Creative Direction"),
-      desc: t(
-        "home.process.strategy.desc",
-        "Crafting premium visual identities, tailored templates, and high-converting copy that demands attention.",
-      ),
+      title: t("home.process.strategy.title"),
+      desc: t("home.process.strategy.desc"),
       color: "#4f46e5", // البنفسجي
       glowClass:
         "group-hover:border-[#4f46e5]/40 group-hover:shadow-[0_20px_50px_rgba(79,70,229,0.1)]",
-      metrics: { progress: "100%", status: "COMPLETE", hash: "0x4A11" },
+      metrics: { progress: "100%" },
       yTransform: yShape2,
-      deliverables: isArabic
-        ? [
-            "تصميم قوالب الهوية البصرية",
-            "كتابة النصوص الإعلانية الجاذبة",
-            "تحديد التوجه الفني والمزاج البصري",
-          ]
-        : [
-            "Visual Identity Templates",
-            "High-Converting Copywriting",
-            "Art Direction & Moodboarding",
-          ],
+      deliverables: t("home.process.strategy.deliverables", {
+        returnObjects: true,
+      }) as string[],
     },
     {
       id: "03",
-      title: t("home.process.execute.title", "Campaign Execution"),
-      desc: t(
-        "home.process.execute.desc",
-        "Deploying high-impact targeted ads, managing content calendars, and optimizing interactions in real-time.",
-      ),
+      title: t("home.process.execute.title"),
+      desc: t("home.process.execute.desc"),
       color: "#db2777", // الوردي
       glowClass:
         "group-hover:border-[#db2777]/40 group-hover:shadow-[0_20px_50px_rgba(219,39,119,0.1)]",
-      metrics: { progress: "65%", status: "ACTIVE_RUN", hash: "0x9D2C" },
+      metrics: { progress: "65%" },
       yTransform: yShape3,
-      deliverables: isArabic
-        ? [
-            "إطلاق الحملات الإعلانية الممولة",
-            "إدارة جدولة المحتوى الذكية",
-            "التفاعل الفوري وإدارة المجتمعات",
-          ]
-        : [
-            "Paid Ads Deployment",
-            "Smart Content Scheduling",
-            "Real-time Community Engagement",
-          ],
+      deliverables: t("home.process.execute.deliverables", {
+        returnObjects: true,
+      }) as string[],
     },
     {
       id: "04",
-      title: t("home.process.optimize.title", "Data & Optimization"),
-      desc: t(
-        "home.process.optimize.desc",
-        "Analyzing performance charts, calculating ROI, and tweaking tactics for compounding digital growth.",
-      ),
+      title: t("home.process.optimize.title"),
+      desc: t("home.process.optimize.desc"),
       color: "#ea580c", // البرتقالي
       glowClass:
         "group-hover:border-[#ea580c]/40 group-hover:shadow-[0_20px_50px_rgba(234,88,12,0.1)]",
-      metrics: { progress: "0%", status: "QUEUE_PENDING", hash: "0xE1B8" },
+      metrics: { progress: "0%" },
       yTransform: yShape4,
-      deliverables: isArabic
-        ? [
-            "تحليل الرسوم البيانية والأداء",
-            "حساب العائد على الاستثمار ROI",
-            "تطوير التكتيكات للنمو المتصاعد",
-          ]
-        : [
-            "Performance Chart Analytics",
-            "ROI & Conversion Audits",
-            "Tactical Growth Scaling Operations",
-          ],
+      deliverables: t("home.process.optimize.deliverables", {
+        returnObjects: true,
+      }) as string[],
     },
   ];
 
@@ -132,12 +88,10 @@ const ProcessSection = () => {
         {/* Header */}
         <div className="mb-52 flex flex-col items-center text-center">
           <span className="text-[10px] font-mono font-black tracking-[0.4em] uppercase text-slate-400 mb-5 bg-slate-50 px-4 py-1.5 rounded-full border border-slate-200/60 shadow-sm select-none">
-            [ ENGINE_FLOW_ARCHITECTURE ]
+            {t("home.process.eyebrow")}
           </span>
           <h2 className="text-4xl md:text-6xl font-black tracking-tighter uppercase text-slate-950 max-w-2xl leading-[0.95]">
-            {isArabic
-              ? "هندسة رحلة النمو الاستراتيجي"
-              : "The Architectural Growth Process"}
+            {t("home.process.architectureTitle")}
           </h2>
         </div>
 
@@ -211,13 +165,8 @@ const ProcessSection = () => {
                           {step.id}
                         </div>
                         <div className="flex flex-col text-left rtl:text-right">
-                          <span className="font-mono text-[9px] font-bold text-slate-400 uppercase tracking-wider">
-                            {step.metrics.hash} // SYS_LNK
-                          </span>
-                          <span
-                            className={`font-mono text-[10px] font-black tracking-wide ${step.metrics.status === "COMPLETE" ? "text-emerald-600" : step.metrics.status === "ACTIVE_RUN" ? "text-indigo-600" : "text-amber-600"}`}
-                          >
-                            {step.metrics.status}
+                          <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">
+                            {t("home.process.eyebrow")}
                           </span>
                         </div>
                       </div>
@@ -243,10 +192,6 @@ const ProcessSection = () => {
 
                     {/* المحتوى الرئيسي والعناوين */}
                     <div className="space-y-4">
-                      <span className="block font-mono text-[10px] uppercase font-black tracking-widest text-slate-300 group-hover:text-slate-400 transition-colors">
-                        {`// CORE_STAGE_ENGINE_NODE`}
-                      </span>
-
                       <h3 className="text-xl md:text-2xl font-black uppercase tracking-tight text-slate-900 group-hover:text-slate-950 transition-colors">
                         {step.title}
                       </h3>
@@ -258,10 +203,8 @@ const ProcessSection = () => {
 
                     {/* سيكشن المخرجات والمهام */}
                     <div className="mt-8 pt-6 border-t border-slate-50 space-y-3">
-                      <span className="block font-mono text-[9px] font-black uppercase tracking-widest text-slate-400">
-                        {isArabic
-                          ? "// المخرجات والعمليات التشغيلية:"
-                          : "// OPERATIONAL DELIVERABLES:"}
+                      <span className="block text-[9px] font-black uppercase tracking-widest text-slate-400">
+                        {t("home.process.deliverablesLabel")}
                       </span>
                       <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[12px] font-bold text-slate-600">
                         {step.deliverables.map((item, dIdx) => (
@@ -300,7 +243,7 @@ const ProcessSection = () => {
                         className="text-xs font-mono font-bold opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 flex items-center gap-1 flex-shrink-0"
                         style={{ color: step.color }}
                       >
-                        {isArabic ? "← نتابع" : "PROCEED →"}
+                        {t("home.process.proceed")}
                       </span>
                     </div>
                   </motion.div>

@@ -3,7 +3,6 @@ import { initReactI18next } from "react-i18next";
 
 import en from "./translation/en/translation.json";
 import ar from "./translation/ar/translation.json";
-import fr from "./translation/fn/translation.json";
 
 if (!i18n.isInitialized) {
   i18n.use(initReactI18next);
@@ -12,7 +11,6 @@ if (!i18n.isInitialized) {
     resources: {
       en: { translation: en },
       ar: { translation: ar },
-      fr: { translation: fr },
     },
     fallbackLng: "en",
     lng: "en",
@@ -25,7 +23,6 @@ export function normalizeLng(lng) {
   if (!lng) return "en";
   const lower = String(lng).toLowerCase();
   if (lower.startsWith("ar")) return "ar";
-  if (lower.startsWith("fr")) return "fr";
   return "en";
 }
 

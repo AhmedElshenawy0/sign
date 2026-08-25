@@ -5,14 +5,20 @@
     "branding": "Branding",
     "services": "Our Services",
     "about": "About",
-    "contact": "Contact Us"
+    "contact": "Contact Us",
+    "selectLanguage": "Select Language",
+    "toggleMenu": "Toggle menu"
   },
   "home": {
     "hero": {
       "title": "Your Creative Partners",
       "description": "At <1>Sign Up</1>, we blend creativity, strategy, and a sprinkle of humor to turn brands into unforgettable vibes. Join us on a marketing journey where ideas come alive.",
       "showreel": "SHOWREEL",
-      "workedWith": "Proudly worked with"
+      "workedWith": "Proudly worked with",
+      "studioPill": "Creative Marketing Studio",
+      "scroll": "Scroll",
+      "visualProof": "Visual Proof",
+      "seeProjects": "See projects"
     },
     "about": {
       "title": "Who We Are",
@@ -23,7 +29,12 @@
       "visionDesc": "Helping MENA businesses shine through effective identity and communication. Our creative direction is built around clarity and authenticity.",
       "missionTitle": "Mission",
       "missionDesc": "Creating joyful, data-informed marketing campaigns that meet business goals and leave lasting impressions.",
-      "cta": "Let's Talk"
+      "cta": "Let's Talk",
+      "panels": {
+        "different": { "fig": "FIG. 01 — BASELINE", "label": "Distinction" },
+        "vision": { "fig": "FIG. 02 — MIDPOINT", "label": "Horizon" },
+        "mission": { "fig": "FIG. 03 — APEX", "label": "Activation" }
+      }
     },
     "stats": {
       "eyebrow": "By The Numbers",
@@ -46,17 +57,45 @@
       "eyebrow": "Our Process",
       "title": "From Idea to Impact",
       "description": "A clear method, just three steps, that turn any idea into a real result on the ground.",
+      "eyebrowEngine": "[ ENGINE_FLOW_ARCHITECTURE ]",
+      "architectureTitle": "The Architectural Growth Process",
+      "proceed": "PROCEED →",
+      "deliverablesLabel": "What you get",
       "discover": {
         "title": "Discover",
-        "desc": "We dive into your market, competitors, and target audience to understand the game before we play it."
+        "desc": "We dive into your market, competitors, and target audience to understand the game before we play it.",
+        "deliverables": [
+          "Competitor & Market Audit",
+          "Audience Persona Mapping",
+          "Channel Ecosystem Blueprint"
+        ]
       },
       "strategy": {
         "title": "Strategy",
-        "desc": "We turn that understanding into a clear plan with measurable goals and steps, not just talk."
+        "desc": "We turn that understanding into a clear plan with measurable goals and steps, not just talk.",
+        "deliverables": [
+          "Visual Identity Templates",
+          "High-Converting Copywriting",
+          "Art Direction & Moodboarding"
+        ]
       },
       "execute": {
         "title": "Execute",
-        "desc": "We bring the plan to life with daily follow-up and continuous optimization until we hit the target."
+        "desc": "We bring the plan to life with daily follow-up and continuous optimization until we hit the target.",
+        "deliverables": [
+          "Paid Ads Deployment",
+          "Smart Content Scheduling",
+          "Real-time Community Engagement"
+        ]
+      },
+      "optimize": {
+        "title": "Data & Optimization",
+        "desc": "Analyzing performance charts, calculating ROI, and tweaking tactics for compounding digital growth.",
+        "deliverables": [
+          "Performance Chart Analytics",
+          "ROI & Conversion Audits",
+          "Tactical Growth Scaling Operations"
+        ]
       }
     },
     "chart": {
@@ -67,6 +106,10 @@
       "splitTitle": "Where We Focus",
       "skillsTitle": "What We're Best At",
       "coverage": "Coverage",
+      "hoverCampaigns": "campaigns this year",
+      "hoverShare": "of our work",
+      "hoverScore": "capability score",
+      "outOf": "out of 100",
       "split": {
         "social": "Social Media",
         "branding": "Branding",
@@ -84,7 +127,8 @@
       "eyebrow": "Portfolio Exhibition",
       "title": "Selected Frameworks",
       "caseLabel": "Case Studio No",
-      "cta": "View Case Study"
+      "cta": "View Case Study",
+      "countLabel": "Integrated Capabilities"
     },
     "services": {
       "section1": {
@@ -125,10 +169,52 @@
       }
     },
     "contact": {
+      "eyebrow": "Let's Create Together",
       "headline": "THE SEARCH IS OVER",
-      "subtext": "Get in touch and let’s discover what we can do for your brand.",
-      "cta": "Contact"
+      "headlineLine1": "The Search",
+      "headlineLine2": "Is Over.",
+      "subtext": "Partner with our creative laboratory and shift your business into absolute regional prominence.",
+      "cta": "Launch Project"
     }
+  },
+  "intro": {
+    "title": "Choose Your Experience",
+    "subtitle": "We’ve got you covered with tailored digital innovation and immersive creative experiences.",
+    "nfc": "NFC Solutions",
+    "studio": "Creative Studio",
+    "admin": "Studio"
+  },
+  "footer": {
+    "brand": "Signup Agency",
+    "pitch": "We proudly serve clients across Egypt — from Cairo, Alexandria, Giza, and New Cairo, to the North Coast, Red Sea, and Upper Egypt. Whether you're a rising local brand or an international business expanding into the MENA region, Signup brings a fresh and results-driven approach to marketing.",
+    "dropLine": "Drop us a line",
+    "legal": "Signup Agency LLC. Registered in Egypt. CR No. 987654321",
+    "privacy": "Privacy Policy",
+    "copyright": "Website & Content ©",
+    "poweredBy": "Powered by",
+    "studio": "Studio"
+  },
+  "contactPage": {
+    "title": "Get In Touch",
+    "subtitle": "We'd love to hear from you. Let’s build something unforgettable together.",
+    "formTitle": "Send Us a Message",
+    "successTitle": "Message Sent Successfully!",
+    "successBody": "Thank you for reaching out. Our development specialists will review your criteria and respond shortly.",
+    "sendAnother": "Send Another Message",
+    "name": "Your Name",
+    "email": "Email Address",
+    "namePlaceholder": "Ahmed Elshnawy",
+    "emailPlaceholder": "name@company.com",
+    "message": "Project Strategy Parameters",
+    "messagePlaceholder": "Tell us about your brand goals, interface scope requirements, or pipeline timelines...",
+    "submit": "Submit Request",
+    "submitting": "Processing...",
+    "error": "Network pipeline error. Please re-verify metrics and try again.",
+    "detailsTitle": "Contact Details",
+    "detailsBody": "Prefer direct communication pipelines? Drop an asset payload directly on our addresses.",
+    "emailLabel": "Direct Email",
+    "phoneLabel": "Phone Hotline",
+    "locationLabel": "HQ Studio Location"
   },
 
   "projects": {
@@ -288,6 +374,68 @@
       "heading": "Let's Elevate Your Brand Together",
       "description": "Whether you're starting fresh or scaling up — our team is ready to help you make an impact.",
       "ctaText": "Get In Touch"
+    },
+    "global": {
+      "getStarted": "Get Started",
+      "learnMore": "Learn More"
+    },
+    "coreSection": {
+      "heading": "Our Specialized Stack",
+      "subheading": "Engineered to elevate your presence with uncompromising pixel accuracy."
+    },
+    "core": {
+      "web": {
+        "title": "Website Development",
+        "desc": "We build modern, responsive, and high-performing websites to help your business grow online."
+      },
+      "marketing": {
+        "title": "Digital Marketing",
+        "desc": "Boost your brand with powerful marketing strategies that attract and retain customers."
+      },
+      "design": {
+        "title": "Creative Design",
+        "desc": "Our design team crafts beautiful visuals and experiences that capture attention and inspire action."
+      }
+    },
+    "slides": {
+      "webDev": {
+        "title": "We create responsive, elegant, and high-performing websites.",
+        "f1": {
+          "title": "Custom-built Solutions",
+          "desc": "Tailored websites that reflect your unique business goals."
+        },
+        "f2": {
+          "title": "SEO Optimized",
+          "desc": "Ensure your site ranks high and attracts the right audience."
+        }
+      },
+      "marketing": {
+        "title": "We grow your business with powerful digital marketing.",
+        "f1": {
+          "title": "Social Media Campaigns",
+          "desc": "Engage your audience where they spend most of their time."
+        },
+        "f2": {
+          "title": "Performance Analytics",
+          "desc": "Track, optimize, and improve your results continuously."
+        }
+      },
+      "design": {
+        "title": "Design that connects emotionally and converts effectively.",
+        "f1": {
+          "title": "Brand Identity",
+          "desc": "Logos, visuals, and colors that speak your brand’s language."
+        },
+        "f2": {
+          "title": "User Experience (UX)",
+          "desc": "Delightful, intuitive designs focused on user engagement."
+        }
+      }
+    },
+    "cta": {
+      "heading": "Ready to grow your business with us?",
+      "desc": "Let’s build your digital presence through world-class websites, smart marketing, and creative design.",
+      "button": "Contact Us"
     }
   }
 }

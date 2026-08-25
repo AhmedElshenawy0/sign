@@ -1,12 +1,36 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Button, Form, Input } from "antd";
+import { Button, ConfigProvider, Form, Input, theme } from "antd";
 import { LockOutlined, MailOutlined } from "@ant-design/icons";
 import { motion } from "framer-motion";
 import { toast } from "react-toastify";
 import { readApiError } from "@/lib/api";
+import { safeAdminNext } from "@/lib/admin-path";
 import GridBg from "@/components/global/GridBg";
+
+const fieldStyles = {
+  root: {
+    height: 48,
+    borderRadius: 16,
+    background: "rgba(255,255,255,0.06)",
+    borderColor: "rgba(255,255,255,0.14)",
+    overflow: "hidden" as const,
+    alignItems: "center" as const,
+  },
+  input: {
+    color: "#ffffff",
+    background: "transparent",
+    height: "100%",
+    boxShadow: "none",
+  },
+  prefix: {
+    color: "#94a3b8",
+  },
+} as const;
+
+const labelClass =
+  "text-[11px] font-bold uppercase tracking-[0.18em] text-slate-400";
 
 type Props = {
   error?: string;
@@ -30,7 +54,7 @@ export default function LoginForm({ error, message, next }: Props) {
         credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          email: values.email,
+          email: values.email.trim().toLowerCase(),
           password: values.password,
         }),
       });
@@ -41,9 +65,7 @@ export default function LoginForm({ error, message, next }: Props) {
         return;
       }
 
-      window.location.href = next?.startsWith("/admin")
-        ? next
-        : "/admin/projects";
+      window.location.assign(safeAdminNext(next));
     } catch {
       toast.error("Could not log in. Try again.");
       setLoading(false);
@@ -52,6 +74,27 @@ export default function LoginForm({ error, message, next }: Props) {
 
   return (
     <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-slate-950 px-4 py-16">
+      <style>{`
+        .login-studio-field input,
+        input.login-studio-field {
+          height: 46px !important;
+          line-height: 46px !important;
+          background: transparent !important;
+          box-shadow: none !important;
+          color: #fff !important;
+        }
+        .login-studio-field input:-webkit-autofill,
+        .login-studio-field input:-webkit-autofill:hover,
+        .login-studio-field input:-webkit-autofill:focus,
+        input.login-studio-field:-webkit-autofill,
+        input.login-studio-field:-webkit-autofill:hover,
+        input.login-studio-field:-webkit-autofill:focus {
+          -webkit-text-fill-color: #fff !important;
+          caret-color: #fff;
+          box-shadow: 0 0 0 1000px #111827 inset !important;
+          transition: background-color 9999s ease-out;
+        }
+      `}</style>
       <GridBg variant="dark" />
       <div
         aria-hidden
@@ -88,27 +131,64 @@ export default function LoginForm({ error, message, next }: Props) {
               </p>
             </div>
 
+            <ConfigProvider
+              theme={{
+                algorithm: theme.darkAlgorithm,
+                token: {
+                  colorPrimary: "#0e985d",
+                  borderRadius: 16,
+                  controlHeightLG: 48,
+                },
+                components: {
+                  Input: {
+                    activeBorderColor: "#0e985d",
+                    hoverBorderColor: "rgba(14,152,93,0.55)",
+                    activeShadow: "0 0 0 3px rgba(14,152,93,0.2)",
+                    colorBgContainer: "rgba(255,255,255,0.06)",
+                    colorText: "#ffffff",
+                    colorTextPlaceholder: "#64748b",
+                    colorBorder: "rgba(255,255,255,0.14)",
+                  },
+                },
+              }}
+            >
             <Form layout="vertical" onFinish={onLogin} requiredMark={false}>
               <Form.Item
                 name="email"
-                label="Email"
-                rules={[{ required: true, type: "email", message: "Enter a valid email" }]}
+                label={<span className={labelClass}>Email</span>}
+                normalize={(value) =>
+                  typeof value === "string" ? value.trim() : value
+                }
+                rules={[
+                  { required: true, whitespace: true, message: "Enter a valid email" },
+                  {
+                    pattern: /^[^\s@]+@[^\s@]+$/,
+                    message: "Enter a valid email",
+                  },
+                ]}
               >
                 <Input
                   size="large"
-                  prefix={<MailOutlined className="text-slate-500" />}
+                  variant="outlined"
+                  className="login-studio-field"
+                  styles={fieldStyles}
+                  prefix={<MailOutlined />}
                   placeholder="Email address"
                   autoComplete="email"
+                  inputMode="email"
                 />
               </Form.Item>
               <Form.Item
                 name="password"
-                label="Password"
+                label={<span className={labelClass}>Password</span>}
                 rules={[{ required: true, message: "Enter your password" }]}
               >
                 <Input.Password
                   size="large"
-                  prefix={<LockOutlined className="text-slate-500" />}
+                  variant="outlined"
+                  className="login-studio-field"
+                  styles={fieldStyles}
+                  prefix={<LockOutlined />}
                   placeholder="Password"
                   autoComplete="current-password"
                 />
@@ -119,11 +199,12 @@ export default function LoginForm({ error, message, next }: Props) {
                 size="large"
                 block
                 loading={loading}
-                className="mt-1 h-12 font-semibold"
+                className="mt-2 h-12 rounded-2xl font-semibold shadow-[0_10px_28px_rgba(14,152,93,0.28)]"
               >
                 Continue
               </Button>
             </Form>
+            </ConfigProvider>
           </div>
         </div>
       </motion.div>

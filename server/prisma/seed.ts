@@ -68,6 +68,22 @@ async function main() {
     },
   });
 
+  await prisma.siteSetting.upsert({
+    where: { key: "showreel_video" },
+    update: {},
+    create: {
+      key: "showreel_video",
+      mediaUrl: "/videos/intro.mp4",
+      storageDriver: "public_asset",
+      copy: {
+        eyebrowEn: "Visual Proof",
+        eyebrowAr: "الدليل البصري",
+        titleEn: "SHOWREEL",
+        titleAr: "عرض الأعمال",
+      },
+    },
+  });
+
   console.log(`Seeded admin ${email} and ${galleries.length} gallery rows (if empty).`);
 }
 

@@ -12,17 +12,22 @@ const Navbar = () => {
   const [langOpen, setLangOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [navHidden, setNavHidden] = useState(false);
+  const lastScrollY = useRef(0);
+  const menuOpenRef = useRef(false);
 
   const pathname = usePathname();
   const { t, i18n } = useTranslation();
   const langRef = useRef<HTMLDivElement>(null);
 
   const isArabic = i18n.language.startsWith("ar");
+  menuOpenRef.current = menuOpen;
 
   // تفعيل مستمع السكرول لتحديث حالة الخلفية فوراً عند النزول
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 40);
+      const y = window.scrollY;
+      setScrolled(y > 40);
 
       // Page scroll progress, driving the thin gradient line under the
       // navbar — a quiet nod to the same rising-arc brand motif used
@@ -30,7 +35,17 @@ const Navbar = () => {
       // functional progress bar.
       const doc = document.documentElement;
       const max = doc.scrollHeight - doc.clientHeight;
-      setScrollProgress(max > 0 ? (window.scrollY / max) * 100 : 0);
+      setScrollProgress(max > 0 ? (y / max) * 100 : 0);
+
+      if (menuOpenRef.current || y < 24) {
+        setNavHidden(false);
+      } else if (y > lastScrollY.current + 4) {
+        setNavHidden(false);
+      } else if (y < lastScrollY.current - 4) {
+        setNavHidden(true);
+      }
+
+      lastScrollY.current = y;
     };
     handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -78,7 +93,6 @@ const Navbar = () => {
   const languages = [
     { code: "en", short: "EN", flag: "https://flagcdn.com/us.svg" },
     { code: "ar", short: "AR", flag: "https://flagcdn.com/eg.svg" },
-    { code: "fr", short: "FR", flag: "https://flagcdn.com/fr.svg" },
   ];
 
   const currentLang =
@@ -97,6 +111,8 @@ const Navbar = () => {
     <nav
       dir={isArabic ? "rtl" : "ltr"}
       className={`fixed top-0 left-0 w-full z-50 pt-[env(safe-area-inset-top)] px-4 sm:px-6 md:px-14 border-b transition-all duration-500 ease-in-out ${
+        navHidden && !menuOpen ? "-translate-y-full" : "translate-y-0"
+      } ${
         scrolled || menuOpen
           ? "bg-black/60 backdrop-blur-2xl border-white/5 shadow-2xl shadow-black/40"
           : "bg-gradient-to-b from-black/40 via-black/10 to-transparent border-transparent"
@@ -196,7 +212,7 @@ const Navbar = () => {
             className={`md:hidden focus:outline-none w-11 h-11 flex items-center justify-center rounded-full transition-all duration-300 text-white ${
               menuOpen ? "bg-white/10 rotate-90" : "active:bg-white/10"
             }`}
-            aria-label="Toggle mobile menu"
+            aria-label={t("nav.toggleMenu")}
           >
             {menuOpen ? <FiX size={22} /> : <FiMenu size={22} />}
           </button>
@@ -276,13 +292,13 @@ const Navbar = () => {
               className="relative flex flex-col gap-3 sm:gap-4 border-t border-white/10 pt-5 sm:pt-6 mt-6 sm:mt-8"
             >
               <span className="text-[10px] font-black tracking-[0.2em] uppercase text-white/40 block text-center">
-                Select Language
+                {t("nav.selectLanguage")}
               </span>
 
               {/* Grid instead of a flex row of `w-full` buttons — each
-                  button now gets a reliable, equal third of the row at
+                  button now gets a reliable, equal share of the row at
                   any screen width instead of fighting for space. */}
-              <div className="grid grid-cols-3 gap-2 xs:gap-3 w-full">
+              <div className="grid grid-cols-2 gap-2 xs:gap-3 w-full">
                 {languages.map((lang) => (
                   <button
                     key={lang.code}

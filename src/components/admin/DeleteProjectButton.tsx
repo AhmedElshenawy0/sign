@@ -44,6 +44,7 @@ export default function DeleteProjectButton({ id }: { id: string }) {
       icon={<DeleteOutlined />}
       onClick={onDelete}
       loading={busy}
+      className="h-[42px] rounded-xl border-[#e54411]/35 !bg-[#e54411]/12 font-semibold !text-[#ff8a70] shadow-[0_8px_18px_rgba(229,68,17,0.12)] transition hover:-translate-y-0.5 hover:!border-[#e54411] hover:!bg-[#e54411] hover:!text-white hover:shadow-[0_12px_24px_rgba(229,68,17,0.28)]"
     >
       Delete
     </Button>

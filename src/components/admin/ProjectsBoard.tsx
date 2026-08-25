@@ -140,7 +140,7 @@ export default function ProjectsBoard({ items, selected }: Props) {
                 <div className="flex gap-2">
                   <Link
                     href={`/admin/projects/${item.id}`}
-                    className="flex flex-1 items-center justify-center rounded-xl bg-[#0e985d] px-3 py-2 text-sm font-medium text-white transition hover:bg-[#0b7a4a]"
+                    className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl bg-[#0e985d] px-3 py-2.5 text-sm font-semibold text-white shadow-[0_8px_20px_rgba(14,152,93,0.22)] transition hover:-translate-y-0.5 hover:bg-[#12b56f] hover:shadow-[0_12px_28px_rgba(14,152,93,0.35)]"
                   >
                     Edit
                   </Link>

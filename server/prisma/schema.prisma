@@ -50,6 +50,7 @@ model SiteSetting {
   posterUrl          String?
   storageDriver      StorageDriver  @default(public_asset)
   cloudinaryPublicId String?
+  copy               Json?
   updatedAt          DateTime       @updatedAt
 }
 
