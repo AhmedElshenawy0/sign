@@ -164,8 +164,8 @@ const Navbar = () => {
         navHidden && !menuOpen ? "-translate-y-full" : "translate-y-0"
       } ${
         scrolled || menuOpen
-          ? "bg-black/60 backdrop-blur-2xl border-white/5 shadow-2xl shadow-black/40"
-          : "bg-gradient-to-b from-black/40 via-black/10 to-transparent border-transparent"
+          ? "bg-black/75 backdrop-blur-2xl border-white/5 shadow-2xl shadow-black/40"
+          : "bg-gradient-to-b from-black/70 via-black/40 to-black/10 border-transparent"
       }`}
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between h-14 sm:h-16 py-3">

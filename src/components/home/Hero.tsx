@@ -182,7 +182,17 @@ const Hero = ({
           <div className="hidden md:block h-2" />
 
           <div className="text-center max-w-4xl flex flex-col items-center">
-            {/* Studio Pill */}
+            <div className="relative group mb-8">
+              <div className="absolute -inset-1 rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 opacity-20 blur-xl group-hover:opacity-40 transition duration-1000" />
+              <img
+                src="/images/SignUp Logo White.png"
+                width={120}
+                height={120}
+                alt="Signup Agency"
+                className="relative transform hover:scale-102 transition-transform duration-500"
+              />
+            </div>
+
             <span className="inline-block text-[10px] font-black tracking-[0.35em] uppercase text-main-move mb-4 bg-main-move/10 px-5 py-2 rounded-full border border-main-move/20 select-none">
               {t("home.hero.studioPill")}
             </span>
