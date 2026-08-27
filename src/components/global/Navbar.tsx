@@ -94,7 +94,7 @@ const Navbar = () => {
     path === "/" ? pathname === "/" || pathname === "/home" : pathname === path;
 
   const worldSwitch = (variant: "desktop" | "mobile") => {
-    const studioOn = pathname === "/" || pathname === "/home";
+    const studioOn = pathname.startsWith("/admin");
     const mobile = variant === "mobile";
 
     return (
@@ -107,7 +107,7 @@ const Navbar = () => {
         aria-label={`${t("nav.studio")} / ${t("nav.nfc")}`}
       >
         <Link
-          href="/"
+          href="/admin/login"
           onClick={() => setMenuOpen(false)}
           className={`flex items-center justify-center rounded-full font-black uppercase tracking-[0.16em] transition-all duration-300 ${
             mobile
