@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { FiMenu, FiX, FiChevronDown } from "react-icons/fi";
+import { FiMenu, FiX, FiChevronDown, FiExternalLink } from "react-icons/fi";
 import { useTranslation } from "react-i18next";
 import { AnimatePresence, motion } from "framer-motion";
 
@@ -82,13 +82,63 @@ const Navbar = () => {
   }, []);
 
   const navLinks = [
-    { name: t("nav.home"), path: "/home" },
+    { name: t("nav.home"), path: "/" },
     { name: t("nav.projects"), path: "/projects" },
     { name: t("nav.branding"), path: "/branding" },
     { name: t("nav.services"), path: "/ourService" },
     { name: t("nav.about"), path: "/about" },
     { name: t("nav.contact"), path: "/contact" },
   ];
+
+  const isActivePath = (path: string) =>
+    path === "/" ? pathname === "/" || pathname === "/home" : pathname === path;
+
+  const worldSwitch = (variant: "desktop" | "mobile") => {
+    const studioOn = pathname === "/" || pathname === "/home";
+    const mobile = variant === "mobile";
+
+    return (
+      <div
+        className={
+          mobile
+            ? "flex w-full rounded-2xl border border-white/15 bg-white/5 p-1"
+            : "flex items-center rounded-full border border-white/15 bg-black/35 p-1"
+        }
+        aria-label={`${t("nav.studio")} / ${t("nav.nfc")}`}
+      >
+        <Link
+          href="/"
+          onClick={() => setMenuOpen(false)}
+          className={`flex items-center justify-center rounded-full font-black uppercase tracking-[0.16em] transition-all duration-300 ${
+            mobile
+              ? "flex-1 py-3 text-xs"
+              : "px-3 py-1 text-[10px] lg:px-3.5 lg:py-1.5 lg:text-[11px]"
+          } ${
+            studioOn
+              ? "bg-white text-black shadow-[0_8px_20px_rgba(0,0,0,0.25)]"
+              : "text-white/70 hover:text-white hover:bg-white/10"
+          }`}
+        >
+          {t("nav.studio")}
+        </Link>
+        <a
+          href="https://nfc.signuptap.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={() => setMenuOpen(false)}
+          className={`group flex items-center justify-center gap-1.5 rounded-full font-black uppercase tracking-[0.16em] text-white/70 hover:text-white hover:bg-white/10 transition-all duration-300 ${
+            mobile ? "flex-1 py-3 text-xs" : "px-3 py-1 text-[10px] lg:px-3.5 lg:py-1.5 lg:text-[11px]"
+          }`}
+        >
+          {t("nav.nfc")}
+          <FiExternalLink
+            size={mobile ? 13 : 11}
+            className="opacity-60 group-hover:opacity-100"
+          />
+        </a>
+      </div>
+    );
+  };
 
   const languages = [
     { code: "en", short: "EN", flag: "https://flagcdn.com/us.svg" },
@@ -132,9 +182,9 @@ const Navbar = () => {
         </Link>
 
         {/* Desktop Nav Links */}
-        <ul className="hidden md:flex gap-6 lg:gap-8 text-[12px] lg:text-[13px] font-black uppercase tracking-widest relative text-white">
+        <ul className="hidden md:flex gap-4 lg:gap-7 text-[11px] lg:text-[13px] font-black uppercase tracking-widest relative text-white">
           {navLinks.map(({ name, path }, i) => {
-            const isActive = pathname === path;
+            const isActive = isActivePath(path);
             return (
               <li key={i}>
                 <Link
@@ -160,6 +210,7 @@ const Navbar = () => {
 
         {/* Right Action Trigger Controllers */}
         <div className="flex items-center gap-3 sm:gap-4 z-50">
+          <div className="hidden md:block">{worldSwitch("desktop")}</div>
           {/* Lang Switcher - Desktop */}
           <div ref={langRef} className="relative hidden md:block">
             <button
@@ -244,10 +295,13 @@ const Navbar = () => {
               className="pointer-events-none absolute -top-24 -right-24 w-72 h-72 rounded-full bg-main-move/20 blur-3xl"
             />
 
+            {/* Studio / NFC switcher */}
+            <div className="relative mb-6 sm:mb-8">{worldSwitch("mobile")}</div>
+
             {/* Nav Links Stack */}
             <div className="relative flex flex-col gap-1 sm:gap-1.5 w-full">
               {navLinks.map(({ name, path }, i) => {
-                const isActive = pathname === path;
+                const isActive = isActivePath(path);
                 return (
                   <motion.div
                     key={i}

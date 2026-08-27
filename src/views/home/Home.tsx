@@ -8,15 +8,21 @@ import OurService from "../../components/home/OurService";
 import StatsSection from "../../components/home/StatsSection";
 import ProcessSection from "../../components/home/Processsection";
 import ResultsChart from "../../components/home/Resultschart";
-import type { Showreel } from "@/lib/settings";
+import type { IntroVideo, Showreel } from "@/lib/settings";
 
-const Home = ({ showreel }: { showreel: Showreel }) => {
+const Home = ({
+  showreel,
+  intro,
+}: {
+  showreel: Showreel;
+  intro: IntroVideo;
+}) => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
   return (
     <div className="flex flex-col w-full min-h-screen">
-      <Hero showreel={showreel} />
+      <Hero showreel={showreel} intro={intro} />
       <StatsSection />
       <AboutSignup />
       <ProcessSection />

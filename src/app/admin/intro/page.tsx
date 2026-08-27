@@ -11,7 +11,7 @@ export default async function IntroVideoPage() {
     <main className="mx-auto max-w-6xl px-4 py-10 md:px-8">
       <AdminPageHeader
         title="Intro video"
-        subtitle="This plays full-screen behind the first page visitors see."
+        subtitle="This plays full-screen behind the home hero. Change it here and the live site updates."
         backHref="/admin/projects"
         backLabel="Back to dashboard"
       />

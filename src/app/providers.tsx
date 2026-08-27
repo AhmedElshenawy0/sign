@@ -9,7 +9,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     const saved = localStorage.getItem("i18nextLng");
-    const next = normalizeLng(saved);
+    const next = normalizeLng(saved || "en");
     if (next !== i18n.language) {
       i18n.changeLanguage(next);
     }

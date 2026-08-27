@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { FaPause, FaPlay, FaExpand, FaArrowRight, FaArrowLeft } from "react-icons/fa";
 import {
@@ -10,7 +10,7 @@ import {
 } from "framer-motion";
 import { useTranslation, Trans } from "react-i18next";
 import NoisyBg from "../global/NoisyBg";
-import type { Showreel } from "@/lib/settings";
+import type { IntroVideo, Showreel } from "@/lib/settings";
 
 // Constant visual speed for the partner ticker, in pixels/second.
 // This drives the scroll directly via JS (see useAnimationFrame below)
@@ -21,8 +21,15 @@ import type { Showreel } from "@/lib/settings";
 const TICKER_SPEED_PX_PER_SEC = 90;
 const TICKER_COPIES = 4;
 
-const Hero = ({ showreel }: { showreel: Showreel }) => {
+const Hero = ({
+  showreel,
+  intro,
+}: {
+  showreel: Showreel;
+  intro: IntroVideo;
+}) => {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const bgVideoRef = useRef<HTMLVideoElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const tickerTrackRef = useRef<HTMLDivElement>(null);
   const [isPaused, setIsPaused] = useState(true);
@@ -31,6 +38,18 @@ const Hero = ({ showreel }: { showreel: Showreel }) => {
   const videoSrc = showreel.media_url;
   const eyebrow = isArabic ? showreel.copy.eyebrowAr : showreel.copy.eyebrowEn;
   const showreelTitle = isArabic ? showreel.copy.titleAr : showreel.copy.titleEn;
+
+  useEffect(() => {
+    const video = bgVideoRef.current;
+    if (!video) return;
+    const play = () => {
+      video.muted = true;
+      video.play().catch(() => {});
+    };
+    video.addEventListener("canplay", play);
+    play();
+    return () => video.removeEventListener("canplay", play);
+  }, [intro.media_url]);
 
   // Track scroll values specifically within this hero module context
   const { scrollYProgress } = useScroll({
@@ -130,47 +149,45 @@ const Hero = ({ showreel }: { showreel: Showreel }) => {
     >
       {/* ── IMMERSIVE STICKY PARALLAX CONTAINER ── */}
       <section className="relative h-[140vh] w-full">
-        {/* Pinned Cinematic Image Canvas layer */}
+        {/* Pinned cinematic video canvas */}
         <div className="sticky top-0 h-screen w-full overflow-hidden z-0">
-          <motion.img
-            src="/images/sign7.jpg"
+          <motion.div
             style={{ scale: bgScale }}
-            className="absolute inset-0 w-full h-full object-cover select-none pointer-events-none"
-            alt="Hero Background"
+            className="absolute inset-0"
             initial={{ scale: 1.15 }}
             animate={{ scale: 1 }}
             transition={{ duration: 1.8, ease: "easeOut" }}
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/90 via-black/30 to-black z-10" />
+          >
+            <video
+              key={intro.media_url}
+              ref={bgVideoRef}
+              src={intro.media_url}
+              poster={intro.poster_url ?? "/images/sign7.jpg"}
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="auto"
+              className="absolute inset-0 w-full h-full object-cover select-none pointer-events-none"
+            />
+          </motion.div>
+          <div className="absolute inset-0 bg-gradient-to-b from-black/75 via-black/20 to-black z-10" />
         </div>
 
         {/* Floating Content Interface Area (Translates upwards away from backdrop smoothly) */}
         <motion.div
           style={{ y: textY, opacity: textOpacity }}
-          className="absolute inset-0 h-screen w-full z-20 flex flex-col justify-between items-center pt-32 pb-12 px-6"
+          className="absolute inset-0 h-screen w-full z-20 flex flex-col justify-between items-center pt-24 md:pt-28 pb-10 px-6"
         >
-          <div className="hidden md:block h-4" />
+          <div className="hidden md:block h-2" />
 
           <div className="text-center max-w-4xl flex flex-col items-center">
-            {/* Ambient Glowing Brand Hub */}
-            <div className="relative mb-8 group">
-              <span className="absolute inset-0 rounded-full bg-main-move/20 blur-3xl group-hover:bg-main-move/30 transition-all duration-500 animate-pulse" />
-              <div className="relative p-5 border border-white/10 rounded-full bg-white/[0.03] backdrop-blur-2xl shadow-2xl transition-transform duration-500 group-hover:scale-105">
-                <img
-                  src="/images/SignUp Logo White.png"
-                  className="w-16 h-16 object-contain"
-                  alt="Sign Up Logo"
-                  loading="lazy"
-                />
-              </div>
-            </div>
-
             {/* Studio Pill */}
-            <span className="inline-block text-[10px] font-black tracking-[0.35em] uppercase text-main-move mb-6 bg-main-move/10 px-5 py-2 rounded-full border border-main-move/20 select-none">
+            <span className="inline-block text-[10px] font-black tracking-[0.35em] uppercase text-main-move mb-4 bg-main-move/10 px-5 py-2 rounded-full border border-main-move/20 select-none">
               {t("home.hero.studioPill")}
             </span>
 
-            <h1 className="text-4xl md:text-7xl font-black tracking-tight leading-[1.05] text-white uppercase mb-6 max-w-3xl">
+            <h1 className="text-4xl md:text-7xl font-black tracking-tight leading-[1.05] text-white uppercase mb-4 max-w-3xl">
               {t("home.hero.title")}
             </h1>
 

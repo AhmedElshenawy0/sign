@@ -22,7 +22,7 @@ const studioLinks = [
 ] as const;
 
 const previewLinks = [
-  { href: "/", label: "View intro", icon: ExportOutlined },
+  { href: "/", label: "View site", icon: ExportOutlined },
   { href: "/projects", label: "View gallery", icon: ExportOutlined },
 ] as const;
 

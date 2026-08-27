@@ -1,9 +1,5 @@
-import Home from "@/views/home/Home";
-import { getShowreel } from "@/lib/settings";
+import { redirect } from "next/navigation";
 
-export const dynamic = "force-dynamic";
-
-export default async function Page() {
-  const showreel = await getShowreel();
-  return <Home showreel={showreel} />;
+export default function Page() {
+  redirect("/");
 }
