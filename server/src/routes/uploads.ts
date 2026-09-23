@@ -31,7 +31,7 @@ uploadsRouter.post("/", requireAuth, upload.single("file"), async (req, res) => 
   }
 
   const kind = String(req.body?.kind ?? "media");
-  const projectType = String(req.body?.type ?? "logos");
+  const projectType = String(req.body?.type ?? "brand_identity");
   const isVideo = projectType === "videos" && kind === "media";
 
   try {

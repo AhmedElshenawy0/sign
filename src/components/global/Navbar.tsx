@@ -81,64 +81,20 @@ const Navbar = () => {
     return () => document.removeEventListener("mousedown", handler);
   }, []);
 
-  const navLinks = [
+  const navLinks: { name: string; path: string; external?: boolean }[] = [
     { name: t("nav.home"), path: "/" },
-    { name: t("nav.projects"), path: "/projects" },
-    { name: t("nav.branding"), path: "/branding" },
-    { name: t("nav.services"), path: "/ourService" },
     { name: t("nav.about"), path: "/about" },
+    { name: t("nav.projects"), path: "/projects" },
+    { name: t("nav.product"), path: "/nfc" },
     { name: t("nav.contact"), path: "/contact" },
   ];
 
   const isActivePath = (path: string) =>
-    path === "/" ? pathname === "/" || pathname === "/home" : pathname === path;
-
-  const worldSwitch = (variant: "desktop" | "mobile") => {
-    const studioOn = pathname.startsWith("/admin");
-    const mobile = variant === "mobile";
-
-    return (
-      <div
-        className={
-          mobile
-            ? "flex w-full rounded-2xl border border-white/15 bg-white/5 p-1"
-            : "flex items-center rounded-full border border-white/15 bg-black/35 p-1"
-        }
-        aria-label={`${t("nav.studio")} / ${t("nav.nfc")}`}
-      >
-        <Link
-          href="/admin/login"
-          onClick={() => setMenuOpen(false)}
-          className={`flex items-center justify-center rounded-full font-black uppercase tracking-[0.16em] transition-all duration-300 ${
-            mobile
-              ? "flex-1 py-3 text-xs"
-              : "px-3 py-1 text-[10px] lg:px-3.5 lg:py-1.5 lg:text-[11px]"
-          } ${
-            studioOn
-              ? "bg-white text-black shadow-[0_8px_20px_rgba(0,0,0,0.25)]"
-              : "text-white/70 hover:text-white hover:bg-white/10"
-          }`}
-        >
-          {t("nav.studio")}
-        </Link>
-        <a
-          href="https://nfc.signuptap.com"
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={() => setMenuOpen(false)}
-          className={`group flex items-center justify-center gap-1.5 rounded-full font-black uppercase tracking-[0.16em] text-white/70 hover:text-white hover:bg-white/10 transition-all duration-300 ${
-            mobile ? "flex-1 py-3 text-xs" : "px-3 py-1 text-[10px] lg:px-3.5 lg:py-1.5 lg:text-[11px]"
-          }`}
-        >
-          {t("nav.nfc")}
-          <FiExternalLink
-            size={mobile ? 13 : 11}
-            className="opacity-60 group-hover:opacity-100"
-          />
-        </a>
-      </div>
-    );
-  };
+    path === "/"
+      ? pathname === "/" || pathname === "/home"
+      : path === "/projects"
+        ? pathname === "/projects" || pathname.startsWith("/projects/")
+        : pathname === path;
 
   const languages = [
     { code: "en", short: "EN", flag: "https://flagcdn.com/us.svg" },
@@ -183,26 +139,43 @@ const Navbar = () => {
 
         {/* Desktop Nav Links */}
         <ul className="hidden md:flex gap-4 lg:gap-7 text-[11px] lg:text-[13px] font-black uppercase tracking-widest relative text-white">
-          {navLinks.map(({ name, path }, i) => {
-            const isActive = isActivePath(path);
+          {navLinks.map(({ name, path, external }, i) => {
+            const isActive = !external && isActivePath(path);
+            const className = `relative inline-flex items-center gap-1.5 pb-1.5 transition-colors duration-300 ${
+              isActive
+                ? "text-main-red"
+                : "text-white/80 hover:text-main-red"
+            }`;
+            const label = (
+              <>
+                {name}
+                {external ? (
+                  <FiExternalLink size={11} className="opacity-60" />
+                ) : null}
+                {isActive && (
+                  <motion.span
+                    layoutId="nav-underline"
+                    className="absolute left-0 right-0 -bottom-0.5 h-[2px] bg-main-red rounded-full"
+                  />
+                )}
+              </>
+            );
             return (
               <li key={i}>
-                <Link
-                  href={path}
-                  className={`relative pb-1.5 transition-colors duration-300 ${
-                    isActive
-                      ? "text-main-red"
-                      : "text-white/80 hover:text-main-red"
-                  }`}
-                >
-                  {name}
-                  {isActive && (
-                    <motion.span
-                      layoutId="nav-underline"
-                      className="absolute left-0 right-0 -bottom-0.5 h-[2px] bg-main-red rounded-full"
-                    />
-                  )}
-                </Link>
+                {external ? (
+                  <a
+                    href={path}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={className}
+                  >
+                    {label}
+                  </a>
+                ) : (
+                  <Link href={path} className={className}>
+                    {label}
+                  </Link>
+                )}
               </li>
             );
           })}
@@ -210,7 +183,6 @@ const Navbar = () => {
 
         {/* Right Action Trigger Controllers */}
         <div className="flex items-center gap-3 sm:gap-4 z-50">
-          <div className="hidden md:block">{worldSwitch("desktop")}</div>
           {/* Lang Switcher - Desktop */}
           <div ref={langRef} className="relative hidden md:block">
             <button
@@ -295,13 +267,31 @@ const Navbar = () => {
               className="pointer-events-none absolute -top-24 -right-24 w-72 h-72 rounded-full bg-main-move/20 blur-3xl"
             />
 
-            {/* Studio / NFC switcher */}
-            <div className="relative mb-6 sm:mb-8">{worldSwitch("mobile")}</div>
-
             {/* Nav Links Stack */}
             <div className="relative flex flex-col gap-1 sm:gap-1.5 w-full">
-              {navLinks.map(({ name, path }, i) => {
-                const isActive = isActivePath(path);
+              {navLinks.map(({ name, path, external }, i) => {
+                const isActive = !external && isActivePath(path);
+                const className =
+                  "group flex items-baseline gap-3 sm:gap-4 py-2.5 sm:py-3 border-b border-white/5 w-full text-left rtl:text-right transition-all";
+                const inner = (
+                  <>
+                    <span className="text-[10px] font-black tracking-widest text-white/30 group-hover:text-main-red transition-colors font-mono">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <span
+                      className={`inline-flex items-center gap-2 text-xl sm:text-2xl font-black uppercase tracking-wider transition-all transform group-active:scale-98 ${
+                        isActive
+                          ? "text-main-red pl-2 rtl:pl-0 rtl:pr-2"
+                          : "text-white/80 hover:text-white"
+                      }`}
+                    >
+                      {name}
+                      {external ? (
+                        <FiExternalLink size={16} className="opacity-60" />
+                      ) : null}
+                    </span>
+                  </>
+                );
                 return (
                   <motion.div
                     key={i}
@@ -314,24 +304,25 @@ const Navbar = () => {
                       ease: [0.16, 1, 0.3, 1],
                     }}
                   >
-                    <Link
-                      href={path}
-                      onClick={() => setMenuOpen(false)}
-                      className="group flex items-baseline gap-3 sm:gap-4 py-2.5 sm:py-3 border-b border-white/5 w-full text-left rtl:text-right transition-all"
-                    >
-                      <span className="text-[10px] font-black tracking-widest text-white/30 group-hover:text-main-red transition-colors font-mono">
-                        {String(i + 1).padStart(2, "0")}
-                      </span>
-                      <span
-                        className={`text-xl sm:text-2xl font-black uppercase tracking-wider transition-all transform group-active:scale-98 ${
-                          isActive
-                            ? "text-main-red pl-2 rtl:pl-0 rtl:pr-2"
-                            : "text-white/80 hover:text-white"
-                        }`}
+                    {external ? (
+                      <a
+                        href={path}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={() => setMenuOpen(false)}
+                        className={className}
                       >
-                        {name}
-                      </span>
-                    </Link>
+                        {inner}
+                      </a>
+                    ) : (
+                      <Link
+                        href={path}
+                        onClick={() => setMenuOpen(false)}
+                        className={className}
+                      >
+                        {inner}
+                      </Link>
+                    )}
                   </motion.div>
                 );
               })}

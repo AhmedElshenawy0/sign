@@ -1,11 +1,12 @@
 {
   "nav": {
     "home": "Home",
-    "projects": "Projects",
+    "projects": "Our Services",
     "branding": "Branding",
     "services": "Our Services",
     "about": "About",
     "contact": "Contact Us",
+    "product": "Product (NFC)",
     "studio": "Studio",
     "nfc": "NFC",
     "selectLanguage": "Select Language",
@@ -20,7 +21,7 @@
       "studioPill": "Creative Marketing Studio",
       "scroll": "Scroll",
       "visualProof": "Visual Proof",
-      "seeProjects": "See projects"
+      "seeProjects": "Our Services"
     },
     "about": {
       "title": "Who We Are",
@@ -219,25 +220,196 @@
     "locationLabel": "HQ Studio Location"
   },
 
+  "nfcPage": {
+    "eyebrow": "The product",
+    "title": "NFC",
+    "description": "Three shapes you can tap — card, ring, and medal. Same brand, different form.",
+    "openSite": "Visit NFC",
+    "ctaHint": "The tap opens the product.",
+    "shapes": "The shapes",
+    "standKicker": "The stand",
+    "standTitle": "On the counter",
+    "standBody": "Social, pay, and reviews in one piece they can tap — the brand standing in the shop.",
+    "work": "Work in this shape",
+    "empty": "No pieces in this shape yet.",
+    "tap": "Tap",
+    "types": {
+      "nfc_card": {
+        "kicker": "01 — Card",
+        "title": "The card",
+        "body": "Wallet size. They keep it, they tap it — the first physical touch of the brand."
+      },
+      "nfc_ring": {
+        "kicker": "02 — Ring",
+        "title": "The ring",
+        "body": "Worn, not carried. A tap from the hand — the brand on the body."
+      },
+      "nfc_medal": {
+        "kicker": "03 — Medal",
+        "title": "The medal",
+        "body": "Hung, worn, shown. A piece they tap and keep as the mark."
+      }
+    }
+  },
+
   "projects": {
     "hero": {
-      "title": "Our Projects",
-      "description": "A collection of our best work — crafted to captivate and inspire."
+      "title": "Our Services",
+      "description": "From an unborn brand to a brand that sells — strategy, identity, campaigns, and products on one journey."
     },
     "moreProjects": {
-      "heading": "More Projects",
-      "description": "Explore a collection of my work including logos, designs, and videos."
+      "heading": "The journey",
+      "description": "Pick a chapter, then a craft. Each piece opens in a new tab."
     },
-    "categories": {
-      "all": "All",
-      "logos": "Logos",
-      "designs": "Designs",
+    "groups": {
+      "branding": {
+        "label": "Branding",
+        "intro": "Where you are, who you are, and how the brand looks every day — identity, packaging, and print from one guideline."
+      },
+      "marketing": {
+        "label": "Marketing",
+        "intro": "A plan tied to your budget and horizon, then the strategy: social, outdoors, and how we get there."
+      },
+      "photoVideo": {
+        "label": "Photography & Videography",
+        "intro": "The pictures and films that carry the brand into the world."
+      },
+      "nfc": {
+        "label": "NFC Services",
+        "intro": "Cards, rings, and medals — products that sit beside the brand work, not instead of it."
+      }
+    },
+    "types": {
+      "brand_identity": "Brand Identity",
+      "packaging": "Packaging",
+      "prints": "Prints",
+      "social_media": "Social Media",
+      "outdoors": "Outdoors",
+      "brand_strategy": "Brand Strategy",
+      "marketing_strategy": "Marketing Strategy",
+      "photos": "Photos",
       "videos": "Videos",
-      "prints": "Prints"
+      "nfc_card": "NFC Card",
+      "nfc_ring": "Ring",
+      "nfc_medal": "Medal"
+    },
+    "empty": "Nothing in this chapter yet.",
+    "journey": {
+      "eyebrow": "A Sign Up chapter",
+      "lines": {
+        "brand_identity": "Colors, voice, logo, and the book the brand walks with.",
+        "packaging": "Boxes, bottles, and packs built from that guideline.",
+        "prints": "Cards, bags, and paper the brand can hold.",
+        "social_media": "The campaign on screens, not a pile of posts.",
+        "outdoors": "The brand in the street — boards, city, the real world.",
+        "brand_strategy": "Where you stand now, and where you want to be.",
+        "marketing_strategy": "Budget, time, and the mix that moves sales.",
+        "photos": "Still frames of the brand in the world.",
+        "videos": "Motion that proves the story.",
+        "nfc_card": "A card the customer can tap.",
+        "nfc_ring": "A ring that carries the brand.",
+        "nfc_medal": "A medal they can wear and tap."
+      },
+      "back": "Our Services",
+      "chapters": {
+        "identity": {
+          "scroll": "Scroll the story",
+          "mark": {
+            "kicker": "01 — The mark",
+            "title": "The logo comes first",
+            "body": "Every identity we build starts with a mark the brand can live with — not a decoration, the thing you see before you read."
+          },
+          "voice": {
+            "kicker": "02 — Colors and voice",
+            "title": "Then the book it walks with",
+            "body": "Palette, type, and how the brand speaks. Packaging, print, and campaigns have to match this page."
+          },
+          "world": {
+            "kicker": "03 — In the world",
+            "title": "From the mark to the end",
+            "body": "Pack, card, street — the same system, applied. The mark at the start, the brand at the end."
+          },
+          "applications": ["Pack", "Card", "Street", "Book"]
+        },
+        "packaging": {
+          "kicker": "The pack",
+          "range": {
+            "kicker": "From the guideline",
+            "title": "Built to sit on a shelf",
+            "body": "The hero shot first. Then the SKUs — same system, different sizes, same brand in the hand."
+          },
+          "skus": "The range"
+        },
+        "prints": {
+          "kicker": "Hold the brand"
+        },
+        "social": {
+          "kicker": "On the phone",
+          "body": "The campaign on screens — a reel of stills, not a pile of posts."
+        },
+        "outdoors": {
+          "body": "The brand in the street. Boards, city, the real world."
+        },
+        "brand_strategy": {
+          "kicker": "Where you stand",
+          "steps": [
+            {
+              "kicker": "01 — Now",
+              "title": "Where the brand is",
+              "body": "The honest picture: who you are today, and what the market already thinks."
+            },
+            {
+              "kicker": "02 — Horizon",
+              "title": "Where you want to be",
+              "body": "The position you are walking toward — not a slogan, a destination."
+            },
+            {
+              "kicker": "03 — The path",
+              "title": "How the work lines up",
+              "body": "Identity, campaigns, and products in one line so the brand can actually get there."
+            }
+          ]
+        },
+        "marketing_strategy": {
+          "kicker": "Tied to sales",
+          "steps": [
+            {
+              "kicker": "01 — Budget",
+              "title": "What you can spend",
+              "body": "The mix starts with the number. No plan that ignores the envelope."
+            },
+            {
+              "kicker": "02 — Time",
+              "title": "The horizon",
+              "body": "What happens this month, this quarter, this year — not fifty posts with no clock."
+            },
+            {
+              "kicker": "03 — The mix",
+              "title": "What actually moves",
+              "body": "Social, outdoors, and the rest — chosen because they sell, not because they fill a grid."
+            }
+          ]
+        },
+        "photos": {
+          "kicker": "The strip"
+        },
+        "videos": {
+          "kicker": "Play"
+        },
+        "nfc_card": {
+          "wear": "Tap the card"
+        },
+        "nfc_ring": {
+          "wear": "Wear the brand"
+        },
+        "nfc_medal": {
+          "wear": "Wear it and tap"
+        }
+      }
     },
     "cta": {
-      "title": "Let’s Create Something Amazing",
-      "description": "Ready to take your brand to the next level with captivating visuals? Let’s collaborate and make something unforgettable.",
+      "title": "Walk the journey with us",
+      "description": "Not fifty posts. Strategy, identity, campaigns, and the numbers that show if it sold.",
       "button": "Get In Touch"
     }
   },

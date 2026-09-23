@@ -66,7 +66,12 @@ export async function removeStoredFile(options: {
   if (!options.url) return;
 
   if (options.driver === "cloudinary" && options.publicId && isCloudinaryConfigured()) {
-    await cloudinary.uploader.destroy(options.publicId).catch(() => undefined);
+    const isVideo =
+      /\/video\/upload\//.test(options.url) ||
+      /\.(mp4|webm|mov)(\?|$)/i.test(options.url);
+    await cloudinary.uploader
+      .destroy(options.publicId, { resource_type: isVideo ? "video" : "image" })
+      .catch(() => undefined);
     return;
   }
 

@@ -1,5 +1,5 @@
-import BrandingPage from "@/views/branding/Branding";
+import { redirect } from "next/navigation";
 
 export default function Page() {
-  return <BrandingPage />;
+  redirect("/projects");
 }

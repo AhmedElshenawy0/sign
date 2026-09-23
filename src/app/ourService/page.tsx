@@ -1,5 +1,5 @@
-import OurService from "@/views/our-service/OurService";
+import { redirect } from "next/navigation";
 
 export default function Page() {
-  return <OurService />;
+  redirect("/projects");
 }

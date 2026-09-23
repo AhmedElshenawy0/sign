@@ -19,8 +19,13 @@ import { setFlashToast } from "@/lib/admin-toast";
 import { uploadProjectFile } from "@/lib/storage";
 import {
   PROJECT_TYPE_LABELS,
-  PROJECT_TYPES,
+  SERVICE_GROUPS,
+  SERVICE_GROUP_LABELS,
+  galleryItems,
+  isVideoProjectType,
+  supportsProjectGallery,
   type Project,
+  type ProjectGalleryItem,
   type ProjectType,
 } from "@/types/project";
 
@@ -28,6 +33,22 @@ const IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp", "image/gif"];
 const VIDEO_TYPES = ["video/mp4", "video/webm", "video/quicktime"];
 const IMAGE_MAX = 10 * 1024 * 1024;
 const VIDEO_MAX = 200 * 1024 * 1024;
+const GALLERY_MAX = 12;
+
+const GALLERY_HINT: Partial<Record<ProjectType, string>> = {
+  brand_identity:
+    "Extra images for the identity journey — pack, card, street, brand book. The main file is the logo.",
+  packaging: "More SKUs and pack shots after the hero.",
+  prints: "More print pieces for the spread.",
+  social_media: "More stills for the phone reel.",
+  outdoors: "More boards and street frames.",
+  photos: "More frames for the film strip.",
+  brand_strategy: "Images for the timeline chapters.",
+  marketing_strategy: "Images for the timeline chapters.",
+  nfc_card: "More angles of the card.",
+  nfc_ring: "More angles of the ring.",
+  nfc_medal: "More angles of the medal.",
+};
 
 type Props = {
   project?: Project;
@@ -35,11 +56,16 @@ type Props = {
 
 export default function ProjectForm({ project }: Props) {
   const router = useRouter();
-  const [type, setType] = useState<ProjectType>(project?.type ?? "logos");
+  const [type, setType] = useState<ProjectType>(project?.type ?? "brand_identity");
   const [mediaFile, setMediaFile] = useState<File | null>(null);
   const [posterFile, setPosterFile] = useState<File | null>(null);
+  const [galleryFiles, setGalleryFiles] = useState<File[]>([]);
+  const [keptGallery, setKeptGallery] = useState<ProjectGalleryItem[]>(
+    galleryItems(project ?? { gallery: [] }),
+  );
   const [saving, setSaving] = useState(false);
-  const isVideo = type === "videos";
+  const isVideo = isVideoProjectType(type);
+  const showGallery = supportsProjectGallery(type);
   const previewUrl = mediaFile
     ? URL.createObjectURL(mediaFile)
     : project?.media_url;
@@ -70,6 +96,12 @@ export default function ProjectForm({ project }: Props) {
       }
       if (mediaFile) validateFile(mediaFile, "media");
       if (posterFile) validateFile(posterFile, "poster");
+      for (const file of galleryFiles) validateFile(file, "poster");
+
+      const galleryCap = keptGallery.length + galleryFiles.length;
+      if (galleryCap > GALLERY_MAX) {
+        throw new Error(`Journey images are limited to ${GALLERY_MAX}.`);
+      }
 
       let mediaUrl = project?.media_url ?? "";
       let posterUrl = project?.poster_url ?? null;
@@ -92,9 +124,24 @@ export default function ProjectForm({ project }: Props) {
         posterPublicId = uploaded.publicId;
       }
 
-      if (values.type !== "videos") {
+      if (!isVideoProjectType(values.type)) {
         posterUrl = null;
         posterPublicId = null;
+      }
+
+      const gallery: ProjectGalleryItem[] = isVideoProjectType(values.type)
+        ? []
+        : [...keptGallery];
+
+      if (!isVideoProjectType(values.type) && galleryFiles.length) {
+        toast.info("Uploading journey images…");
+        for (const file of galleryFiles) {
+          const uploaded = await uploadProjectFile(values.type, file, "media");
+          gallery.push({
+            url: uploaded.publicUrl,
+            publicId: uploaded.publicId,
+          });
+        }
       }
 
       await saveProjectAction(project?.id ?? null, {
@@ -105,6 +152,7 @@ export default function ProjectForm({ project }: Props) {
         storage_driver: storageDriver,
         cloudinary_public_id: cloudinaryPublicId,
         poster_public_id: posterPublicId,
+        gallery,
       });
 
       setFlashToast(
@@ -127,6 +175,14 @@ export default function ProjectForm({ project }: Props) {
     return [{ uid: file.name, name: file.name, status: "done" }];
   }
 
+  function galleryFileList(): UploadFile[] {
+    return galleryFiles.map((file, index) => ({
+      uid: `${file.name}-${index}`,
+      name: file.name,
+      status: "done",
+    }));
+  }
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 18 }}
@@ -145,7 +201,7 @@ export default function ProjectForm({ project }: Props) {
           layout="vertical"
           initialValues={{
             title: project?.title ?? "",
-            type: project?.type ?? "logos",
+            type: project?.type ?? "brand_identity",
           }}
           onFinish={onFinish}
           onValuesChange={(_, values) => {
@@ -163,9 +219,12 @@ export default function ProjectForm({ project }: Props) {
           <Form.Item label="Category" name="type" rules={[{ required: true }]}>
             <Select
               size="large"
-              options={PROJECT_TYPES.map((value) => ({
-                value,
-                label: PROJECT_TYPE_LABELS[value],
+              options={SERVICE_GROUPS.map((group) => ({
+                label: SERVICE_GROUP_LABELS[group.id],
+                options: group.types.map((value) => ({
+                  value,
+                  label: PROJECT_TYPE_LABELS[value],
+                })),
               }))}
             />
           </Form.Item>
@@ -232,6 +291,66 @@ export default function ProjectForm({ project }: Props) {
                 />
               )}
             </div>
+          ) : null}
+
+          {showGallery ? (
+            <Form.Item
+              label="Journey images (optional)"
+              extra={
+                GALLERY_HINT[type] ??
+                "Extra stills for the type-specific page. The main file stays the hero."
+              }
+            >
+              {keptGallery.length ? (
+                <div className="mb-4 grid grid-cols-3 gap-3 sm:grid-cols-4">
+                  {keptGallery.map((item) => (
+                    <div
+                      key={item.url}
+                      className="relative overflow-hidden rounded-xl border border-white/10 bg-slate-950"
+                    >
+                      <img
+                        src={item.url}
+                        alt=""
+                        className="aspect-square w-full object-cover"
+                      />
+                      <button
+                        type="button"
+                        className="absolute right-1 top-1 rounded-full bg-black/70 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white"
+                        onClick={() =>
+                          setKeptGallery((current) =>
+                            current.filter((entry) => entry.url !== item.url),
+                          )
+                        }
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              ) : null}
+              <Upload
+                multiple
+                fileList={galleryFileList()}
+                beforeUpload={(file) => {
+                  setGalleryFiles((current) => {
+                    if (keptGallery.length + current.length >= GALLERY_MAX) {
+                      toast.error(`Journey images are limited to ${GALLERY_MAX}.`);
+                      return current;
+                    }
+                    return [...current, file];
+                  });
+                  return false;
+                }}
+                onRemove={(file) => {
+                  setGalleryFiles((current) =>
+                    current.filter((entry, index) => `${entry.name}-${index}` !== file.uid),
+                  );
+                }}
+                accept={IMAGE_TYPES.join(",")}
+              >
+                <Button>Add images</Button>
+              </Upload>
+            </Form.Item>
           ) : null}
 
           <Button type="primary" htmlType="submit" size="large" loading={saving}>

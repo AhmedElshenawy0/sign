@@ -11,12 +11,13 @@ function fromDummyData(): Project[] {
   return galleries.map((item, index) => ({
     id: `local-${index + 1}`,
     title: item.title,
-    type: isProjectType(item.type) ? item.type : "designs",
+    type: isProjectType(item.type) ? item.type : "brand_identity",
     media_url: item.src,
     poster_url: "poster" in item && item.poster ? item.poster : null,
     sort_order: index + 1,
     created_at: new Date(0).toISOString(),
     updated_at: new Date(0).toISOString(),
+    gallery: [],
   }));
 }
 

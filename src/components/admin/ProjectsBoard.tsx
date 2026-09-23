@@ -8,31 +8,35 @@ import { motion } from "framer-motion";
 import DeleteProjectButton from "@/components/admin/DeleteProjectButton";
 import {
   PROJECT_TYPE_LABELS,
-  PROJECT_TYPES,
+  SERVICE_GROUPS,
+  SERVICE_GROUP_IDS,
+  SERVICE_GROUP_LABELS,
+  groupIdForType,
+  isVideoProjectType,
   type Project,
-  type ProjectType,
+  type ServiceGroupId,
 } from "@/types/project";
 
 type Props = {
   items: Project[];
-  selected?: ProjectType;
+  selected?: ServiceGroupId;
 };
 
 export default function ProjectsBoard({ items, selected }: Props) {
   const router = useRouter();
   const visible = selected
-    ? items.filter((item) => item.type === selected)
+    ? items.filter((item) => groupIdForType(item.type) === selected)
     : items;
 
   const counts = {
     all: items.length,
     ...Object.fromEntries(
-      PROJECT_TYPES.map((type) => [
-        type,
-        items.filter((item) => item.type === type).length,
+      SERVICE_GROUPS.map((group) => [
+        group.id,
+        items.filter((item) => groupIdForType(item.type) === group.id).length,
       ]),
     ),
-  } as Record<"all" | ProjectType, number>;
+  } as Record<"all" | ServiceGroupId, number>;
 
   return (
     <motion.main
@@ -51,18 +55,18 @@ export default function ProjectsBoard({ items, selected }: Props) {
               Projects
             </h1>
             <p className="mt-2 max-w-md text-sm leading-relaxed text-slate-400">
-              Upload and organize logos, designs, videos, and prints. Updates
-              show on the public gallery.
+              Upload work into Branding, Marketing, Photo & Video, or NFC. It
+              shows on the public Our Services page.
             </p>
           </div>
           <div className="flex flex-wrap gap-3">
-            {(["all", ...PROJECT_TYPES] as const).map((key) => (
+            {(["all", ...SERVICE_GROUP_IDS] as const).map((key) => (
               <div
                 key={key}
                 className="min-w-[88px] rounded-2xl border border-white/10 bg-white/5 px-4 py-3"
               >
                 <p className="text-[10px] font-bold uppercase tracking-wider text-slate-500">
-                  {key === "all" ? "Total" : PROJECT_TYPE_LABELS[key]}
+                  {key === "all" ? "Total" : SERVICE_GROUP_LABELS[key]}
                 </p>
                 <p className="mt-1 text-2xl font-semibold text-white">
                   {counts[key]}
@@ -79,16 +83,16 @@ export default function ProjectsBoard({ items, selected }: Props) {
           value={selected ?? "all"}
           options={[
             { label: "All", value: "all" },
-            ...PROJECT_TYPES.map((value) => ({
-              label: PROJECT_TYPE_LABELS[value],
-              value,
+            ...SERVICE_GROUPS.map((group) => ({
+              label: SERVICE_GROUP_LABELS[group.id],
+              value: group.id,
             })),
           ]}
           onChange={(value) => {
             router.push(
               value === "all"
                 ? "/admin/projects"
-                : `/admin/projects?type=${value}`,
+                : `/admin/projects?group=${value}`,
             );
           }}
         />
@@ -114,7 +118,7 @@ export default function ProjectsBoard({ items, selected }: Props) {
               className="overflow-hidden rounded-3xl border border-white/10 bg-slate-900/60 shadow-lg shadow-black/20"
             >
               <div className="relative h-48 overflow-hidden bg-slate-950">
-                {item.type === "videos" ? (
+                {isVideoProjectType(item.type) ? (
                   <video
                     src={item.media_url}
                     poster={item.poster_url ?? undefined}

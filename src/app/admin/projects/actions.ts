@@ -16,6 +16,7 @@ export async function saveProjectAction(
     : await createProject(input);
 
   revalidatePath("/projects");
+  revalidatePath(`/projects/${saved.id}`);
   revalidatePath("/admin/projects");
   return saved;
 }
@@ -24,5 +25,6 @@ export async function deleteProjectAction(id: string) {
   await requireAdminUser();
   await deleteProject(id);
   revalidatePath("/projects");
+  revalidatePath(`/projects/${id}`);
   revalidatePath("/admin/projects");
 }

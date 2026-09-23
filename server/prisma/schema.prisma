@@ -8,10 +8,18 @@ datasource db {
 }
 
 enum ProjectType {
-  logos
-  designs
-  videos
+  brand_identity
+  packaging
   prints
+  social_media
+  outdoors
+  brand_strategy
+  marketing_strategy
+  photos
+  videos
+  nfc_card
+  nfc_ring
+  nfc_medal
 }
 
 enum StorageDriver {
@@ -37,6 +45,7 @@ model Project {
   storageDriver      StorageDriver  @default(public_asset)
   cloudinaryPublicId String?
   posterPublicId     String?
+  gallery            Json?
   createdAt          DateTime       @default(now())
   updatedAt          DateTime       @updatedAt
 

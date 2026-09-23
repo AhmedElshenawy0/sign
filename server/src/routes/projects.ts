@@ -1,10 +1,28 @@
 import { Router } from "express";
-import type { Project, ProjectType, StorageDriver } from "@prisma/client";
+import type { Prisma, Project, ProjectType, StorageDriver } from "@prisma/client";
 import { prisma } from "../lib/prisma.js";
 import { requireAuth } from "../middleware/requireAuth.js";
 import { removeStoredFile } from "../lib/storage.js";
 
-const TYPES = new Set<ProjectType>(["logos", "designs", "videos", "prints"]);
+const TYPES = new Set<ProjectType>([
+  "brand_identity",
+  "packaging",
+  "prints",
+  "social_media",
+  "outdoors",
+  "brand_strategy",
+  "marketing_strategy",
+  "photos",
+  "videos",
+  "nfc_card",
+  "nfc_ring",
+  "nfc_medal",
+]);
+
+export type GalleryItem = {
+  url: string;
+  publicId: string | null;
+};
 
 export type ProjectJson = {
   id: string;
@@ -18,7 +36,26 @@ export type ProjectJson = {
   storage_driver: StorageDriver;
   cloudinary_public_id: string | null;
   poster_public_id: string | null;
+  gallery: GalleryItem[];
 };
+
+export function parseGallery(value: unknown): GalleryItem[] {
+  if (!Array.isArray(value)) return [];
+  const items: GalleryItem[] = [];
+  for (const raw of value) {
+    if (!raw || typeof raw !== "object") continue;
+    const rec = raw as Record<string, unknown>;
+    const url = typeof rec.url === "string" ? rec.url.trim() : "";
+    if (!url) continue;
+    const publicIdRaw = rec.publicId ?? rec.public_id;
+    const publicId =
+      typeof publicIdRaw === "string" && publicIdRaw.trim()
+        ? publicIdRaw.trim()
+        : null;
+    items.push({ url, publicId });
+  }
+  return items;
+}
 
 export function toProjectJson(project: Project): ProjectJson {
   return {
@@ -33,7 +70,21 @@ export function toProjectJson(project: Project): ProjectJson {
     storage_driver: project.storageDriver,
     cloudinary_public_id: project.cloudinaryPublicId,
     poster_public_id: project.posterPublicId,
+    gallery: parseGallery(project.gallery),
   };
+}
+
+async function removeGalleryItems(
+  items: GalleryItem[],
+  fallbackDriver: StorageDriver,
+) {
+  for (const item of items) {
+    await removeStoredFile({
+      driver: item.publicId ? "cloudinary" : fallbackDriver,
+      url: item.url,
+      publicId: item.publicId,
+    });
+  }
 }
 
 export const projectsRouter = Router();
@@ -74,6 +125,7 @@ projectsRouter.post("/", requireAuth, async (req, res) => {
   const storageDriver = (req.body?.storage_driver as StorageDriver) ?? "local";
   const cloudinaryPublicId = req.body?.cloudinary_public_id ?? null;
   const posterPublicId = req.body?.poster_public_id ?? null;
+  const gallery = parseGallery(req.body?.gallery);
 
   if (!title || !TYPES.has(type) || !mediaUrl) {
     res.status(400).json({ error: "Title, type, and media_url are required." });
@@ -91,6 +143,7 @@ projectsRouter.post("/", requireAuth, async (req, res) => {
       storageDriver,
       cloudinaryPublicId,
       posterPublicId,
+      gallery: gallery as Prisma.InputJsonValue,
     },
   });
   res.status(201).json(toProjectJson(project));
@@ -117,6 +170,10 @@ projectsRouter.patch("/:id", requireAuth, async (req, res) => {
     req.body?.poster_public_id !== undefined
       ? req.body.poster_public_id
       : existing.posterPublicId;
+  const nextGallery =
+    req.body?.gallery !== undefined
+      ? parseGallery(req.body.gallery)
+      : parseGallery(existing.gallery);
 
   if (!title || !TYPES.has(type) || !mediaUrl) {
     res.status(400).json({ error: "Title, type, and media_url are required." });
@@ -139,6 +196,12 @@ projectsRouter.patch("/:id", requireAuth, async (req, res) => {
     });
   }
 
+  if (req.body?.gallery !== undefined) {
+    const kept = new Set(nextGallery.map((item) => item.url));
+    const removed = parseGallery(existing.gallery).filter((item) => !kept.has(item.url));
+    await removeGalleryItems(removed, existing.storageDriver);
+  }
+
   const project = await prisma.project.update({
     where: { id: existing.id },
     data: {
@@ -149,6 +212,7 @@ projectsRouter.patch("/:id", requireAuth, async (req, res) => {
       storageDriver,
       cloudinaryPublicId,
       posterPublicId: type === "videos" ? posterPublicId : null,
+      gallery: nextGallery as Prisma.InputJsonValue,
     },
   });
   res.json(toProjectJson(project));
@@ -171,6 +235,7 @@ projectsRouter.delete("/:id", requireAuth, async (req, res) => {
     url: existing.posterUrl,
     publicId: existing.posterPublicId,
   });
+  await removeGalleryItems(parseGallery(existing.gallery), existing.storageDriver);
   await prisma.project.delete({ where: { id: existing.id } });
   res.json({ ok: true });
 });
