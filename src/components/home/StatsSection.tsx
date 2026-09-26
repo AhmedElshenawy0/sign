@@ -199,13 +199,13 @@ const StatsSection = () => {
       {/* Ambient corner glow — quiet texture, consistent with AboutSignup's ambient mark */}
       <div
         aria-hidden
-        className="pointer-events-none absolute -top-24 -left-24 w-[28rem] h-[28rem] rounded-full bg-gradient-to-br from-main-move/[0.05] via-main-red/[0.03] to-transparent blur-3xl"
+        className="pointer-events-none absolute -top-24 -left-24 w-[28rem] h-[28rem] rounded-full bg-gradient-to-br from-main-green/[0.05] via-main-red/[0.03] to-transparent blur-3xl"
       />
 
       <div className="relative max-w-6xl mx-auto space-y-16">
         <header className="max-w-2xl mx-auto text-center space-y-4">
-          <span className="inline-flex items-center gap-2 text-[10px] font-black tracking-[0.35em] uppercase text-main-move bg-main-move/5 px-4 py-1.5 rounded-full border border-main-move/10 select-none">
-            <span className="w-1 h-1 rounded-full bg-main-move" />
+          <span className="inline-flex items-center gap-2 text-[10px] font-black tracking-[0.35em] uppercase text-main-green bg-main-green/5 px-4 py-1.5 rounded-full border border-main-green/10 select-none">
+            <span className="w-1 h-1 rounded-full bg-main-green" />
             {t("home.stats.eyebrow")}
           </span>
           <h2 className="text-3xl md:text-5xl font-black tracking-tight uppercase text-slate-900">
@@ -237,7 +237,7 @@ const StatsSection = () => {
                 key={h.key}
                 className="inline-flex items-center gap-2.5 text-xs font-bold text-slate-600 bg-neutral-50 border border-neutral-100 rounded-full px-4 py-2.5"
               >
-                <Icon className="text-main-move" size={13} />
+                <Icon className="text-main-green" size={13} />
                 {t(h.labelKey)}
               </span>
             );

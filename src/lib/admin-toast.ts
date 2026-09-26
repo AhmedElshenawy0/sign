@@ -1,8 +1,19 @@
+"use client";
+
+import hotToast from "react-hot-toast";
+
 const FLASH_KEY = "admin-flash-toast";
 
 export type FlashToast = {
   type: "success" | "error" | "info";
   message: string;
+};
+
+export const toast = {
+  success: (message: string) => hotToast.success(message),
+  error: (message: string) => hotToast.error(message),
+  info: (message: string) => hotToast(message),
+  warn: (message: string) => hotToast(message, { icon: "!" }),
 };
 
 export function setFlashToast(type: FlashToast["type"], message: string) {

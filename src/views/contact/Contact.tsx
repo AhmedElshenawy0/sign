@@ -144,7 +144,7 @@ const ContactPage = () => {
                         required
                         disabled={status === "submitting"}
                         placeholder={t("contactPage.namePlaceholder")}
-                        className="w-full p-4 rounded-xl bg-neutral-50 text-slate-900 border border-neutral-200 focus:outline-none focus:border-main-dark-green font-medium transition-all text-sm disabled:opacity-50"
+                        className="w-full p-4 rounded-xl bg-neutral-50 text-slate-900 border border-neutral-200 focus:outline-none focus:border-main-green font-medium transition-all text-sm disabled:opacity-50"
                       />
                     </div>
                     <div className="space-y-1.5">
@@ -157,7 +157,7 @@ const ContactPage = () => {
                         required
                         disabled={status === "submitting"}
                         placeholder={t("contactPage.emailPlaceholder")}
-                        className="w-full p-4 rounded-xl bg-neutral-50 text-slate-900 border border-neutral-200 focus:outline-none focus:border-main-dark-green font-medium transition-all text-sm disabled:opacity-50"
+                        className="w-full p-4 rounded-xl bg-neutral-50 text-slate-900 border border-neutral-200 focus:outline-none focus:border-main-green font-medium transition-all text-sm disabled:opacity-50"
                       />
                     </div>
                   </div>
@@ -172,7 +172,7 @@ const ContactPage = () => {
                       disabled={status === "submitting"}
                       rows={5}
                       placeholder={t("contactPage.messagePlaceholder")}
-                      className="w-full p-4 rounded-xl bg-neutral-50 text-slate-900 border border-neutral-200 focus:outline-none focus:border-main-dark-green font-medium transition-all text-sm resize-none disabled:opacity-50"
+                      className="w-full p-4 rounded-xl bg-neutral-50 text-slate-900 border border-neutral-200 focus:outline-none focus:border-main-green font-medium transition-all text-sm resize-none disabled:opacity-50"
                     />
                   </div>
 
@@ -180,7 +180,7 @@ const ContactPage = () => {
                     <button
                       type="submit"
                       disabled={status === "submitting"}
-                      className="bg-main-dark-green text-white text-xs font-black uppercase tracking-widest py-4 px-8 rounded-full shadow-md shadow-main-dark-green/10 hover:bg-slate-950 transition-all inline-flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="bg-main-green text-white text-xs font-black uppercase tracking-widest py-4 px-8 rounded-full shadow-md shadow-main-green/10 hover:bg-slate-950 transition-all inline-flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       {status === "submitting" ? (
                         <>
@@ -215,7 +215,7 @@ const ContactPage = () => {
 
             <div className="space-y-6">
               <div className="flex items-start gap-4 group">
-                <div className="p-3 bg-neutral-100 rounded-xl text-main-dark-green group-hover:bg-main-dark-green group-hover:text-white transition-colors duration-300">
+                <div className="p-3 bg-neutral-100 rounded-xl text-main-green group-hover:bg-main-green group-hover:text-white transition-colors duration-300">
                   <FaEnvelope size={18} />
                 </div>
                 <div className="space-y-0.5">
@@ -224,7 +224,7 @@ const ContactPage = () => {
                   </p>
                   <a
                     href="mailto:hello@signup.com"
-                    className="font-bold text-slate-800 hover:text-main-dark-green transition-colors text-base break-all"
+                    className="font-bold text-slate-800 hover:text-main-green transition-colors text-base break-all"
                   >
                     hello@signup.com
                   </a>
@@ -232,7 +232,7 @@ const ContactPage = () => {
               </div>
 
               <div className="flex items-start gap-4 group">
-                <div className="p-3 bg-neutral-100 rounded-xl text-main-dark-green group-hover:bg-main-dark-green group-hover:text-white transition-colors duration-300">
+                <div className="p-3 bg-neutral-100 rounded-xl text-main-green group-hover:bg-main-green group-hover:text-white transition-colors duration-300">
                   <FaPhoneAlt size={18} />
                 </div>
                 <div className="space-y-0.5">
@@ -241,7 +241,7 @@ const ContactPage = () => {
                   </p>
                   <a
                     href="tel:+201002364021"
-                    className="font-bold text-slate-800 hover:text-main-dark-green transition-colors text-base"
+                    className="font-bold text-slate-800 hover:text-main-green transition-colors text-base"
                   >
                     +20 100 236 4021
                   </a>
@@ -249,7 +249,7 @@ const ContactPage = () => {
               </div>
 
               <div className="flex items-start gap-4 group">
-                <div className="p-3 bg-neutral-100 rounded-xl text-main-dark-green group-hover:bg-main-dark-green group-hover:text-white transition-colors duration-300">
+                <div className="p-3 bg-neutral-100 rounded-xl text-main-green group-hover:bg-main-green group-hover:text-white transition-colors duration-300">
                   <FaMapMarkerAlt size={18} />
                 </div>
                 <div className="space-y-0.5">

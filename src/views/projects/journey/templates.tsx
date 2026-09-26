@@ -3,13 +3,22 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
-import { stillUrls, type Project } from "@/types/project";
-import { CopyChapter, JourneyClose, JourneyShell, TiltFrame } from "./chrome";
+import { itemByRole } from "@/lib/journey-slots";
+import { galleryItems, stillItems, stillUrls, type Project } from "@/types/project";
+import {
+  CopyChapter,
+  FrameChapter,
+  JourneyClose,
+  JourneyShell,
+  TiltFrame,
+  frameLabel,
+  projectLine,
+} from "./chrome";
 
 function PackagingJourney({ project }: { project: Project }) {
   const { t } = useTranslation();
   const urls = stillUrls(project);
-  const extras = urls.slice(1);
+  const extras = galleryItems(project);
 
   return (
     <JourneyShell project={project}>
@@ -37,32 +46,41 @@ function PackagingJourney({ project }: { project: Project }) {
         >
           {project.title}
         </motion.h1>
+        {project.story?.trim() ? (
+          <p className="mx-auto mt-5 max-w-lg text-center text-white/65">{project.story.trim()}</p>
+        ) : null}
       </section>
 
       <CopyChapter
         kicker={t("projects.journey.chapters.packaging.range.kicker")}
         title={t("projects.journey.chapters.packaging.range.title")}
-        body={t("projects.journey.chapters.packaging.range.body")}
-        image={extras[0] ?? urls[0]}
-        alt={project.title}
+        body={projectLine(project, t)}
+        image={extras[0]?.url ?? urls[0]}
+        alt={frameLabel(extras[0], t, project.title)}
+        caption={frameLabel(extras[0], t)}
       />
 
       {extras.length ? (
         <section className="mx-auto max-w-6xl px-6 pb-24 md:px-12">
-          <p className="mb-8 text-[10px] font-black uppercase tracking-[0.32em] text-main-move">
+          <p className="mb-8 text-[10px] font-black uppercase tracking-[0.32em] text-main-green">
             {t("projects.journey.chapters.packaging.skus")}
           </p>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {extras.map((src, index) => (
+            {extras.map((item, index) => (
               <motion.div
-                key={`${src}-${index}`}
+                key={`${item.url}-${index}`}
                 className="overflow-hidden rounded-[1.5rem] border border-white/10 bg-white/[0.03]"
                 initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.3 }}
                 transition={{ delay: index * 0.08 }}
               >
-                <img src={src} alt="" className="aspect-[4/5] w-full object-cover" />
+                <img src={item.url} alt={frameLabel(item, t)} className="aspect-[4/5] w-full object-cover" />
+                {frameLabel(item, t) ? (
+                  <p className="px-4 py-3 text-[11px] font-bold uppercase tracking-[0.18em] text-white/55">
+                    {frameLabel(item, t)}
+                  </p>
+                ) : null}
               </motion.div>
             ))}
           </div>
@@ -112,22 +130,18 @@ function PrintsJourney({ project }: { project: Project }) {
         >
           {project.title}
         </motion.h1>
+        {project.story?.trim() ? (
+          <p className="mx-auto mt-5 max-w-lg text-center text-white/65">{project.story.trim()}</p>
+        ) : null}
       </section>
 
-      {urls.map((src, index) => (
-        <section
-          key={`${src}-full-${index}`}
-          className="mx-auto flex min-h-[80vh] max-w-4xl flex-col items-center justify-center px-6 py-16"
-        >
-          <motion.div
-            className="w-full overflow-hidden rounded-[2rem] border border-white/10"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.35 }}
-          >
-            <img src={src} alt={project.title} className="w-full object-contain" />
-          </motion.div>
-        </section>
+      {stillItems(project).map((item, index) => (
+        <FrameChapter
+          key={`${item.url}-full-${index}`}
+          item={item}
+          index={index}
+          fallbackLabel={project.title}
+        />
       ))}
 
       <JourneyClose project={project} />
@@ -137,17 +151,17 @@ function PrintsJourney({ project }: { project: Project }) {
 
 function SocialJourney({ project }: { project: Project }) {
   const { t } = useTranslation();
-  const urls = stillUrls(project);
+  const frames = stillItems(project);
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
-    if (urls.length < 2) return;
+    if (frames.length < 2) return;
     const id = window.setInterval(
-      () => setIndex((current) => (current + 1) % urls.length),
+      () => setIndex((current) => (current + 1) % frames.length),
       2800,
     );
     return () => window.clearInterval(id);
-  }, [urls.length]);
+  }, [frames.length]);
 
   return (
     <JourneyShell project={project}>
@@ -160,7 +174,7 @@ function SocialJourney({ project }: { project: Project }) {
             {project.title}
           </h1>
           <p className="max-w-md text-base leading-relaxed text-white/70">
-            {t("projects.journey.chapters.social.body")}
+            {projectLine(project, t)}
           </p>
         </div>
 
@@ -168,11 +182,11 @@ function SocialJourney({ project }: { project: Project }) {
           <div className="relative rounded-[2.4rem] border-[10px] border-white/15 bg-black p-2 shadow-[0_40px_80px_rgba(0,0,0,0.5)]">
             <div className="absolute left-1/2 top-2 z-10 h-5 w-24 -translate-x-1/2 rounded-full bg-black" />
             <div className="relative aspect-[9/19] overflow-hidden rounded-[1.7rem] bg-slate-950">
-              {urls.map((src, i) => (
+              {frames.map((item, i) => (
                 <motion.img
-                  key={`${src}-${i}`}
-                  src={src}
-                  alt=""
+                  key={`${item.url}-${i}`}
+                  src={item.url}
+                  alt={frameLabel(item, t)}
                   className="absolute inset-0 h-full w-full object-cover"
                   animate={{ opacity: i === index ? 1 : 0 }}
                   transition={{ duration: 0.45 }}
@@ -180,6 +194,11 @@ function SocialJourney({ project }: { project: Project }) {
               ))}
             </div>
           </div>
+          {frameLabel(frames[index], t) ? (
+            <p className="mt-4 text-center text-[11px] font-bold uppercase tracking-[0.18em] text-white/50">
+              {frameLabel(frames[index], t)}
+            </p>
+          ) : null}
         </div>
       </section>
       <JourneyClose project={project} />
@@ -216,24 +235,16 @@ function OutdoorsJourney({ project }: { project: Project }) {
           {project.title}
         </h1>
         <p className="relative mt-4 max-w-lg text-center text-white/65">
-          {t("projects.journey.chapters.outdoors.body")}
+          {projectLine(project, t)}
         </p>
       </section>
 
-      {urls.slice(1).map((src, index) => (
-        <section
-          key={`${src}-${index}`}
-          className="mx-auto flex min-h-[80vh] max-w-5xl items-center px-6 py-16"
-        >
-          <motion.div
-            className="w-full overflow-hidden rounded-[1.5rem] border-[10px] border-[#2a2a2a]"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
-            <img src={src} alt="" className="aspect-[16/7] w-full object-cover" />
-          </motion.div>
-        </section>
+      {galleryItems(project).map((item, index) => (
+        <FrameChapter
+          key={`${item.url}-${index}`}
+          item={item}
+          index={index}
+        />
       ))}
 
       <JourneyClose project={project} />
@@ -244,8 +255,13 @@ function OutdoorsJourney({ project }: { project: Project }) {
 function StrategyJourney({ project }: { project: Project }) {
   const { t } = useTranslation();
   const urls = stillUrls(project);
+  const extras = galleryItems(project);
   const key =
     project.type === "marketing_strategy" ? "marketing_strategy" : "brand_strategy";
+  const roleKeys =
+    project.type === "marketing_strategy"
+      ? ["budget", "time", "mix"]
+      : ["now", "horizon", "path"];
   const steps = t(`projects.journey.chapters.${key}.steps`, {
     returnObjects: true,
   }) as { kicker: string; title: string; body: string }[];
@@ -255,7 +271,7 @@ function StrategyJourney({ project }: { project: Project }) {
         {
           kicker: "01",
           title: project.title,
-          body: t(`projects.journey.lines.${project.type}`),
+          body: projectLine(project, t),
         },
       ];
 
@@ -268,21 +284,32 @@ function StrategyJourney({ project }: { project: Project }) {
         <h1 className="text-4xl font-black uppercase tracking-tight md:text-6xl">
           {project.title}
         </h1>
+        {project.story?.trim() ? (
+          <p className="mt-5 max-w-xl text-base leading-relaxed text-white/65">
+            {project.story.trim()}
+          </p>
+        ) : null}
       </section>
 
       <div className="relative mx-auto max-w-5xl px-6 pb-8 md:px-12">
         <div className="absolute bottom-8 top-0 w-px bg-gradient-to-b from-main-red via-main-move to-main-green ltr:left-10 rtl:right-10 md:ltr:left-[3.25rem] md:rtl:right-[3.25rem]" />
-        {chapters.map((step, index) => (
-          <CopyChapter
-            key={step.title + index}
-            kicker={step.kicker}
-            title={step.title}
-            body={step.body}
-            image={urls[index % urls.length]}
-            alt={project.title}
-            reverse={index % 2 === 1}
-          />
-        ))}
+        {chapters.map((step, index) => {
+          const tagged = itemByRole(extras, roleKeys[index]);
+          const fallback = extras[index];
+          const image = tagged ?? fallback;
+          return (
+            <CopyChapter
+              key={step.title + index}
+              kicker={step.kicker}
+              title={step.title}
+              body={step.body}
+              image={image?.url ?? urls[index % urls.length]}
+              alt={frameLabel(image, t, project.title)}
+              caption={frameLabel(image, t)}
+              reverse={index % 2 === 1}
+            />
+          );
+        })}
       </div>
 
       <JourneyClose project={project} />
@@ -292,8 +319,9 @@ function StrategyJourney({ project }: { project: Project }) {
 
 function PhotosJourney({ project }: { project: Project }) {
   const { t } = useTranslation();
-  const urls = stillUrls(project);
+  const frames = stillItems(project);
   const [active, setActive] = useState(0);
+  const current = frames[active] ?? frames[0];
 
   return (
     <JourneyShell project={project}>
@@ -304,36 +332,42 @@ function PhotosJourney({ project }: { project: Project }) {
         <h1 className="text-4xl font-black uppercase tracking-tight md:text-6xl">
           {project.title}
         </h1>
+        {project.story?.trim() ? (
+          <p className="mt-4 max-w-xl text-white/65">{project.story.trim()}</p>
+        ) : null}
       </section>
 
       <div className="mb-8 flex gap-3 overflow-x-auto px-6 pb-4 md:px-12">
-        {urls.map((src, index) => (
+        {frames.map((item, index) => (
           <button
-            key={`${src}-${index}`}
+            key={`${item.url}-${index}`}
             type="button"
             onClick={() => setActive(index)}
             className={`relative h-28 w-40 shrink-0 overflow-hidden rounded-lg border-2 transition ${
               active === index ? "border-main-green" : "border-white/15"
             }`}
           >
-            <img src={src} alt="" className="h-full w-full object-cover" />
+            <img src={item.url} alt="" className="h-full w-full object-cover" />
           </button>
         ))}
       </div>
 
       <section className="mx-auto min-h-[70vh] max-w-6xl px-6 pb-16 md:px-12">
         <motion.div
-          key={urls[active]}
+          key={current?.url}
           className="overflow-hidden rounded-[2rem] border border-white/10"
           initial={{ opacity: 0.4, scale: 0.98 }}
           animate={{ opacity: 1, scale: 1 }}
         >
           <img
-            src={urls[active]}
-            alt={project.title}
+            src={current?.url}
+            alt={frameLabel(current, t, project.title)}
             className="max-h-[78vh] w-full object-contain"
           />
         </motion.div>
+        {frameLabel(current, t) ? (
+          <p className="mt-5 text-center text-sm text-white/60">{frameLabel(current, t)}</p>
+        ) : null}
       </section>
       <JourneyClose project={project} />
     </JourneyShell>
@@ -367,7 +401,7 @@ function VideosJourney({ project }: { project: Project }) {
           {project.title}
         </h1>
         <p className="mx-auto mt-4 max-w-xl text-center text-white/65">
-          {t(`projects.journey.lines.${project.type}`)}
+          {projectLine(project, t)}
         </p>
       </section>
     </JourneyShell>
@@ -377,6 +411,7 @@ function VideosJourney({ project }: { project: Project }) {
 function NfcJourney({ project }: { project: Project }) {
   const { t } = useTranslation();
   const urls = stillUrls(project);
+  const extras = galleryItems(project);
 
   return (
     <JourneyShell project={project}>
@@ -399,22 +434,15 @@ function NfcJourney({ project }: { project: Project }) {
         <h1 className="relative mt-10 text-center text-3xl font-black uppercase tracking-tight md:text-5xl">
           {project.title}
         </h1>
+        {project.story?.trim() ? (
+          <p className="relative mx-auto mt-4 max-w-lg text-center text-white/65">
+            {project.story.trim()}
+          </p>
+        ) : null}
       </section>
 
-      {urls.slice(1).map((src, index) => (
-        <section
-          key={`${src}-${index}`}
-          className="mx-auto flex min-h-[70vh] max-w-3xl items-center px-6 py-12"
-        >
-          <motion.div
-            className="w-full overflow-hidden rounded-[2rem] border border-white/10"
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
-            <img src={src} alt="" className="w-full object-contain" />
-          </motion.div>
-        </section>
+      {extras.map((item, index) => (
+        <FrameChapter key={`${item.url}-${index}`} item={item} index={index} />
       ))}
 
       <JourneyClose project={project} />

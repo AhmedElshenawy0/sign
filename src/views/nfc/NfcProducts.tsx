@@ -249,7 +249,7 @@ export default function NfcProducts({ items }: { items: Project[] }) {
               viewport={{ once: true, amount: 0.35 }}
               transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
             >
-              <p className="mb-4 text-[10px] font-black uppercase tracking-[0.32em] text-main-red">
+              <p className="mb-4 text-[10px] font-black uppercase tracking-[0.32em] text-main-green">
                 {t("nfcPage.standKicker")}
               </p>
               <h2 className="mb-5 text-3xl font-black uppercase tracking-tight md:text-5xl">
@@ -297,7 +297,7 @@ export default function NfcProducts({ items }: { items: Project[] }) {
                   viewport={{ once: true, amount: 0.35 }}
                   transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
                 >
-                  <p className="mb-4 text-[10px] font-black uppercase tracking-[0.32em] text-main-red">
+                  <p className="mb-4 text-[10px] font-black uppercase tracking-[0.32em] text-main-green">
                     {t(`nfcPage.types.${type}.kicker`)}
                   </p>
                   <h2 className="mb-5 text-3xl font-black uppercase tracking-tight md:text-5xl">

@@ -22,6 +22,8 @@ const TYPES = new Set<ProjectType>([
 export type GalleryItem = {
   url: string;
   publicId: string | null;
+  role?: string;
+  caption?: string;
 };
 
 export type ProjectJson = {
@@ -37,12 +39,30 @@ export type ProjectJson = {
   cloudinary_public_id: string | null;
   poster_public_id: string | null;
   gallery: GalleryItem[];
+  story: string;
 };
 
+function galleryRecords(value: unknown): unknown[] {
+  if (Array.isArray(value)) return value;
+  if (value && typeof value === "object") {
+    const items = (value as { items?: unknown }).items;
+    if (Array.isArray(items)) return items;
+  }
+  return [];
+}
+
+export function parseStory(stored: unknown, incoming?: unknown): string {
+  if (typeof incoming === "string") return incoming.trim().slice(0, 2000);
+  if (stored && typeof stored === "object" && !Array.isArray(stored)) {
+    const story = (stored as { story?: unknown }).story;
+    if (typeof story === "string") return story.trim().slice(0, 2000);
+  }
+  return "";
+}
+
 export function parseGallery(value: unknown): GalleryItem[] {
-  if (!Array.isArray(value)) return [];
   const items: GalleryItem[] = [];
-  for (const raw of value) {
+  for (const raw of galleryRecords(value)) {
     if (!raw || typeof raw !== "object") continue;
     const rec = raw as Record<string, unknown>;
     const url = typeof rec.url === "string" ? rec.url.trim() : "";
@@ -52,9 +72,26 @@ export function parseGallery(value: unknown): GalleryItem[] {
       typeof publicIdRaw === "string" && publicIdRaw.trim()
         ? publicIdRaw.trim()
         : null;
-    items.push({ url, publicId });
+    const role =
+      typeof rec.role === "string" && rec.role.trim()
+        ? rec.role.trim().slice(0, 40)
+        : undefined;
+    const caption =
+      typeof rec.caption === "string" && rec.caption.trim()
+        ? rec.caption.trim().slice(0, 280)
+        : undefined;
+    items.push({
+      url,
+      publicId,
+      ...(role ? { role } : {}),
+      ...(caption ? { caption } : {}),
+    });
   }
   return items;
+}
+
+function packGallery(items: GalleryItem[], story: string): Prisma.InputJsonValue {
+  return { story, items } as Prisma.InputJsonValue;
 }
 
 export function toProjectJson(project: Project): ProjectJson {
@@ -71,6 +108,7 @@ export function toProjectJson(project: Project): ProjectJson {
     cloudinary_public_id: project.cloudinaryPublicId,
     poster_public_id: project.posterPublicId,
     gallery: parseGallery(project.gallery),
+    story: parseStory(project.gallery),
   };
 }
 
@@ -126,6 +164,7 @@ projectsRouter.post("/", requireAuth, async (req, res) => {
   const cloudinaryPublicId = req.body?.cloudinary_public_id ?? null;
   const posterPublicId = req.body?.poster_public_id ?? null;
   const gallery = parseGallery(req.body?.gallery);
+  const story = parseStory(null, req.body?.story);
 
   if (!title || !TYPES.has(type) || !mediaUrl) {
     res.status(400).json({ error: "Title, type, and media_url are required." });
@@ -143,7 +182,7 @@ projectsRouter.post("/", requireAuth, async (req, res) => {
       storageDriver,
       cloudinaryPublicId,
       posterPublicId,
-      gallery: gallery as Prisma.InputJsonValue,
+      gallery: packGallery(gallery, story),
     },
   });
   res.status(201).json(toProjectJson(project));
@@ -174,6 +213,10 @@ projectsRouter.patch("/:id", requireAuth, async (req, res) => {
     req.body?.gallery !== undefined
       ? parseGallery(req.body.gallery)
       : parseGallery(existing.gallery);
+  const story =
+    req.body?.story !== undefined
+      ? parseStory(null, req.body.story)
+      : parseStory(existing.gallery);
 
   if (!title || !TYPES.has(type) || !mediaUrl) {
     res.status(400).json({ error: "Title, type, and media_url are required." });
@@ -212,7 +255,7 @@ projectsRouter.patch("/:id", requireAuth, async (req, res) => {
       storageDriver,
       cloudinaryPublicId,
       posterPublicId: type === "videos" ? posterPublicId : null,
-      gallery: nextGallery as Prisma.InputJsonValue,
+      gallery: packGallery(nextGallery, story),
     },
   });
   res.json(toProjectJson(project));

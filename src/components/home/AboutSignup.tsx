@@ -126,8 +126,8 @@ const AboutSignup = () => {
       <div className="relative max-w-6xl mx-auto space-y-24">
         {/* Header Layout Grid Block */}
         <header className="max-w-3xl mx-auto text-center space-y-5">
-          <span className="inline-flex items-center gap-2 text-[10px] font-black tracking-[0.35em] uppercase text-main-red bg-main-red/5 px-4 py-1.5 rounded-full border border-main-red/10 select-none">
-            <span className="w-1 h-1 rounded-full bg-main-red" />
+          <span className="inline-flex items-center gap-2 text-[10px] font-black tracking-[0.35em] uppercase text-main-green bg-main-green/5 px-4 py-1.5 rounded-full border border-main-green/10 select-none">
+            <span className="w-1 h-1 rounded-full bg-main-green" />
             Corporate Blueprint
           </span>
           <h2 className="text-3xl md:text-5xl font-black tracking-tight leading-[1.1] uppercase text-slate-900">

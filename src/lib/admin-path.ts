@@ -1,5 +1,5 @@
 export function safeAdminNext(next?: string | null): string {
-  if (!next || !next.startsWith("/admin")) return "/admin/projects";
+  if (!next || !next.startsWith("/admin")) return "/admin";
 
   const path = next.split("?")[0];
   if (
@@ -8,11 +8,11 @@ export function safeAdminNext(next?: string | null): string {
     path.includes("\\") ||
     path.includes("//")
   ) {
-    return "/admin/projects";
+    return "/admin";
   }
 
-  if (path === "/admin") return "/admin/projects";
   if (
+    path === "/admin" ||
     path === "/admin/projects" ||
     path === "/admin/projects/new" ||
     path === "/admin/intro" ||
@@ -23,5 +23,5 @@ export function safeAdminNext(next?: string | null): string {
     return path;
   }
 
-  return "/admin/projects";
+  return "/admin";
 }

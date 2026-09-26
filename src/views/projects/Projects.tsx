@@ -102,7 +102,7 @@ const ShowReels = ({ items }: { items: Project[] }) => {
 
         <div className="flex flex-col items-center text-center mb-12 max-w-2xl mx-auto space-y-4">
           <motion.div
-            className="p-3 border border-white/20 rounded-full bg-main-move shadow-lg backdrop-blur-sm"
+            className="p-3 border border-white/20 rounded-full bg-main-green shadow-lg backdrop-blur-sm"
             initial={{ scale: 0.8, opacity: 0 }}
             whileInView={{ scale: 1, opacity: 1 }}
             viewport={{ once: true }}
@@ -254,7 +254,7 @@ const ShowReels = ({ items }: { items: Project[] }) => {
           >
             <motion.a
               href="/contact"
-              className="inline-block bg-main-move text-white text-xs font-black uppercase tracking-widest py-4 px-10 rounded-full hover:bg-main-medium-move transition-all shadow-lg shadow-main-move/10"
+              className="inline-block bg-main-green text-white text-xs font-black uppercase tracking-widest py-4 px-10 rounded-full hover:bg-main-dark-green transition-all shadow-lg shadow-main-green/10"
               whileHover={{ y: -2, scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >

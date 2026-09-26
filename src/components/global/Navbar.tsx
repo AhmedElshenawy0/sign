@@ -143,8 +143,8 @@ const Navbar = () => {
             const isActive = !external && isActivePath(path);
             const className = `relative inline-flex items-center gap-1.5 pb-1.5 transition-colors duration-300 ${
               isActive
-                ? "text-main-red"
-                : "text-white/80 hover:text-main-red"
+                ? "text-main-green"
+                : "text-white/80 hover:text-main-green"
             }`;
             const label = (
               <>
@@ -155,7 +155,7 @@ const Navbar = () => {
                 {isActive && (
                   <motion.span
                     layoutId="nav-underline"
-                    className="absolute left-0 right-0 -bottom-0.5 h-[2px] bg-main-red rounded-full"
+                    className="absolute left-0 right-0 -bottom-0.5 h-[2px] bg-main-green rounded-full"
                   />
                 )}
               </>
@@ -264,7 +264,7 @@ const Navbar = () => {
             {/* Ambient brand glow, echoes the hero's glowing logo hub */}
             <div
               aria-hidden
-              className="pointer-events-none absolute -top-24 -right-24 w-72 h-72 rounded-full bg-main-move/20 blur-3xl"
+              className="pointer-events-none absolute -top-24 -right-24 w-72 h-72 rounded-full bg-main-green/20 blur-3xl"
             />
 
             {/* Nav Links Stack */}
@@ -275,13 +275,13 @@ const Navbar = () => {
                   "group flex items-baseline gap-3 sm:gap-4 py-2.5 sm:py-3 border-b border-white/5 w-full text-left rtl:text-right transition-all";
                 const inner = (
                   <>
-                    <span className="text-[10px] font-black tracking-widest text-white/30 group-hover:text-main-red transition-colors font-mono">
+                    <span className="text-[10px] font-black tracking-widest text-white/30 group-hover:text-main-green transition-colors font-mono">
                       {String(i + 1).padStart(2, "0")}
                     </span>
                     <span
                       className={`inline-flex items-center gap-2 text-xl sm:text-2xl font-black uppercase tracking-wider transition-all transform group-active:scale-98 ${
                         isActive
-                          ? "text-main-red pl-2 rtl:pl-0 rtl:pr-2"
+                          ? "text-main-green pl-2 rtl:pl-0 rtl:pr-2"
                           : "text-white/80 hover:text-white"
                       }`}
                     >

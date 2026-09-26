@@ -71,8 +71,8 @@ const AboutContent = () => {
             className="flex flex-col flex-2 gap-6 py-6 md:py-14"
             variants={fadeIn("up", 0.1)}
           >
-            <span className="inline-flex items-center gap-2 w-fit text-[10px] font-black tracking-[0.35em] uppercase text-main-red bg-main-red/5 px-4 py-1.5 rounded-full border border-main-red/10 select-none">
-              <span className="w-1 h-1 rounded-full bg-main-red" />
+            <span className="inline-flex items-center gap-2 w-fit text-[10px] font-black tracking-[0.35em] uppercase text-main-green bg-main-green/5 px-4 py-1.5 rounded-full border border-main-green/10 select-none">
+              <span className="w-1 h-1 rounded-full bg-main-green" />
               {t("about.content.eyebrow")}
             </span>
 

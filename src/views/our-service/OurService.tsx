@@ -249,7 +249,7 @@ const OurService = () => {
 
               <motion.a
                 href="/contact"
-                className="inline-block uppercase tracking-wider text-xs font-black bg-main-green py-4 px-8 rounded-full text-slate-950 shadow-lg shadow-main-green/10 hover:bg-green-300 transition-all"
+                className="inline-block uppercase tracking-wider text-xs font-black bg-main-green py-4 px-8 rounded-full text-white shadow-lg shadow-main-green/10 hover:bg-main-dark-green transition-all"
                 whileHover={{ y: -2 }}
                 whileTap={{ scale: 0.98 }}
               >
@@ -320,7 +320,7 @@ const OurService = () => {
                   </div>
                   <a
                     href="/contact"
-                    className="text-xs font-black uppercase tracking-widest text-main-green group-hover:text-green-600 transition-colors inline-flex items-center gap-1.5 self-start"
+                    className="text-xs font-black uppercase tracking-widest text-main-green group-hover:text-white transition-colors inline-flex items-center gap-1.5 self-start"
                   >
                     {t("ourServices.global.learnMore", "Learn More")}{" "}
                     <span className="rtl:rotate-180">→</span>

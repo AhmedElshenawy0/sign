@@ -135,7 +135,7 @@ const BrandingPage = () => {
               </span>
             </div>
             <div className="flex flex-col items-center gap-1">
-              <span className="text-2xl md:text-3xl font-black text-main-move">
+              <span className="text-2xl md:text-3xl font-black text-main-green">
                 120+
               </span>
               <span className="text-[10px] font-bold uppercase tracking-widest text-white/40">
@@ -157,8 +157,8 @@ const BrandingPage = () => {
       {/* 4. CONTENT PRESENTATION DECK (معتم z-20 يرتفع ليغطي خلفية الـ Fixed تماماً) */}
       <section className="relative z-20 bg-white text-slate-900 px-6 py-24 md:py-32 rounded-t-[2.5rem] md:rounded-t-[3.5rem] shadow-[-0px_-20px_50px_rgba(0,0,0,0.3)]">
         <div className="max-w-2xl mx-auto text-center space-y-4 mb-16">
-          <span className="inline-flex items-center gap-2 text-[10px] font-black tracking-[0.35em] uppercase text-main-red bg-main-red/5 px-4 py-1.5 rounded-full border border-main-red/10 select-none">
-            <span className="w-1 h-1 rounded-full bg-main-red" />
+          <span className="inline-flex items-center gap-2 text-[10px] font-black tracking-[0.35em] uppercase text-main-green bg-main-green/5 px-4 py-1.5 rounded-full border border-main-green/10 select-none">
+            <span className="w-1 h-1 rounded-full bg-main-green" />
             {t("branding.coreValues.eyebrow")}
           </span>
           <h2 className="text-3xl md:text-5xl font-black tracking-tight uppercase text-slate-900">
@@ -225,7 +225,7 @@ const BrandingPage = () => {
                   key={item.key}
                   className="inline-flex items-center gap-2.5 text-xs font-bold text-slate-600 bg-neutral-50 border border-neutral-100 rounded-full px-4 py-2.5"
                 >
-                  <Icon className="text-main-move" size={13} />
+                  <Icon className="text-main-green" size={13} />
                   {t(`branding.deliverables.${item.key}`)}
                 </span>
               );

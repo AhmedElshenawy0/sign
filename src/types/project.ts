@@ -84,20 +84,37 @@ export function supportsProjectGallery(type: ProjectType) {
 export type ProjectGalleryItem = {
   url: string;
   publicId: string | null;
+  role?: string;
+  caption?: string;
 };
 
+function asGalleryList(value: unknown): ProjectGalleryItem[] {
+  if (Array.isArray(value)) return value;
+  if (value && typeof value === "object" && Array.isArray((value as { items?: unknown }).items)) {
+    return (value as { items: ProjectGalleryItem[] }).items;
+  }
+  return [];
+}
+
 export function galleryItems(project: { gallery?: ProjectGalleryItem[] | null }): ProjectGalleryItem[] {
-  if (!Array.isArray(project.gallery)) return [];
-  return project.gallery.filter((item) => Boolean(item?.url));
+  return asGalleryList(project.gallery).filter((item) => Boolean(item?.url));
 }
 
 export function stillUrls(project: {
   media_url: string;
   gallery?: ProjectGalleryItem[] | null;
 }): string[] {
-  return [project.media_url, ...galleryItems(project).map((item) => item.url)].filter(
-    Boolean,
-  );
+  return stillItems(project).map((item) => item.url);
+}
+
+export function stillItems(project: {
+  media_url: string;
+  gallery?: ProjectGalleryItem[] | null;
+}): ProjectGalleryItem[] {
+  return [
+    { url: project.media_url, publicId: null },
+    ...galleryItems(project),
+  ].filter((item) => Boolean(item.url));
 }
 
 export function groupIdForType(type: ProjectType): ServiceGroupId {
@@ -120,6 +137,7 @@ export type Project = {
   cloudinary_public_id?: string | null;
   poster_public_id?: string | null;
   gallery?: ProjectGalleryItem[];
+  story?: string;
 };
 
 export type ProjectInput = {
@@ -132,4 +150,5 @@ export type ProjectInput = {
   cloudinary_public_id?: string | null;
   poster_public_id?: string | null;
   gallery?: ProjectGalleryItem[];
+  story?: string;
 };

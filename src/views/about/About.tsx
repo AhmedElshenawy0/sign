@@ -82,7 +82,7 @@ const About = () => {
               </span>
             </div>
             <div className="flex flex-col items-center gap-1">
-              <span className="text-2xl md:text-3xl font-black text-main-move">
+              <span className="text-2xl md:text-3xl font-black text-main-green">
                 120+
               </span>
               <span className="text-[10px] font-bold uppercase tracking-widest text-white/40">

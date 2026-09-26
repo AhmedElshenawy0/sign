@@ -4,10 +4,11 @@ import { useEffect, useState } from "react";
 import { Button, ConfigProvider, Form, Input, theme } from "antd";
 import { LockOutlined, MailOutlined } from "@ant-design/icons";
 import { motion } from "framer-motion";
-import { toast } from "react-toastify";
+import { toast } from "@/lib/admin-toast";
 import { readApiError } from "@/lib/api";
 import { safeAdminNext } from "@/lib/admin-path";
 import GridBg from "@/components/global/GridBg";
+import { ADMIN_COPY } from "@/lib/admin-copy";
 
 const fieldStyles = {
   root: {
@@ -42,8 +43,12 @@ export default function LoginForm({ error, message, next }: Props) {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (error) toast.error(error);
-    if (message) toast.success(message);
+    if (!error && !message) return;
+    const timer = window.setTimeout(() => {
+      if (error) toast.error(error);
+      if (message) toast.success(message);
+    }, 180);
+    return () => window.clearTimeout(timer);
   }, [error, message]);
 
   async function onLogin(values: { email: string; password: string }) {
@@ -73,7 +78,7 @@ export default function LoginForm({ error, message, next }: Props) {
   }
 
   return (
-    <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-slate-950 px-4 py-16">
+    <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#05070c] px-4 py-16">
       <style>{`
         .login-studio-field input,
         input.login-studio-field {
@@ -111,23 +116,23 @@ export default function LoginForm({ error, message, next }: Props) {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
       >
-        <div className="overflow-hidden rounded-[28px] border border-white/10 bg-slate-950/70 shadow-[0_30px_80px_rgba(0,0,0,0.45)] backdrop-blur-xl">
-          <div className="h-1 w-full bg-gradient-to-r from-transparent via-[#0e985d] to-transparent" />
-          <div className="px-8 pb-8 pt-10">
-            <div className="mb-8 text-center">
+        <div className="overflow-hidden rounded-2xl border border-white/10 bg-[#0c1220]/80 shadow-[0_30px_80px_rgba(0,0,0,0.45)] backdrop-blur-xl">
+          <div className="h-px w-full bg-gradient-to-r from-transparent via-[#0e985d] to-transparent" />
+          <div className="px-5 pb-8 pt-8 sm:px-8">
+            <div className="mb-6 text-center">
               <img
                 src="/images/SignUp Logo White.png"
                 alt="Sign Up"
-                className="mx-auto mb-4 h-[72px] w-[72px] rounded-full border border-white/10 bg-slate-950 object-cover p-1.5"
+                className="mx-auto mb-4 h-16 w-16 rounded-full border border-white/10 bg-[#05070c] object-cover p-1.5"
               />
               <p className="text-[10px] font-extrabold uppercase tracking-[0.35em] text-[#0e985d]">
-                Studio admin
+                {ADMIN_COPY.login.kicker}
               </p>
               <h1 className="mt-2 text-3xl font-semibold tracking-tight text-white">
-                Welcome back
+                {ADMIN_COPY.login.title}
               </h1>
               <p className="mt-2 text-sm text-slate-400">
-                Sign in to manage the project gallery.
+                {ADMIN_COPY.login.subtitle}
               </p>
             </div>
 
@@ -142,8 +147,8 @@ export default function LoginForm({ error, message, next }: Props) {
                 components: {
                   Input: {
                     activeBorderColor: "#0e985d",
-                    hoverBorderColor: "rgba(14,152,93,0.55)",
-                    activeShadow: "0 0 0 3px rgba(14,152,93,0.2)",
+                    hoverBorderColor: "rgba(14,152,93),0.55)",
+                    activeShadow: "0 0 0 3px rgba(14,152,93),0.2)",
                     colorBgContainer: "rgba(255,255,255,0.06)",
                     colorText: "#ffffff",
                     colorTextPlaceholder: "#64748b",
@@ -155,7 +160,7 @@ export default function LoginForm({ error, message, next }: Props) {
             <Form layout="vertical" onFinish={onLogin} requiredMark={false}>
               <Form.Item
                 name="email"
-                label={<span className={labelClass}>Email</span>}
+                label={<span className={labelClass}>{ADMIN_COPY.login.email}</span>}
                 normalize={(value) =>
                   typeof value === "string" ? value.trim() : value
                 }
@@ -173,14 +178,14 @@ export default function LoginForm({ error, message, next }: Props) {
                   className="login-studio-field"
                   styles={fieldStyles}
                   prefix={<MailOutlined />}
-                  placeholder="Email address"
+                  placeholder={ADMIN_COPY.login.emailPlaceholder}
                   autoComplete="email"
                   inputMode="email"
                 />
               </Form.Item>
               <Form.Item
                 name="password"
-                label={<span className={labelClass}>Password</span>}
+                label={<span className={labelClass}>{ADMIN_COPY.login.password}</span>}
                 rules={[{ required: true, message: "Enter your password" }]}
               >
                 <Input.Password
@@ -189,7 +194,7 @@ export default function LoginForm({ error, message, next }: Props) {
                   className="login-studio-field"
                   styles={fieldStyles}
                   prefix={<LockOutlined />}
-                  placeholder="Password"
+                  placeholder={ADMIN_COPY.login.passwordPlaceholder}
                   autoComplete="current-password"
                 />
               </Form.Item>
@@ -199,9 +204,9 @@ export default function LoginForm({ error, message, next }: Props) {
                 size="large"
                 block
                 loading={loading}
-                className="mt-2 h-12 rounded-2xl font-semibold shadow-[0_10px_28px_rgba(14,152,93,0.28)]"
+                className="mt-2 h-12 rounded-2xl font-semibold shadow-[0_10px_28px_rgba(14,152,93),0.28)]"
               >
-                Continue
+                {ADMIN_COPY.login.submit}
               </Button>
             </Form>
             </ConfigProvider>

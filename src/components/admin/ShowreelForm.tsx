@@ -4,9 +4,9 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button, Form, Input, Upload, type UploadFile } from "antd";
 import { InboxOutlined } from "@ant-design/icons";
-import { motion } from "framer-motion";
-import { toast } from "react-toastify";
-import { setFlashToast } from "@/lib/admin-toast";
+import { setFlashToast, toast } from "@/lib/admin-toast";
+import { ADMIN_COPY } from "@/lib/admin-copy";
+import AdminFormCard, { FormSection } from "@/components/admin/AdminFormCard";
 import { uploadProjectFile } from "@/lib/storage";
 import {
   saveShowreel,
@@ -80,20 +80,19 @@ export default function ShowreelForm({ current }: { current: Showreel }) {
   }
 
   return (
-    <motion.div
-      className="mx-auto max-w-2xl"
-      initial={{ opacity: 0, y: 18 }}
-      animate={{ opacity: 1, y: 0 }}
+    <AdminFormCard
+      kicker={ADMIN_COPY.showreel.kicker}
+      title={ADMIN_COPY.showreel.formTitle}
+      hint={ADMIN_COPY.showreel.formHint}
     >
-      <div className="overflow-hidden rounded-3xl border border-white/10 bg-slate-950/70 p-6 shadow-[0_24px_60px_rgba(0,0,0,0.35)] md:p-8">
-        <Form
+      <Form
           layout="vertical"
           onFinish={onFinish}
           initialValues={current.copy}
         >
           <Form.Item
-            label="Compilation video"
-            extra="MP4, WEBM or MOV up to 200MB. This is the home showreel — use a cut of real work, not the intro clip. Leave empty to keep the current file."
+            label={ADMIN_COPY.showreel.videoLabel}
+            extra={ADMIN_COPY.showreel.videoExtra}
           >
             <Upload.Dragger
               maxCount={1}
@@ -108,7 +107,7 @@ export default function ShowreelForm({ current }: { current: Showreel }) {
               <p className="ant-upload-drag-icon">
                 <InboxOutlined />
               </p>
-              <p className="ant-upload-text">Click or drag a compilation video here</p>
+              <p className="ant-upload-text">{ADMIN_COPY.showreel.drop}</p>
             </Upload.Dragger>
           </Form.Item>
 
@@ -123,42 +122,46 @@ export default function ShowreelForm({ current }: { current: Showreel }) {
             </div>
           ) : null}
 
+          <FormSection
+            kicker={ADMIN_COPY.showreel.copyKicker}
+            hint={ADMIN_COPY.showreel.copyHint}
+          >
           <div className="grid gap-4 md:grid-cols-2">
             <Form.Item
               name="eyebrowEn"
-              label="Eyebrow (English)"
+              label={ADMIN_COPY.showreel.eyebrowEn}
               rules={[{ required: true, message: "Add the English eyebrow." }]}
             >
               <Input placeholder="Visual Proof" />
             </Form.Item>
             <Form.Item
               name="eyebrowAr"
-              label="Eyebrow (Arabic)"
+              label={ADMIN_COPY.showreel.eyebrowAr}
               rules={[{ required: true, message: "Add the Arabic eyebrow." }]}
             >
               <Input placeholder="الدليل البصري" dir="rtl" />
             </Form.Item>
             <Form.Item
               name="titleEn"
-              label="Title (English)"
+              label={ADMIN_COPY.showreel.titleEn}
               rules={[{ required: true, message: "Add the English title." }]}
             >
               <Input placeholder="SHOWREEL" />
             </Form.Item>
             <Form.Item
               name="titleAr"
-              label="Title (Arabic)"
+              label={ADMIN_COPY.showreel.titleAr}
               rules={[{ required: true, message: "Add the Arabic title." }]}
             >
               <Input placeholder="عرض الأعمال" dir="rtl" />
             </Form.Item>
           </div>
+          </FormSection>
 
-          <Button type="primary" htmlType="submit" size="large" loading={saving}>
-            Save showreel
+          <Button type="primary" htmlType="submit" size="large" loading={saving} className="h-11 w-full sm:w-auto sm:min-w-[180px]">
+            {ADMIN_COPY.showreel.save}
           </Button>
         </Form>
-      </div>
-    </motion.div>
+    </AdminFormCard>
   );
 }

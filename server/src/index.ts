@@ -19,6 +19,7 @@ if (process.env.NODE_ENV === "production") {
 }
 
 fs.mkdirSync(path.join(UPLOADS_DIR, "videos"), { recursive: true });
+fs.mkdirSync(path.join(UPLOADS_DIR, "images"), { recursive: true });
 fs.mkdirSync(path.join(UPLOADS_DIR, "tmp"), { recursive: true });
 
 app.use(

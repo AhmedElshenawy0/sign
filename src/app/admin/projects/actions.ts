@@ -18,6 +18,7 @@ export async function saveProjectAction(
   revalidatePath("/projects");
   revalidatePath(`/projects/${saved.id}`);
   revalidatePath("/admin/projects");
+  revalidatePath("/admin");
   return saved;
 }
 
@@ -27,4 +28,5 @@ export async function deleteProjectAction(id: string) {
   revalidatePath("/projects");
   revalidatePath(`/projects/${id}`);
   revalidatePath("/admin/projects");
+  revalidatePath("/admin");
 }

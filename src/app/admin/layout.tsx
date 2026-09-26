@@ -21,7 +21,7 @@ export default async function AdminLayout({
   const user = await getAdminUser();
 
   if (isLogin) {
-    if (user) redirect("/admin/projects");
+    if (user) redirect("/admin");
     return <AdminProviders>{children}</AdminProviders>;
   }
 
@@ -32,11 +32,12 @@ export default async function AdminLayout({
 
   return (
     <AdminProviders>
-      <div className="relative min-h-screen bg-slate-950 text-white">
+      <div className="admin-shell relative min-h-screen bg-[#05070c] text-white" dir="ltr">
         <GridBg variant="dark" />
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(14,152,93,0.12),transparent_34%)]" />
         <div className="relative flex min-h-screen flex-col lg:flex-row">
           <AdminHeader email={user.email} />
-          <div className="min-w-0 flex-1">{children}</div>
+          <div className="min-w-0 flex-1 overflow-x-hidden lg:min-h-screen">{children}</div>
         </div>
       </div>
     </AdminProviders>

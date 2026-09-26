@@ -1,0 +1,221 @@
+.admin-antd-app {
+  direction: ltr;
+}
+
+.admin-shell aside a.admin-nav-link {
+  color: #cbd5e1 !important;
+  background: transparent !important;
+  text-decoration: none;
+  box-shadow: none !important;
+}
+
+.admin-shell aside a.admin-nav-link:hover {
+  color: #ffffff !important;
+  background: rgba(255, 255, 255, 0.06) !important;
+}
+
+.admin-shell aside a.admin-nav-link--accent {
+  color: #86efac !important;
+  background: rgba(14, 152, 93, 0.1) !important;
+  border: 1px solid rgba(14, 152, 93, 0.45);
+}
+
+.admin-shell aside a.admin-nav-link--accent:hover {
+  color: #ffffff !important;
+  background: rgba(14, 152, 93, 0.16) !important;
+}
+
+.admin-shell aside a.admin-nav-link--active,
+.admin-shell aside a.admin-nav-link--active:hover {
+  color: #ffffff !important;
+  background: #0e985d !important;
+  border-color: #0e985d;
+}
+
+.admin-shell aside .anticon {
+  color: inherit !important;
+}
+
+.admin-sidebar-scroll {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.admin-sidebar-scroll::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;
+}
+
+.admin-shell .ant-form-item {
+  margin-bottom: 20px;
+}
+
+.admin-shell .ant-form-item-label {
+  padding-bottom: 6px !important;
+}
+
+.admin-shell .ant-form-item-label > label {
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  height: auto !important;
+  color: #94a3b8 !important;
+}
+
+.admin-shell .ant-upload-wrapper,
+.admin-shell .ant-upload {
+  display: block;
+}
+
+.admin-shell .ant-upload-drag {
+  background: rgba(255, 255, 255, 0.03) !important;
+  border-radius: 16px !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  min-height: 188px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.admin-shell .ant-upload-drag:hover {
+  border-color: rgba(14, 152, 93, 0.55) !important;
+  background: rgba(14, 152, 93, 0.06) !important;
+}
+
+.admin-shell .ant-upload-text {
+  color: #f8fafc !important;
+  font-weight: 600 !important;
+}
+
+.admin-shell .ant-upload-hint,
+.admin-shell .ant-form-item-extra {
+  color: #64748b !important;
+}
+
+.admin-shell .ant-btn-primary {
+  box-shadow: 0 10px 24px rgba(14, 152, 93, 0.22);
+}
+
+.admin-shell .ant-empty-description {
+  color: #94a3b8 !important;
+}
+
+.admin-toast-container {
+  z-index: 99999 !important;
+}
+
+@media (max-width: 640px) {
+  .admin-toast-container {
+    inset: 12px 12px auto !important;
+    width: auto !important;
+  }
+
+  .admin-toast {
+    max-width: 100% !important;
+  }
+
+  .admin-shell .ant-upload-drag {
+    min-height: 148px !important;
+  }
+}
+
+.admin-toast {
+  font-family: Montserrat, sans-serif !important;
+  background: linear-gradient(180deg, rgba(14, 22, 36, 0.98), rgba(8, 12, 20, 0.98)) !important;
+  color: #f8fafc !important;
+  border-radius: 16px !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45) !important;
+  min-height: 56px !important;
+  padding: 14px 16px !important;
+  backdrop-filter: blur(16px);
+}
+
+.admin-toast--success {
+  border-color: rgba(14, 152, 93, 0.55) !important;
+}
+
+.admin-toast--error {
+  border-color: rgba(229, 68, 17, 0.5) !important;
+}
+
+.admin-filter-scroll {
+  min-width: 0;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.admin-filter-scroll::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;
+}
+
+.admin-filter-scroll .ant-segmented {
+  min-width: max-content;
+}
+
+.admin-filter-scroll .ant-segmented-item {
+  flex: 0 0 auto;
+}
+
+.admin-filter-scroll .ant-segmented-item-label {
+  padding-inline: 12px !important;
+}
+
+@media (max-width: 767px) {
+  .admin-filter-scroll .ant-segmented-item-label {
+    padding-inline: 10px !important;
+    font-size: 13px !important;
+  }
+}
+
+.admin-confirm-modal {
+  direction: ltr !important;
+  max-width: calc(100vw - 32px) !important;
+}
+
+.admin-confirm-modal .ant-modal-mask {
+  background: rgba(5, 7, 12, 0.72) !important;
+  backdrop-filter: none !important;
+}
+
+.admin-confirm-modal .ant-modal-container,
+.admin-confirm-modal .ant-modal-content {
+  background: #0c1220 !important;
+  color: #f8fafc !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5) !important;
+}
+
+.admin-confirm-modal .ant-modal-header,
+.admin-confirm-modal .ant-modal-footer {
+  background: #0c1220 !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+.admin-confirm-modal .ant-modal-title,
+.admin-confirm-modal .ant-modal-confirm-title {
+  color: #f8fafc !important;
+  font-weight: 600 !important;
+}
+
+.admin-confirm-modal .ant-modal-body,
+.admin-confirm-modal .ant-modal-confirm-content {
+  color: #94a3b8 !important;
+}
+
+.admin-confirm-modal .ant-modal-close {
+  color: #94a3b8 !important;
+}
+
+.admin-confirm-modal .ant-modal-confirm-btns {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}

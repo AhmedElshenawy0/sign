@@ -5,6 +5,7 @@ export type UploadResult = {
   publicUrl: string;
   publicId: string | null;
   storageDriver: "cloudinary" | "local" | "public_asset";
+  warning?: string;
 };
 
 export async function uploadProjectFile(

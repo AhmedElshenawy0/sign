@@ -4,9 +4,9 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button, Form, Upload, type UploadFile } from "antd";
 import { InboxOutlined } from "@ant-design/icons";
-import { motion } from "framer-motion";
-import { toast } from "react-toastify";
-import { setFlashToast } from "@/lib/admin-toast";
+import { setFlashToast, toast } from "@/lib/admin-toast";
+import { ADMIN_COPY } from "@/lib/admin-copy";
+import AdminFormCard from "@/components/admin/AdminFormCard";
 import { uploadProjectFile } from "@/lib/storage";
 import { saveIntroVideo, type IntroVideo } from "@/lib/settings";
 
@@ -70,16 +70,15 @@ export default function IntroVideoForm({ current }: { current: IntroVideo }) {
   }
 
   return (
-    <motion.div
-      className="mx-auto max-w-2xl"
-      initial={{ opacity: 0, y: 18 }}
-      animate={{ opacity: 1, y: 0 }}
+    <AdminFormCard
+      kicker={ADMIN_COPY.intro.kicker}
+      title={ADMIN_COPY.intro.formTitle}
+      hint={ADMIN_COPY.intro.formHint}
     >
-      <div className="overflow-hidden rounded-3xl border border-white/10 bg-slate-950/70 p-6 shadow-[0_24px_60px_rgba(0,0,0,0.35)] md:p-8">
-        <Form layout="vertical" onFinish={onFinish}>
+      <Form layout="vertical" onFinish={onFinish}>
           <Form.Item
-            label="Intro background video"
-            extra="MP4, WEBM or MOV up to 200MB. Leave empty to keep the current file."
+            label={ADMIN_COPY.intro.label}
+            extra={ADMIN_COPY.intro.extra}
           >
             <Upload.Dragger
               maxCount={1}
@@ -94,7 +93,7 @@ export default function IntroVideoForm({ current }: { current: IntroVideo }) {
               <p className="ant-upload-drag-icon">
                 <InboxOutlined />
               </p>
-              <p className="ant-upload-text">Click or drag a video here</p>
+              <p className="ant-upload-text">{ADMIN_COPY.intro.drop}</p>
             </Upload.Dragger>
           </Form.Item>
 
@@ -109,11 +108,10 @@ export default function IntroVideoForm({ current }: { current: IntroVideo }) {
             </div>
           ) : null}
 
-          <Button type="primary" htmlType="submit" size="large" loading={saving}>
-            Save intro video
+          <Button type="primary" htmlType="submit" size="large" loading={saving} className="h-11 w-full sm:w-auto sm:min-w-[180px]">
+            {ADMIN_COPY.intro.save}
           </Button>
         </Form>
-      </div>
-    </motion.div>
+    </AdminFormCard>
   );
 }

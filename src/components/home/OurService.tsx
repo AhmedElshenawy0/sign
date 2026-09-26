@@ -119,15 +119,15 @@ const OurService = () => {
           used elsewhere on the site rather than introducing a new color */}
       <div
         aria-hidden
-        className="absolute top-0 left-1/2 -translate-x-1/2 w-[60rem] h-[60rem] rounded-full bg-main-move/[0.03] blur-[140px] pointer-events-none"
+        className="absolute top-0 left-1/2 -translate-x-1/2 w-[60rem] h-[60rem] rounded-full bg-main-green/[0.03] blur-[140px] pointer-events-none"
       />
 
       {/* Structural Central Heading Title Block */}
       <div className="relative text-center px-6 max-w-2xl mx-auto space-y-5">
-        <span className="inline-flex items-center gap-2.5 text-[10px] font-black tracking-[0.35em] uppercase text-main-move bg-main-move/5 px-4 py-1.5 rounded-full border border-main-move/10 select-none">
+        <span className="inline-flex items-center gap-2.5 text-[10px] font-black tracking-[0.35em] uppercase text-main-green bg-main-green/5 px-4 py-1.5 rounded-full border border-main-green/10 select-none">
           <span className="relative flex h-1.5 w-1.5">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-main-move opacity-75" />
-            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-main-move" />
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-main-green opacity-75" />
+            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-main-green" />
           </span>
           {t("home.servicesSection.eyebrow")}
         </span>
@@ -148,7 +148,7 @@ const OurService = () => {
             <button
               key={service.key}
               onClick={() => scrollToIndex(i)}
-              className="text-[10px] font-black uppercase tracking-wider px-3.5 py-1.5 rounded-full border border-slate-200 text-slate-500 hover:border-main-move/40 hover:text-main-move transition-colors"
+              className="text-[10px] font-black uppercase tracking-wider px-3.5 py-1.5 rounded-full border border-slate-200 text-slate-500 hover:border-main-green/40 hover:text-main-green transition-colors"
             >
               {t(`home.services.${service.key}.tag`)}
             </button>
@@ -187,7 +187,7 @@ const OurService = () => {
                 <span
                   className={`rounded-full transition-all duration-300 ${
                     isActive
-                      ? "w-2.5 h-2.5 bg-main-move"
+                      ? "w-2.5 h-2.5 bg-main-green"
                       : "w-1.5 h-1.5 bg-slate-300 group-hover:bg-slate-400"
                   }`}
                 />

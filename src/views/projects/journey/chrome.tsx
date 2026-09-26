@@ -10,7 +10,25 @@ import {
   useScroll,
 } from "framer-motion";
 import { useTranslation } from "react-i18next";
-import { groupIdForType, type Project } from "@/types/project";
+import { groupIdForType, type Project, type ProjectGalleryItem } from "@/types/project";
+
+export function projectLine(project: Project, t: (key: string) => string) {
+  const story = project.story?.trim();
+  return story || t(`projects.journey.lines.${project.type}`);
+}
+
+export function roleLabel(
+  item: Pick<ProjectGalleryItem, "role"> | undefined,
+  t: (key: string, options?: { defaultValue?: string }) => string,
+  fallback = "",
+) {
+  if (item?.role) {
+    return t(`projects.journey.roles.${item.role}`, {
+      defaultValue: item.role.replace(/_/g, " "),
+    });
+  }
+  return fallback;
+}
 
 export function ScrollProgress() {
   const { scrollYProgress } = useScroll();
@@ -22,10 +40,19 @@ export function ScrollProgress() {
 
   return (
     <motion.div
-      className="fixed inset-x-0 top-0 z-50 h-1 origin-left bg-gradient-to-r from-main-red via-main-move to-main-green"
+      className="fixed inset-x-0 top-0 z-50 h-[3px] origin-left bg-gradient-to-r from-main-red via-main-move to-main-green"
       style={{ scaleX }}
     />
   );
+}
+
+export function frameLabel(
+  item: Pick<ProjectGalleryItem, "caption" | "role"> | undefined,
+  t: (key: string, options?: { defaultValue?: string }) => string,
+  fallback = "",
+) {
+  if (item?.caption?.trim()) return item.caption.trim();
+  return roleLabel(item, t, fallback);
 }
 
 export function JourneyShell({
@@ -41,9 +68,14 @@ export function JourneyShell({
 
   return (
     <div
-      className="relative min-h-screen overflow-x-hidden bg-black text-white"
+      className="relative min-h-screen overflow-x-hidden bg-[#05070c] text-white"
       dir={isArabic ? "rtl" : "ltr"}
     >
+      <div className="pointer-events-none fixed inset-0 z-0 bg-[radial-gradient(ellipse_at_top,rgba(14,152,93,0.12),transparent_42%),radial-gradient(ellipse_at_bottom_right,rgba(232,80,91,0.08),transparent_38%)]" />
+      <div
+        className="pointer-events-none fixed inset-0 z-0 opacity-[0.09]"
+        style={{ backgroundImage: "url('/images/noisy3.png')" }}
+      />
       <ScrollProgress />
       <header className="pointer-events-none sticky top-0 z-40 flex items-start justify-between gap-4 px-6 py-6 md:px-12">
         <Link
@@ -58,7 +90,7 @@ export function JourneyShell({
           {t(`projects.types.${project.type}`)}
         </p>
       </header>
-      {children}
+      <div className="relative z-[1]">{children}</div>
     </div>
   );
 }
@@ -92,7 +124,7 @@ export function JourneyClose({ project }: { project: Project }) {
         viewport={{ once: true }}
         transition={{ delay: 0.16 }}
       >
-        {t(`projects.journey.lines.${project.type}`)}
+        {projectLine(project, t)}
       </motion.p>
       <Link
         href="/projects"
@@ -157,6 +189,7 @@ export function CopyChapter({
   body,
   image,
   alt,
+  caption,
   reverse = false,
 }: {
   kicker: string;
@@ -164,6 +197,7 @@ export function CopyChapter({
   body: string;
   image?: string;
   alt?: string;
+  caption?: string;
   reverse?: boolean;
 }) {
   return (
@@ -178,7 +212,7 @@ export function CopyChapter({
         viewport={{ once: true, amount: 0.35 }}
         transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
       >
-        <p className="mb-4 text-[10px] font-black uppercase tracking-[0.32em] text-main-red">
+        <p className="mb-4 text-[10px] font-black uppercase tracking-[0.32em] text-main-green">
           {kicker}
         </p>
         <h2 className="mb-5 text-3xl font-black uppercase tracking-tight md:text-5xl">
@@ -194,10 +228,64 @@ export function CopyChapter({
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.03]"
         >
-          <img src={image} alt={alt ?? title} className="w-full object-contain" />
+          <div className="overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.03]">
+            <img src={image} alt={alt ?? title} className="w-full object-contain" />
+          </div>
+          {caption ? (
+            <p className="mt-4 text-sm leading-relaxed text-white/55">{caption}</p>
+          ) : null}
         </motion.div>
+      ) : null}
+    </section>
+  );
+}
+
+export function FrameChapter({
+  item,
+  index,
+  fallbackLabel,
+}: {
+  item: ProjectGalleryItem;
+  index: number;
+  fallbackLabel?: string;
+}) {
+  const { t } = useTranslation();
+  const kicker = roleLabel(item, t, fallbackLabel ?? "");
+  const caption = item.caption?.trim() ?? "";
+  const number = String(index + 1).padStart(2, "0");
+
+  return (
+    <section className="relative mx-auto flex min-h-[90vh] max-w-5xl flex-col items-center justify-center px-6 py-20">
+      <span className="pointer-events-none absolute top-10 select-none text-[22vw] font-black leading-none text-white/[0.035] md:text-[8rem]">
+        {number}
+      </span>
+      <motion.p
+        className="relative mb-6 text-[10px] font-black uppercase tracking-[0.32em] text-main-green"
+        initial={{ opacity: 0, y: 16 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.4 }}
+      >
+        {kicker ? `${number} — ${kicker}` : number}
+      </motion.p>
+      <motion.div
+        className="relative w-full overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.03] shadow-[0_40px_100px_rgba(0,0,0,0.45)]"
+        initial={{ opacity: 0, scale: 0.94, y: 24 }}
+        whileInView={{ opacity: 1, scale: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.3 }}
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+      >
+        <img src={item.url} alt={caption || kicker || ""} className="w-full object-contain" />
+      </motion.div>
+      {caption ? (
+        <motion.p
+          className="relative mt-6 max-w-md text-center text-sm leading-relaxed text-white/65 md:text-base"
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+        >
+          {caption}
+        </motion.p>
       ) : null}
     </section>
   );

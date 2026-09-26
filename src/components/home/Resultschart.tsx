@@ -483,8 +483,8 @@ const ResultsChart = () => {
       <GridBg variant="light" />
       <div className="relative mx-auto max-w-6xl space-y-8">
         <header className="mx-auto max-w-2xl space-y-3 text-center">
-          <span className="inline-flex items-center gap-2 rounded-full border border-main-red/10 bg-main-red/5 px-4 py-1.5 text-[10px] font-black uppercase tracking-[0.35em] text-main-red select-none">
-            <span className="h-1 w-1 rounded-full bg-main-red" />
+          <span className="inline-flex items-center gap-2 rounded-full border border-main-green/10 bg-main-green/5 px-4 py-1.5 text-[10px] font-black uppercase tracking-[0.35em] text-main-green select-none">
+            <span className="h-1 w-1 rounded-full bg-main-green" />
             {t("home.chart.eyebrow")}
           </span>
           <h2 className="text-3xl font-black uppercase tracking-tight text-slate-900 md:text-5xl">

@@ -6,10 +6,10 @@ import { Button, Empty, Segmented } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { motion } from "framer-motion";
 import DeleteProjectButton from "@/components/admin/DeleteProjectButton";
+import { ADMIN_COPY } from "@/lib/admin-copy";
 import {
   PROJECT_TYPE_LABELS,
   SERVICE_GROUPS,
-  SERVICE_GROUP_IDS,
   SERVICE_GROUP_LABELS,
   groupIdForType,
   isVideoProjectType,
@@ -24,89 +24,74 @@ type Props = {
 
 export default function ProjectsBoard({ items, selected }: Props) {
   const router = useRouter();
+  const copy = ADMIN_COPY.dashboard;
   const visible = selected
     ? items.filter((item) => groupIdForType(item.type) === selected)
     : items;
 
-  const counts = {
-    all: items.length,
-    ...Object.fromEntries(
-      SERVICE_GROUPS.map((group) => [
-        group.id,
-        items.filter((item) => groupIdForType(item.type) === group.id).length,
-      ]),
-    ),
-  } as Record<"all" | ServiceGroupId, number>;
-
   return (
     <motion.main
-      className="relative mx-auto max-w-6xl px-4 py-10 md:px-8"
+      className="relative mx-auto w-full min-w-0 max-w-6xl px-4 py-6 sm:px-5 md:px-8 md:py-10"
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
     >
-      <section className="mb-8 overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-slate-900/90 to-slate-950 p-6 md:p-8">
-        <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-          <div>
-            <p className="text-[10px] font-extrabold uppercase tracking-[0.3em] text-[#0e985d]">
-              Library
-            </p>
-            <h1 className="mt-2 text-3xl font-semibold tracking-tight text-white md:text-4xl">
-              Projects
-            </h1>
-            <p className="mt-2 max-w-md text-sm leading-relaxed text-slate-400">
-              Upload work into Branding, Marketing, Photo & Video, or NFC. It
-              shows on the public Our Services page.
-            </p>
-          </div>
-          <div className="flex flex-wrap gap-3">
-            {(["all", ...SERVICE_GROUP_IDS] as const).map((key) => (
-              <div
-                key={key}
-                className="min-w-[88px] rounded-2xl border border-white/10 bg-white/5 px-4 py-3"
-              >
-                <p className="text-[10px] font-bold uppercase tracking-wider text-slate-500">
-                  {key === "all" ? "Total" : SERVICE_GROUP_LABELS[key]}
-                </p>
-                <p className="mt-1 text-2xl font-semibold text-white">
-                  {counts[key]}
-                </p>
-              </div>
-            ))}
-          </div>
+      <section className="mb-6 overflow-hidden rounded-2xl border border-white/10 bg-[#0c1220]/80 shadow-[0_20px_50px_rgba(0,0,0,0.22)]">
+        <div className="h-px w-full bg-gradient-to-r from-transparent via-[#0e985d] to-transparent" />
+        <div className="p-5 sm:p-6 md:p-8">
+          <p className="text-[10px] font-extrabold uppercase tracking-[0.3em] text-[#0e985d]">
+            {copy.libraryKicker}
+          </p>
+          <h1 className="mt-2 max-w-xl text-[28px] font-semibold leading-[1.1] tracking-tight text-white sm:text-[32px] md:text-[40px]">
+            {copy.libraryTitle}
+          </h1>
+          <p className="mt-3 max-w-xl text-sm leading-relaxed text-slate-400">
+            {copy.subtitle}
+          </p>
         </div>
       </section>
 
-      <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <Segmented
-          size="large"
-          value={selected ?? "all"}
-          options={[
-            { label: "All", value: "all" },
-            ...SERVICE_GROUPS.map((group) => ({
-              label: SERVICE_GROUP_LABELS[group.id],
-              value: group.id,
-            })),
-          ]}
-          onChange={(value) => {
-            router.push(
-              value === "all"
-                ? "/admin/projects"
-                : `/admin/projects?group=${value}`,
-            );
-          }}
-        />
-        <Link href="/admin/projects/new">
-          <Button type="primary" size="large" icon={<PlusOutlined />}>
-            Add project
+      <div className="mb-6 flex flex-col gap-3 rounded-2xl border border-white/10 bg-[#0c1220]/70 p-3 md:flex-row md:items-center md:justify-between">
+        <div className="admin-filter-scroll min-w-0 flex-1">
+          <Segmented
+            size="large"
+            value={selected ?? "all"}
+            options={[
+              { label: copy.filterAll, value: "all" },
+              ...SERVICE_GROUPS.map((group) => ({
+                label:
+                  group.id === "photoVideo"
+                    ? "Photo & Video"
+                    : group.id === "nfc"
+                      ? "NFC"
+                      : SERVICE_GROUP_LABELS[group.id],
+                value: group.id,
+              })),
+            ]}
+            onChange={(value) => {
+              router.push(
+                value === "all"
+                  ? "/admin/projects"
+                  : `/admin/projects?group=${value}`,
+              );
+            }}
+          />
+        </div>
+        <Link href="/admin/projects/new" className="w-full shrink-0 md:w-auto">
+          <Button type="primary" size="large" icon={<PlusOutlined />} block>
+            {copy.addProject}
           </Button>
         </Link>
       </div>
 
       {visible.length === 0 ? (
-        <div className="rounded-3xl border border-white/10 bg-slate-900/50 py-16">
-          <Empty description="No projects in this category yet." />
-        </div>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="rounded-2xl border border-dashed border-white/10 bg-[#0c1220]/60 py-16"
+        >
+          <Empty description={copy.empty} />
+        </motion.div>
       ) : (
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {visible.map((item, index) => (
@@ -115,40 +100,43 @@ export default function ProjectsBoard({ items, selected }: Props) {
               initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.04, duration: 0.35 }}
-              className="overflow-hidden rounded-3xl border border-white/10 bg-slate-900/60 shadow-lg shadow-black/20"
+              whileHover={{ y: -4 }}
+              className="group overflow-hidden rounded-2xl border border-white/10 bg-[#0c1220]/80 shadow-[0_16px_40px_rgba(0,0,0,0.22)]"
             >
-              <div className="relative h-48 overflow-hidden bg-slate-950">
+              <div className="relative aspect-[16/10] overflow-hidden bg-slate-950">
                 {isVideoProjectType(item.type) ? (
                   <video
                     src={item.media_url}
                     poster={item.poster_url ?? undefined}
-                    className="h-full w-full object-cover"
+                    className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]"
                     muted
                   />
                 ) : (
                   <img
                     src={item.media_url}
                     alt={item.title}
-                    className="h-full w-full object-cover"
+                    className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]"
                   />
                 )}
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent" />
-                <span className="absolute left-3 top-3 rounded-full bg-[#0e985d] px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-white">
+                <div className="absolute inset-0 bg-gradient-to-t from-[#05070c] via-transparent to-transparent" />
+                <span className="absolute left-3 top-3 rounded-full bg-[#0e985d] px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-white">
                   {PROJECT_TYPE_LABELS[item.type]}
                 </span>
               </div>
               <div className="space-y-4 p-4">
-                <h2 className="truncate text-lg font-semibold text-white">
+                <h2 className="truncate text-[15px] font-semibold tracking-tight text-white">
                   {item.title}
                 </h2>
-                <div className="flex gap-2">
+                <div className="flex min-w-0 flex-wrap gap-2">
                   <Link
                     href={`/admin/projects/${item.id}`}
-                    className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl bg-[#0e985d] px-3 py-2.5 text-sm font-semibold text-white shadow-[0_8px_20px_rgba(14,152,93,0.22)] transition hover:-translate-y-0.5 hover:bg-[#12b56f] hover:shadow-[0_12px_28px_rgba(14,152,93,0.35)]"
+                    className="inline-flex h-10 min-w-0 flex-1 items-center justify-center gap-2 rounded-xl bg-[#0e985d] px-3 text-sm font-semibold text-white shadow-[0_8px_20px_rgba(14,152,93,0.22)] transition hover:bg-[#12b06c]"
                   >
-                    Edit
+                    {copy.edit}
                   </Link>
-                  <DeleteProjectButton id={item.id} />
+                  <div className="shrink-0">
+                    <DeleteProjectButton id={item.id} />
+                  </div>
                 </div>
               </div>
             </motion.article>

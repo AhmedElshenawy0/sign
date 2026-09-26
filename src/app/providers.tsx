@@ -17,8 +17,9 @@ export function Providers({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     const lang = normalizeLng(i18nInstance.language);
-    document.documentElement.lang = lang;
-    document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
+    const isAdmin = window.location.pathname.startsWith("/admin");
+    document.documentElement.lang = isAdmin ? "en" : lang;
+    document.documentElement.dir = isAdmin || lang !== "ar" ? "ltr" : "rtl";
   }, [i18nInstance.language]);
 
   return <>{children}</>;

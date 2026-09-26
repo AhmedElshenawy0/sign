@@ -193,7 +193,7 @@ const Hero = ({
               />
             </div>
 
-            <span className="inline-block text-[10px] font-black tracking-[0.35em] uppercase text-main-move mb-4 bg-main-move/10 px-5 py-2 rounded-full border border-main-move/20 select-none">
+            <span className="inline-block text-[10px] font-black tracking-[0.35em] uppercase text-main-green mb-4 bg-main-green/10 px-5 py-2 rounded-full border border-main-green/20 select-none">
               {t("home.hero.studioPill")}
             </span>
 
@@ -206,7 +206,7 @@ const Hero = ({
                 i18nKey="home.hero.description"
                 components={{
                   1: (
-                    <strong className="text-main-red font-black drop-shadow-[0_0_20px_rgba(var(--color-main-red),0.2)]" />
+                    <strong className="text-main-green font-black drop-shadow-[0_0_20px_rgba(14,152,93,0.35)]" />
                   ),
                 }}
               />
@@ -218,7 +218,7 @@ const Hero = ({
             <span className="text-[10px] font-black tracking-[0.3em] uppercase text-white/30">
               {t("home.hero.scroll")}
             </span>
-            <div className="w-[2px] h-10 bg-gradient-to-b from-main-move to-transparent rounded-full animate-bounce" />
+            <div className="w-[2px] h-10 bg-gradient-to-b from-main-green to-transparent rounded-full animate-bounce" />
           </div>
         </motion.div>
       </section>
@@ -339,7 +339,7 @@ const Hero = ({
           >
             <Link
               href="/projects"
-              className="group relative inline-flex items-center gap-4 overflow-hidden rounded-full border border-white/15 bg-white/5 px-2 py-2 ps-7 text-sm font-black uppercase tracking-[0.22em] text-white backdrop-blur-md transition-all duration-300 hover:border-[#0e985d]/50 hover:bg-[#0e985d] hover:shadow-[0_0_40px_rgba(14,152,93,0.35)]"
+              className="group relative inline-flex items-center gap-4 overflow-hidden rounded-full border border-white/15 bg-white/5 px-2 py-2 ps-7 text-sm font-black uppercase tracking-[0.22em] text-white backdrop-blur-md transition-all duration-300 hover:border-main-green/50 hover:bg-main-green hover:shadow-[0_0_40px_rgba(14,152,93,0.35)]"
             >
               <span>{t("home.hero.seeProjects")}</span>
               <span className="grid h-11 w-11 place-items-center rounded-full bg-white text-black transition-transform duration-300 group-hover:scale-110 group-hover:bg-black group-hover:text-white">

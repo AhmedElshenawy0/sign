@@ -19,6 +19,8 @@ out
 server/uploads/tmp
 server/uploads/videos/*
 !server/uploads/videos/.gitkeep
+server/uploads/images/*
+!server/uploads/images/.gitkeep
 
 # Editor directories and files
 .vscode/*

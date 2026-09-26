@@ -37,7 +37,7 @@ const Contact = () => {
           {t("home.contact.subtext")}
         </p>
 
-        <button className="group mt-4 inline-flex items-center gap-3 py-4 px-10 rounded-full border border-main-move bg-main-move text-main-white hover:bg-main-medium-move font-bold tracking-wide cursor-pointer transition-all duration-300 shadow-xl">
+        <button className="group mt-4 inline-flex items-center gap-3 py-4 px-10 rounded-full border border-main-green bg-main-green text-main-white hover:bg-main-dark-green font-bold tracking-wide cursor-pointer transition-all duration-300 shadow-xl">
           <span className="text-sm uppercase tracking-wider">
             {t("home.contact.cta")}
           </span>

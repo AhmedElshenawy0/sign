@@ -7,7 +7,8 @@ import Footer from "./Footer";
 export default function SiteShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const isAdmin = pathname.startsWith("/admin");
-  const hideChrome = isAdmin;
+  const isProjectJourney = /^\/projects\/[^/]+$/.test(pathname);
+  const hideChrome = isAdmin || isProjectJourney;
 
   return (
     <div className={isAdmin ? "min-h-screen bg-slate-950" : "overflow-hidden"}>

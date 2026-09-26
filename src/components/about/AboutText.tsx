@@ -28,8 +28,8 @@ const AboutText = () => {
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
       >
-        <span className="inline-flex items-center gap-2 text-[10px] font-black tracking-[0.35em] uppercase text-main-move bg-main-move/5 px-4 py-1.5 rounded-full border border-main-move/10 select-none">
-          <span className="w-1 h-1 rounded-full bg-main-move" />
+        <span className="inline-flex items-center gap-2 text-[10px] font-black tracking-[0.35em] uppercase text-main-green bg-main-green/5 px-4 py-1.5 rounded-full border border-main-green/10 select-none">
+          <span className="w-1 h-1 rounded-full bg-main-green" />
           {t("about.text.eyebrow")}
         </span>
 
