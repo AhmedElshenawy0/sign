@@ -21,6 +21,48 @@ export const JOURNEY_SLOT_ROLES: Record<ProjectType, string[]> = {
   nfc_medal: ["worn", "detail"],
 };
 
+export const SLOT_LABELS: Record<string, string> = {
+  logo_on_product: "Logo",
+  brand_book: "Brand book",
+  pack: "Packaging",
+  card: "Business card",
+  street: "Environmental",
+  sku: "Another SKU",
+  detail: "Detail",
+  in_hand: "In hand",
+  shelf: "On shelf",
+  bag: "Bag",
+  letterhead: "Letterhead",
+  poster: "Poster",
+  story_frame: "Story",
+  campaign: "Campaign",
+  city: "City",
+  vehicle: "Vehicle",
+  now: "Now",
+  horizon: "Horizon",
+  path: "Path",
+  budget: "Budget",
+  time: "Time",
+  mix: "Mix",
+  portrait: "Portrait",
+  wide: "Wide",
+  back: "Back",
+  on_hand: "On hand",
+  worn: "Worn",
+};
+
+export function slotLabel(role: string): string {
+  return SLOT_LABELS[role] ?? role.replace(/_/g, " ");
+}
+
+export function slotOptionsForType(type?: string) {
+  const roles = type ? slotsForType(type as ProjectType) : [];
+  const list = roles.length
+    ? roles
+    : [...new Set(Object.values(JOURNEY_SLOT_ROLES).flat())];
+  return list.map((role) => ({ title: slotLabel(role), value: role }));
+}
+
 export function slotsForType(type: ProjectType): string[] {
   return JOURNEY_SLOT_ROLES[type] ?? [];
 }
@@ -55,4 +97,28 @@ export function itemByRole(
   role: string,
 ): ProjectGalleryItem | undefined {
   return items.find((item) => item.role === role);
+}
+
+/** If a still has no slot, give it the next empty slot for this category. */
+export function fillMissingRoles(
+  type: ProjectType,
+  items: ProjectGalleryItem[],
+): ProjectGalleryItem[] {
+  const roles = slotsForType(type);
+  if (!roles.length) return items;
+  const taken = new Set(
+    items
+      .map((item) => item.role)
+      .filter((role): role is string => Boolean(role) && roles.includes(role)),
+  );
+  let cursor = 0;
+  return items.map((item) => {
+    if (item.role && roles.includes(item.role)) return item;
+    while (cursor < roles.length && taken.has(roles[cursor])) cursor += 1;
+    const role = roles[cursor];
+    if (!role) return item;
+    taken.add(role);
+    cursor += 1;
+    return { ...item, role };
+  });
 }

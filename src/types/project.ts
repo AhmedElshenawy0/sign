@@ -1,3 +1,6 @@
+import type { LocaleField } from "@/lib/cms-text";
+import type { ProjectJourneyCopy } from "@/lib/journey-copy";
+
 export const PROJECT_TYPES = [
   "brand_identity",
   "packaging",
@@ -86,6 +89,9 @@ export type ProjectGalleryItem = {
   publicId: string | null;
   role?: string;
   caption?: string;
+  kicker?: LocaleField;
+  title?: LocaleField;
+  body?: LocaleField;
 };
 
 function asGalleryList(value: unknown): ProjectGalleryItem[] {
@@ -138,6 +144,7 @@ export type Project = {
   poster_public_id?: string | null;
   gallery?: ProjectGalleryItem[];
   story?: string;
+  journeyCopy?: ProjectJourneyCopy;
 };
 
 export type ProjectInput = {

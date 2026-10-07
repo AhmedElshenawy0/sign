@@ -11,6 +11,8 @@ import {
 import { useTranslation, Trans } from "react-i18next";
 import NoisyBg from "../global/NoisyBg";
 import type { IntroVideo, Showreel } from "@/lib/settings";
+import { useHomeCopy } from "@/components/cms/PageCopy";
+import { cmsText } from "@/lib/cms-text";
 
 // Constant visual speed for the partner ticker, in pixels/second.
 // This drives the scroll directly via JS (see useAnimationFrame below)
@@ -20,6 +22,20 @@ import type { IntroVideo, Showreel } from "@/lib/settings";
 // number to go faster, lower it to go slower. That's the only knob.
 const TICKER_SPEED_PX_PER_SEC = 90;
 const TICKER_COPIES = 4;
+
+function HeroBrandLine({ text }: { text: string }) {
+  const parts = text.split(/<1>|<\/1>/);
+  if (parts.length < 3) return <>{text}</>;
+  return (
+    <>
+      {parts[0]}
+      <strong className="text-main-green font-black drop-shadow-[0_0_20px_rgba(14,152,93,0.35)]">
+        {parts[1]}
+      </strong>
+      {parts.slice(2).join("")}
+    </>
+  );
+}
 
 const Hero = ({
   showreel,
@@ -34,6 +50,7 @@ const Hero = ({
   const tickerTrackRef = useRef<HTMLDivElement>(null);
   const [isPaused, setIsPaused] = useState(true);
   const { t, i18n } = useTranslation();
+  const cms = useHomeCopy();
   const isArabic = i18n.language.startsWith("ar");
   const videoSrc = showreel.media_url;
   const eyebrow = isArabic ? showreel.copy.eyebrowAr : showreel.copy.eyebrowEn;
@@ -88,7 +105,7 @@ const Hero = ({
     }
   };
 
-  const workedWith = [
+  const defaultPartners = [
     { name: "القطان", logo: "/images/Partner/القطان.png" },
     { name: "الزينى", logo: "/images/Partner/الزينى.png" },
     { name: "المتبولى", logo: "/images/Partner/المتبولى.png" },
@@ -107,6 +124,13 @@ const Hero = ({
     { name: "نجم", logo: "/images/Partner/نجم.png" },
     { name: "نيو انجلاند", logo: "/images/Partner/نيو انجلاند.png" },
   ];
+  const cmsPartners = (cms?.partners ?? [])
+    .map((item) => ({
+      name: item.name || "",
+      logo: item.logoUrl || "",
+    }))
+    .filter((item) => item.logo);
+  const workedWith = cmsPartners.length ? cmsPartners : defaultPartners;
 
   const loopedItems = Array.from({ length: TICKER_COPIES }, () => workedWith).flat();
 
@@ -194,22 +218,28 @@ const Hero = ({
             </div>
 
             <span className="inline-block text-[10px] font-black tracking-[0.35em] uppercase text-main-green mb-4 bg-main-green/10 px-5 py-2 rounded-full border border-main-green/20 select-none">
-              {t("home.hero.studioPill")}
+              {cmsText(cms?.studioPill, i18n.language, t("home.hero.studioPill"))}
             </span>
 
             <h1 className="text-4xl md:text-7xl font-black tracking-tight leading-[1.05] text-white uppercase mb-4 max-w-3xl">
-              {t("home.hero.title")}
+              {cmsText(cms?.heroTitle, i18n.language, t("home.hero.title"))}
             </h1>
 
             <p className="text-white/70 text-base md:text-lg leading-relaxed max-w-2xl mx-auto font-medium">
-              <Trans
-                i18nKey="home.hero.description"
-                components={{
-                  1: (
-                    <strong className="text-main-green font-black drop-shadow-[0_0_20px_rgba(14,152,93,0.35)]" />
-                  ),
-                }}
-              />
+              {cms?.heroDescription?.en || cms?.heroDescription?.ar ? (
+                <HeroBrandLine
+                  text={cmsText(cms.heroDescription, i18n.language, t("home.hero.description"))}
+                />
+              ) : (
+                <Trans
+                  i18nKey="home.hero.description"
+                  components={{
+                    1: (
+                      <strong className="text-main-green font-black drop-shadow-[0_0_20px_rgba(14,152,93,0.35)]" />
+                    ),
+                  }}
+                />
+              )}
             </p>
           </div>
 

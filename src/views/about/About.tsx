@@ -5,9 +5,12 @@ import AboutContent from "../../components/about/AboutContent";
 import AboutText from "../../components/about/AboutText";
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
+import { useAboutCopy } from "@/components/cms/PageCopy";
+import { cmsText } from "@/lib/cms-text";
 
 const About = () => {
   const { t, i18n } = useTranslation();
+  const cms = useAboutCopy();
   const [isArabic, setIsArabic] = useState(false);
 
   useEffect(() => {
@@ -45,7 +48,7 @@ const About = () => {
             transition={{ duration: 0.5 }}
           >
             <span className="w-1 h-1 rounded-full bg-main-green" />
-            {t("about.hero.eyebrow")}
+            {cmsText(cms?.eyebrow, i18n.language, t("about.hero.eyebrow"))}
           </motion.span>
 
           <motion.h1
@@ -54,7 +57,7 @@ const About = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            {t("about.hero.title")}
+            {cmsText(cms?.title, i18n.language, t("about.hero.title"))}
           </motion.h1>
 
           <motion.p
@@ -63,7 +66,7 @@ const About = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.6 }}
           >
-            {t("about.hero.description")}
+            {cmsText(cms?.description, i18n.language, t("about.hero.description"))}
           </motion.p>
 
           {/* Credibility strip — same pattern as Branding's hero */}
@@ -75,7 +78,7 @@ const About = () => {
           >
             <div className="flex flex-col items-center gap-1">
               <span className="text-2xl md:text-3xl font-black text-main-green">
-                8+
+                {cms?.yearsValue || "8+"}
               </span>
               <span className="text-[10px] font-bold uppercase tracking-widest text-white/40">
                 {t("about.hero.statYears")}
@@ -83,7 +86,7 @@ const About = () => {
             </div>
             <div className="flex flex-col items-center gap-1">
               <span className="text-2xl md:text-3xl font-black text-main-green">
-                120+
+                {cms?.clientsValue || "120+"}
               </span>
               <span className="text-[10px] font-bold uppercase tracking-widest text-white/40">
                 {t("about.hero.statClients")}
@@ -91,7 +94,7 @@ const About = () => {
             </div>
             <div className="flex flex-col items-center gap-1">
               <span className="text-2xl md:text-3xl font-black text-main-red">
-                350+
+                {cms?.campaignsValue || "350+"}
               </span>
               <span className="text-[10px] font-bold uppercase tracking-widest text-white/40">
                 {t("about.hero.statCampaigns")}

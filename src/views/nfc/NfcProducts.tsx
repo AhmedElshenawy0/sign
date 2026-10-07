@@ -5,9 +5,11 @@ import { motion } from "framer-motion";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { FiExternalLink } from "react-icons/fi";
-import type { Project, ProjectType } from "@/types/project";
+import type { Project } from "@/types/project";
+import { useNfcCopy } from "@/components/cms/PageCopy";
+import { cmsText } from "@/lib/cms-text";
 
-const NFC_TYPES: ProjectType[] = ["nfc_card", "nfc_ring", "nfc_medal"];
+const NFC_TYPES = ["nfc_card", "nfc_ring", "nfc_medal"] as const;
 const NFC_SITE = "https://nfc.signuptap.com";
 
 function VisitNfcButton({
@@ -50,7 +52,7 @@ function NfcWaves({ className = "" }: { className?: string }) {
   );
 }
 
-function CardShape({ compact = false }: { compact?: boolean }) {
+export function CardShape({ compact = false }: { compact?: boolean }) {
   return (
     <motion.div
       className={`relative mx-auto w-full ${compact ? "max-w-[220px]" : "max-w-[360px]"}`}
@@ -82,7 +84,7 @@ function CardShape({ compact = false }: { compact?: boolean }) {
   );
 }
 
-function RingShape({ compact = false }: { compact?: boolean }) {
+export function RingShape({ compact = false }: { compact?: boolean }) {
   const size = compact ? "h-[160px] w-[160px]" : "h-[230px] w-[230px]";
   const hole = compact ? "inset-[34px]" : "inset-[48px]";
   return (
@@ -105,7 +107,7 @@ function RingShape({ compact = false }: { compact?: boolean }) {
   );
 }
 
-function MedalShape({ compact = false }: { compact?: boolean }) {
+export function MedalShape({ compact = false }: { compact?: boolean }) {
   const medal = compact ? "h-[150px] w-[150px]" : "h-[210px] w-[210px]";
   return (
     <motion.div
@@ -142,6 +144,7 @@ const SHAPES = {
 
 export default function NfcProducts({ items }: { items: Project[] }) {
   const { t, i18n } = useTranslation();
+  const cms = useNfcCopy();
   const isArabic = i18n.language.startsWith("ar");
 
   useEffect(() => {
@@ -172,7 +175,7 @@ export default function NfcProducts({ items }: { items: Project[] }) {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
             >
-              {t("nfcPage.eyebrow")}
+              {cmsText(cms?.eyebrow, i18n.language, t("nfcPage.eyebrow"))}
             </motion.p>
             <motion.h1
               className="mb-5 text-5xl font-black uppercase tracking-tight md:text-7xl"
@@ -180,7 +183,7 @@ export default function NfcProducts({ items }: { items: Project[] }) {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.08, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
             >
-              {t("nfcPage.title")}
+              {cmsText(cms?.title, i18n.language, t("nfcPage.title"))}
             </motion.h1>
             <motion.p
               className="mx-auto mb-10 max-w-xl text-base font-medium leading-relaxed text-white/75 md:text-lg lg:mx-0"
@@ -188,7 +191,7 @@ export default function NfcProducts({ items }: { items: Project[] }) {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.16 }}
             >
-              {t("nfcPage.description")}
+              {cmsText(cms?.description, i18n.language, t("nfcPage.description"))}
             </motion.p>
             <motion.div
               className="mb-8 flex flex-col items-center gap-3 sm:flex-row lg:items-start"
@@ -211,8 +214,8 @@ export default function NfcProducts({ items }: { items: Project[] }) {
           >
             <div className="pointer-events-none absolute inset-8 rounded-full bg-white/15 blur-3xl" />
             <img
-              src="/images/nfc/stand.jpg"
-              alt={t("nfcPage.standTitle")}
+              src={cms?.standImageUrl || "/images/nfc/stand.jpg"}
+              alt={cmsText(cms?.standTitle, i18n.language, t("nfcPage.standTitle"))}
               className="relative z-10 w-full object-contain drop-shadow-[0_40px_80px_rgba(0,0,0,0.45)]"
             />
           </motion.div>
@@ -250,13 +253,13 @@ export default function NfcProducts({ items }: { items: Project[] }) {
               transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
             >
               <p className="mb-4 text-[10px] font-black uppercase tracking-[0.32em] text-main-green">
-                {t("nfcPage.standKicker")}
+                {cmsText(cms?.standKicker, i18n.language, t("nfcPage.standKicker"))}
               </p>
               <h2 className="mb-5 text-3xl font-black uppercase tracking-tight md:text-5xl">
-                {t("nfcPage.standTitle")}
+                {cmsText(cms?.standTitle, i18n.language, t("nfcPage.standTitle"))}
               </h2>
               <p className="mb-8 max-w-md text-base leading-relaxed text-white/70 md:text-lg">
-                {t("nfcPage.standBody")}
+                {cmsText(cms?.standBody, i18n.language, t("nfcPage.standBody"))}
               </p>
               <VisitNfcButton label={t("nfcPage.openSite")} />
             </motion.div>
@@ -267,8 +270,8 @@ export default function NfcProducts({ items }: { items: Project[] }) {
               className="rounded-[1.5rem] bg-white p-6 shadow-[0_30px_80px_rgba(0,0,0,0.35)]"
             >
               <img
-                src="/images/nfc/stand.jpg"
-                alt={t("nfcPage.standTitle")}
+                src={cms?.standImageUrl || "/images/nfc/stand.jpg"}
+                alt={cmsText(cms?.standTitle, i18n.language, t("nfcPage.standTitle"))}
                 className="mx-auto w-full max-w-md object-contain"
               />
             </motion.div>
@@ -279,6 +282,12 @@ export default function NfcProducts({ items }: { items: Project[] }) {
           const Shape = SHAPES[type];
           const work = items.filter((item) => item.type === type);
           const reverse = index % 2 === 1;
+          const typeCopy =
+            type === "nfc_card"
+              ? { kicker: cms?.cardKicker, title: cms?.cardTitle, body: cms?.cardBody }
+              : type === "nfc_ring"
+                ? { kicker: cms?.ringKicker, title: cms?.ringTitle, body: cms?.ringBody }
+                : { kicker: cms?.medalKicker, title: cms?.medalTitle, body: cms?.medalBody };
 
           return (
             <section
@@ -298,13 +307,13 @@ export default function NfcProducts({ items }: { items: Project[] }) {
                   transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
                 >
                   <p className="mb-4 text-[10px] font-black uppercase tracking-[0.32em] text-main-green">
-                    {t(`nfcPage.types.${type}.kicker`)}
+                    {cmsText(typeCopy.kicker, i18n.language, t(`nfcPage.types.${type}.kicker`))}
                   </p>
                   <h2 className="mb-5 text-3xl font-black uppercase tracking-tight md:text-5xl">
-                    {t(`nfcPage.types.${type}.title`)}
+                    {cmsText(typeCopy.title, i18n.language, t(`nfcPage.types.${type}.title`))}
                   </h2>
                   <p className="mb-8 max-w-md text-base leading-relaxed text-white/70 md:text-lg">
-                    {t(`nfcPage.types.${type}.body`)}
+                    {cmsText(typeCopy.body, i18n.language, t(`nfcPage.types.${type}.body`))}
                   </p>
                   <VisitNfcButton label={t("nfcPage.openSite")} />
                 </motion.div>

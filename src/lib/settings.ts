@@ -1,4 +1,5 @@
 import { apiFetch, getApiBase, readApiError } from "@/lib/api";
+import { getSanityIntro, getSanityShowreel } from "@/lib/sanity.content";
 import type { StorageDriver } from "@/types/project";
 
 export const DEFAULT_INTRO_VIDEO = "/videos/intro.mp4";
@@ -13,6 +14,9 @@ export type IntroVideo = {
 };
 
 export async function getIntroVideo(): Promise<IntroVideo> {
+  const fromSanity = await getSanityIntro();
+  if (fromSanity) return fromSanity;
+
   try {
     const res = await fetch(`${getApiBase()}/api/settings/intro`, {
       cache: "no-store",
@@ -73,6 +77,9 @@ export type Showreel = {
 };
 
 export async function getShowreel(): Promise<Showreel> {
+  const fromSanity = await getSanityShowreel();
+  if (fromSanity) return fromSanity;
+
   try {
     const res = await fetch(`${getApiBase()}/api/settings/showreel`, {
       cache: "no-store",

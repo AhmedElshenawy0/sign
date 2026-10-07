@@ -3,13 +3,14 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { FiMenu, FiX, FiChevronDown, FiExternalLink } from "react-icons/fi";
+import { FiMenu, FiX, FiChevronDown } from "react-icons/fi";
 import { useTranslation } from "react-i18next";
 import { AnimatePresence, motion } from "framer-motion";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
+  const [mobileProductsOpen, setMobileProductsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
   const [navHidden, setNavHidden] = useState(false);
@@ -57,6 +58,7 @@ const Navbar = () => {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "";
+      setMobileProductsOpen(false);
     }
     return () => {
       document.body.style.overflow = "";
@@ -85,9 +87,19 @@ const Navbar = () => {
     { name: t("nav.home"), path: "/" },
     { name: t("nav.about"), path: "/about" },
     { name: t("nav.projects"), path: "/projects" },
-    { name: t("nav.product"), path: "/nfc" },
     { name: t("nav.contact"), path: "/contact" },
   ];
+
+  const productLinks = [
+    { name: t("nav.nfc"), path: "/nfc" },
+    { name: t("nav.store"), path: "/store" },
+  ];
+
+  const productsActive = pathname === "/nfc" || pathname.startsWith("/store");
+
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [pathname]);
 
   const isActivePath = (path: string) =>
     path === "/"
@@ -139,8 +151,8 @@ const Navbar = () => {
 
         {/* Desktop Nav Links */}
         <ul className="hidden md:flex gap-4 lg:gap-7 text-[11px] lg:text-[13px] font-black uppercase tracking-widest relative text-white">
-          {navLinks.map(({ name, path, external }, i) => {
-            const isActive = !external && isActivePath(path);
+          {navLinks.slice(0, 3).map(({ name, path }) => {
+            const isActive = isActivePath(path);
             const className = `relative inline-flex items-center gap-1.5 pb-1.5 transition-colors duration-300 ${
               isActive
                 ? "text-main-green"
@@ -149,9 +161,6 @@ const Navbar = () => {
             const label = (
               <>
                 {name}
-                {external ? (
-                  <FiExternalLink size={11} className="opacity-60" />
-                ) : null}
                 {isActive && (
                   <motion.span
                     layoutId="nav-underline"
@@ -161,21 +170,76 @@ const Navbar = () => {
               </>
             );
             return (
-              <li key={i}>
-                {external ? (
-                  <a
-                    href={path}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={className}
+              <li key={path}>
+                <Link href={path} className={className}>
+                  {label}
+                </Link>
+              </li>
+            );
+          })}
+          <li className="group relative">
+            <button
+              type="button"
+              className={`relative inline-flex items-center gap-1.5 pb-1.5 transition-colors duration-300 ${
+                productsActive
+                  ? "text-main-green"
+                  : "text-white/80 hover:text-main-green"
+              }`}
+              aria-haspopup="true"
+            >
+              {t("nav.products")}
+              <FiChevronDown
+                size={12}
+                className="transition-transform duration-300 group-hover:rotate-180 group-focus-within:rotate-180"
+              />
+              {productsActive && (
+                <motion.span
+                  layoutId="nav-underline"
+                  className="absolute left-0 right-0 -bottom-0.5 h-[2px] bg-main-green rounded-full"
+                />
+              )}
+            </button>
+            <div className="invisible absolute start-0 top-full z-50 min-w-[11rem] pt-2 opacity-0 transition duration-150 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
+              <div
+                className="rounded-2xl border border-white/15 bg-[#0c1016] p-1.5 shadow-[0_20px_50px_rgba(0,0,0,0.65)]"
+                onMouseDown={(e) => e.preventDefault()}
+              >
+                {productLinks.map((item) => (
+                  <Link
+                    key={item.path}
+                    href={item.path}
+                    className={`block rounded-xl px-3 py-2 text-[11px] font-black uppercase tracking-widest transition-colors ${
+                      pathname === item.path || pathname.startsWith(`${item.path}/`)
+                        ? "bg-white/10 text-main-green"
+                        : "text-white/75 hover:bg-white/10 hover:text-white"
+                    }`}
                   >
-                    {label}
-                  </a>
-                ) : (
-                  <Link href={path} className={className}>
-                    {label}
+                    {item.name}
                   </Link>
-                )}
+                ))}
+              </div>
+            </div>
+          </li>
+          {navLinks.slice(3).map(({ name, path }) => {
+            const isActive = isActivePath(path);
+            return (
+              <li key={path}>
+                <Link
+                  href={path}
+                  className={`relative inline-flex items-center gap-1.5 pb-1.5 transition-colors duration-300 ${
+                    isActive
+                      ? "text-main-green"
+                      : "text-white/80 hover:text-main-green"
+                  }`}
+                >
+                  {name}
+                  {isActive && (
+                    <motion.span
+                      layoutId="nav-underline"
+                      className="absolute left-0 right-0 -bottom-0.5 h-[2px] bg-main-green rounded-full"
+                    />
+                  )}
+                </Link>
               </li>
             );
           })}
@@ -269,32 +333,11 @@ const Navbar = () => {
 
             {/* Nav Links Stack */}
             <div className="relative flex flex-col gap-1 sm:gap-1.5 w-full">
-              {navLinks.map(({ name, path, external }, i) => {
-                const isActive = !external && isActivePath(path);
-                const className =
-                  "group flex items-baseline gap-3 sm:gap-4 py-2.5 sm:py-3 border-b border-white/5 w-full text-left rtl:text-right transition-all";
-                const inner = (
-                  <>
-                    <span className="text-[10px] font-black tracking-widest text-white/30 group-hover:text-main-green transition-colors font-mono">
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
-                    <span
-                      className={`inline-flex items-center gap-2 text-xl sm:text-2xl font-black uppercase tracking-wider transition-all transform group-active:scale-98 ${
-                        isActive
-                          ? "text-main-green pl-2 rtl:pl-0 rtl:pr-2"
-                          : "text-white/80 hover:text-white"
-                      }`}
-                    >
-                      {name}
-                      {external ? (
-                        <FiExternalLink size={16} className="opacity-60" />
-                      ) : null}
-                    </span>
-                  </>
-                );
+              {navLinks.slice(0, 3).map(({ name, path }, i) => {
+                const isActive = isActivePath(path);
                 return (
                   <motion.div
-                    key={i}
+                    key={path}
                     initial={{ opacity: 0, x: isArabic ? 30 : -30 }}
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: isArabic ? 20 : -20 }}
@@ -304,25 +347,119 @@ const Navbar = () => {
                       ease: [0.16, 1, 0.3, 1],
                     }}
                   >
-                    {external ? (
-                      <a
-                        href={path}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={() => setMenuOpen(false)}
-                        className={className}
+                    <Link
+                      href={path}
+                      onClick={() => setMenuOpen(false)}
+                      className="group flex w-full items-baseline gap-3 border-b border-white/5 py-2.5 text-left transition-all rtl:text-right sm:gap-4 sm:py-3"
+                    >
+                      <span className="font-mono text-[10px] font-black tracking-widest text-white/30 transition-colors group-hover:text-main-green">
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                      <span
+                        className={`inline-flex items-center gap-2 text-xl font-black uppercase tracking-wider transition-all group-active:scale-98 sm:text-2xl ${
+                          isActive
+                            ? "pl-2 text-main-green rtl:pl-0 rtl:pr-2"
+                            : "text-white/80 hover:text-white"
+                        }`}
                       >
-                        {inner}
-                      </a>
-                    ) : (
-                      <Link
-                        href={path}
-                        onClick={() => setMenuOpen(false)}
-                        className={className}
+                        {name}
+                      </span>
+                    </Link>
+                  </motion.div>
+                );
+              })}
+              <motion.div
+                initial={{ opacity: 0, x: isArabic ? 30 : -30 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: isArabic ? 20 : -20 }}
+                transition={{
+                  duration: 0.4,
+                  delay: 0.12,
+                  ease: [0.16, 1, 0.3, 1],
+                }}
+                className="border-b border-white/5"
+              >
+                <button
+                  type="button"
+                  onClick={() => setMobileProductsOpen((open) => !open)}
+                  className="group flex w-full items-baseline gap-3 py-2.5 text-left rtl:text-right sm:gap-4 sm:py-3"
+                  aria-expanded={mobileProductsOpen}
+                >
+                  <span className="font-mono text-[10px] font-black tracking-widest text-white/30 group-hover:text-main-green">
+                    04
+                  </span>
+                  <span
+                    className={`inline-flex flex-1 items-center justify-between gap-2 text-xl font-black uppercase tracking-wider sm:text-2xl ${
+                      productsActive
+                        ? "pl-2 text-main-green rtl:pl-0 rtl:pr-2"
+                        : "text-white/80"
+                    }`}
+                  >
+                    {t("nav.products")}
+                    <FiChevronDown
+                      size={18}
+                      className={`transition-transform duration-300 ${mobileProductsOpen ? "rotate-180" : ""}`}
+                    />
+                  </span>
+                </button>
+                <AnimatePresence>
+                  {mobileProductsOpen && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      className="overflow-hidden pb-3 ps-10"
+                    >
+                      {productLinks.map((item) => (
+                        <Link
+                          key={item.path}
+                          href={item.path}
+                          onClick={() => setMenuOpen(false)}
+                          className={`block py-2.5 text-sm font-black uppercase tracking-widest ${
+                            pathname === item.path
+                              ? "text-main-green"
+                              : "text-white/80 hover:text-white"
+                          }`}
+                        >
+                          {item.name}
+                        </Link>
+                      ))}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
+              {navLinks.slice(3).map(({ name, path }, i) => {
+                const isActive = isActivePath(path);
+                return (
+                  <motion.div
+                    key={path}
+                    initial={{ opacity: 0, x: isArabic ? 30 : -30 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: isArabic ? 20 : -20 }}
+                    transition={{
+                      duration: 0.4,
+                      delay: 0.16 + i * 0.04,
+                      ease: [0.16, 1, 0.3, 1],
+                    }}
+                  >
+                    <Link
+                      href={path}
+                      onClick={() => setMenuOpen(false)}
+                      className="group flex w-full items-baseline gap-3 border-b border-white/5 py-2.5 text-left transition-all rtl:text-right sm:gap-4 sm:py-3"
+                    >
+                      <span className="font-mono text-[10px] font-black tracking-widest text-white/30 transition-colors group-hover:text-main-green">
+                        {String(i + 5).padStart(2, "0")}
+                      </span>
+                      <span
+                        className={`inline-flex items-center gap-2 text-xl font-black uppercase tracking-wider transition-all group-active:scale-98 sm:text-2xl ${
+                          isActive
+                            ? "pl-2 text-main-green rtl:pl-0 rtl:pr-2"
+                            : "text-white/80 hover:text-white"
+                        }`}
                       >
-                        {inner}
-                      </Link>
-                    )}
+                        {name}
+                      </span>
+                    </Link>
                   </motion.div>
                 );
               })}

@@ -1,5 +1,6 @@
 import { galleries } from "@/dummyData";
 import { apiFetch, getApiBase, readApiError } from "@/lib/api";
+import { getSanityProject, listSanityProjects } from "@/lib/sanity.content";
 import type { Project, ProjectInput, ProjectType } from "@/types/project";
 import { PROJECT_TYPES } from "@/types/project";
 
@@ -22,6 +23,11 @@ function fromDummyData(): Project[] {
 }
 
 export async function listProjects(type?: ProjectType): Promise<Project[]> {
+  const fromSanity = await listSanityProjects();
+  if (fromSanity) {
+    return type ? fromSanity.filter((item) => item.type === type) : fromSanity;
+  }
+
   try {
     const res = await fetch(`${getApiBase()}/api/projects`, { cache: "no-store" });
     if (!res.ok) throw new Error("API error");
@@ -34,6 +40,9 @@ export async function listProjects(type?: ProjectType): Promise<Project[]> {
 }
 
 export async function getProject(id: string): Promise<Project | null> {
+  const fromSanity = await getSanityProject(id);
+  if (fromSanity) return fromSanity;
+
   const encoded = encodeURIComponent(id);
   try {
     const res = await fetch(`${getApiBase()}/api/projects/${encoded}`, {

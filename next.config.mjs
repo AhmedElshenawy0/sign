@@ -5,8 +5,15 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+  transpilePackages: ["next-sanity", "sanity", "@sanity/vision"],
+  compiler: {
+    styledComponents: true,
+  },
   images: {
-    remotePatterns: [{ protocol: "https", hostname: "res.cloudinary.com" }],
+    remotePatterns: [
+      { protocol: "https", hostname: "res.cloudinary.com" },
+      { protocol: "https", hostname: "cdn.sanity.io" },
+    ],
   },
   async rewrites() {
     return [

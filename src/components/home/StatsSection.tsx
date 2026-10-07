@@ -13,6 +13,7 @@ import {
   FaChartLine,
 } from "react-icons/fa";
 import GridBg from "../global/GridBg";
+import { useHomeCopy } from "@/components/cms/PageCopy";
 
 const STATS = [
   {
@@ -128,7 +129,7 @@ const StatCard = ({
   index,
   t,
 }: {
-  stat: (typeof STATS)[number];
+  stat: (typeof STATS)[number] & { value: number };
   index: number;
   t: (key: string) => string;
 }) => {
@@ -183,11 +184,27 @@ const StatCard = ({
 
 const StatsSection = () => {
   const { t, i18n } = useTranslation();
+  const cms = useHomeCopy();
   const [isArabic, setIsArabic] = useState(false);
 
   useEffect(() => {
     setIsArabic(i18n.language === "ar");
   }, [i18n.language]);
+
+  const stats = STATS.map((stat) => {
+    const override =
+      stat.key === "experience"
+        ? cms?.experienceValue
+        : stat.key === "clients"
+          ? cms?.clientsValue
+          : stat.key === "campaigns"
+            ? cms?.campaignsValue
+            : cms?.satisfactionValue;
+    return {
+      ...stat,
+      value: typeof override === "number" ? override : stat.value,
+    };
+  });
 
   return (
     <section
@@ -217,7 +234,7 @@ const StatsSection = () => {
         </header>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
-          {STATS.map((stat, index) => (
+          {stats.map((stat, index) => (
             <StatCard key={stat.key} stat={stat} index={index} t={t} />
           ))}
         </div>

@@ -62,6 +62,14 @@ const Footer = () => {
             >
               {t("footer.privacy")}
             </a>
+            {" · "}
+            <Link href="/nfc" className="underline hover:text-white transition-colors">
+              {t("nav.nfc")}
+            </Link>
+            {" · "}
+            <Link href="/store" className="underline hover:text-white transition-colors">
+              {t("nav.store")}
+            </Link>
           </p>
 
           {/* Copyright & Credits */}

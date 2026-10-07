@@ -1,16 +1,33 @@
 "use client";
 
 import Link from "next/link";
-import { useRef, type MouseEvent, type ReactNode } from "react";
+import { useCallback, useEffect, useRef, useState, type MouseEvent, type ReactNode, type RefObject } from "react";
 import {
+  AnimatePresence,
   motion,
   useMotionValue,
   useSpring,
   useTransform,
   useScroll,
+  useReducedMotion,
 } from "framer-motion";
 import { useTranslation } from "react-i18next";
+import { copyLine, stillCaption } from "@/lib/journey-copy";
 import { groupIdForType, type Project, type ProjectGalleryItem } from "@/types/project";
+
+const EASE = [0.16, 1, 0.3, 1] as const;
+
+export function useHeroScroll(target: RefObject<HTMLElement | null>) {
+  const reduce = useReducedMotion();
+  const { scrollYProgress } = useScroll({
+    target,
+    offset: ["start start", "end start"],
+  });
+  const scale = useTransform(scrollYProgress, [0, 1], reduce ? [1, 1] : [1, 0.72]);
+  const opacity = useTransform(scrollYProgress, [0, 0.85], reduce ? [1, 1] : [1, 0]);
+  const y = useTransform(scrollYProgress, [0, 1], reduce ? [0, 0] : [0, 80]);
+  return { scale, opacity, y };
+}
 
 export function projectLine(project: Project, t: (key: string) => string) {
   const story = project.story?.trim();
@@ -55,6 +72,86 @@ export function frameLabel(
   return roleLabel(item, t, fallback);
 }
 
+export function JourneyIntro({
+  project,
+  groupLabel,
+  typeLabel,
+  onOpen,
+  onDone,
+}: {
+  project: Project;
+  groupLabel: string;
+  typeLabel: string;
+  onOpen: () => void;
+  onDone: () => void;
+}) {
+  const opened = useRef(false);
+
+  useEffect(() => {
+    const open = window.setTimeout(() => {
+      if (opened.current) return;
+      opened.current = true;
+      onOpen();
+    }, 1450);
+    return () => window.clearTimeout(open);
+  }, [onOpen]);
+
+  return (
+    <motion.div
+      className="fixed inset-0 z-[80] overflow-hidden"
+      initial={{ opacity: 1 }}
+      exit={{ opacity: 1 }}
+    >
+      <motion.div
+        className="absolute inset-y-0 left-0 w-1/2 bg-[#05070c]"
+        initial={{ x: 0 }}
+        animate={{ x: 0 }}
+        exit={{ x: "-101%" }}
+        transition={{ duration: 0.78, ease: EASE }}
+      />
+      <motion.div
+        className="absolute inset-y-0 right-0 w-1/2 bg-[#05070c]"
+        initial={{ x: 0 }}
+        animate={{ x: 0 }}
+        exit={{ x: "101%" }}
+        transition={{ duration: 0.78, ease: EASE }}
+        onAnimationComplete={(definition) => {
+          if (definition === "exit") onDone();
+        }}
+      />
+      <div className="pointer-events-none absolute inset-0 z-[1] flex flex-col items-center justify-center px-6 text-center">
+        <motion.span
+          className="mb-7 h-px w-10 bg-main-green"
+          initial={{ scaleX: 0, opacity: 0 }}
+          animate={{ scaleX: 1, opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.55, ease: EASE }}
+        />
+        <motion.p
+          className="mb-5 text-[10px] font-black uppercase tracking-[0.38em] text-main-green"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -8 }}
+          transition={{ delay: 0.18, duration: 0.5, ease: EASE }}
+        >
+          {groupLabel}
+          <span className="mx-2 text-white/35">·</span>
+          {typeLabel}
+        </motion.p>
+        <motion.h2
+          className="max-w-4xl text-4xl font-black uppercase tracking-tight md:text-6xl"
+          initial={{ opacity: 0, y: 22 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -12 }}
+          transition={{ delay: 0.34, duration: 0.7, ease: EASE }}
+        >
+          {project.title}
+        </motion.h2>
+      </div>
+    </motion.div>
+  );
+}
+
 export function JourneyShell({
   project,
   children,
@@ -65,10 +162,19 @@ export function JourneyShell({
   const { t, i18n } = useTranslation();
   const isArabic = i18n.language.startsWith("ar");
   const groupId = groupIdForType(project.type);
+  const reduce = useReducedMotion();
+  const [ready, setReady] = useState(() => Boolean(reduce));
+  const [intro, setIntro] = useState(() => !reduce);
+  const openPage = useCallback(() => {
+    setReady(true);
+    setIntro(false);
+  }, []);
 
   return (
     <div
-      className="relative min-h-screen overflow-x-hidden bg-[#05070c] text-white"
+      className={`relative min-h-screen overflow-x-hidden bg-[#05070c] text-white ${
+        ready ? "" : "h-screen overflow-hidden"
+      }`}
       dir={isArabic ? "rtl" : "ltr"}
     >
       <div className="pointer-events-none fixed inset-0 z-0 bg-[radial-gradient(ellipse_at_top,rgba(14,152,93,0.12),transparent_42%),radial-gradient(ellipse_at_bottom_right,rgba(232,80,91,0.08),transparent_38%)]" />
@@ -90,7 +196,30 @@ export function JourneyShell({
           {t(`projects.types.${project.type}`)}
         </p>
       </header>
-      <div className="relative z-[1]">{children}</div>
+      <motion.div
+        className="relative z-[1]"
+        initial={false}
+        animate={
+          ready || reduce
+            ? { opacity: 1, filter: "blur(0px)" }
+            : { opacity: 0, filter: "blur(12px)" }
+        }
+        transition={{ duration: 0.75, ease: EASE }}
+      >
+        {children}
+      </motion.div>
+      <AnimatePresence>
+        {intro ? (
+          <JourneyIntro
+            key="journey-intro"
+            project={project}
+            groupLabel={t(`projects.groups.${groupId}.label`)}
+            typeLabel={t(`projects.types.${project.type}`)}
+            onOpen={openPage}
+            onDone={openPage}
+          />
+        ) : null}
+      </AnimatePresence>
     </div>
   );
 }
@@ -113,7 +242,7 @@ export function JourneyClose({ project }: { project: Project }) {
         initial={{ opacity: 0, y: 24 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        transition={{ delay: 0.08, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ delay: 0.08, duration: 0.6, ease: EASE }}
       >
         {project.title}
       </motion.h1>
@@ -136,6 +265,63 @@ export function JourneyClose({ project }: { project: Project }) {
   );
 }
 
+export function isJourneyVideo(src?: string) {
+  if (!src) return false;
+  return (
+    /\.(mp4|webm|ogg|mov)(\?|$)/i.test(src) ||
+    (/cdn\.sanity\.io\/files\//.test(src) && !/cdn\.sanity\.io\/images\//.test(src))
+  );
+}
+
+export function JourneyMedia({
+  src,
+  alt,
+  className,
+}: {
+  src: string;
+  alt: string;
+  className?: string;
+}) {
+  if (isJourneyVideo(src)) {
+    return (
+      <video
+        src={src}
+        className={className}
+        autoPlay
+        muted
+        loop
+        playsInline
+        controls={false}
+      />
+    );
+  }
+  return <img src={src} alt={alt} className={className} />;
+}
+
+export function RevealMedia({
+  src,
+  alt,
+  className,
+}: {
+  src: string;
+  alt: string;
+  className?: string;
+}) {
+  const reduce = useReducedMotion();
+  return (
+    <div className="overflow-hidden">
+      <motion.div
+        initial={reduce ? false : { opacity: 0, scale: 1.08 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        viewport={{ once: true, amount: 0.35 }}
+        transition={{ duration: 1.05, ease: EASE }}
+      >
+        <JourneyMedia src={src} alt={alt} className={className} />
+      </motion.div>
+    </div>
+  );
+}
+
 export function TiltFrame({
   src,
   alt,
@@ -145,6 +331,7 @@ export function TiltFrame({
   alt: string;
   className?: string;
 }) {
+  const reduce = useReducedMotion();
   const ref = useRef<HTMLDivElement>(null);
   const mx = useMotionValue(0);
   const my = useMotionValue(0);
@@ -158,6 +345,7 @@ export function TiltFrame({
   });
 
   function onMove(event: MouseEvent<HTMLDivElement>) {
+    if (reduce) return;
     const el = ref.current;
     if (!el) return;
     const rect = el.getBoundingClientRect();
@@ -174,10 +362,10 @@ export function TiltFrame({
           mx.set(0);
           my.set(0);
         }}
-        style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
+        style={reduce ? undefined : { rotateX, rotateY, transformStyle: "preserve-3d" }}
         className="overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.03] shadow-[0_40px_80px_rgba(0,0,0,0.45)]"
       >
-        <img src={src} alt={alt} className="w-full object-contain" />
+        <RevealMedia src={src} alt={alt} className="w-full object-contain" />
       </motion.div>
     </div>
   );
@@ -207,30 +395,48 @@ export function CopyChapter({
       }`}
     >
       <motion.div
-        initial={{ opacity: 0, y: 36 }}
+        initial={{ opacity: 0, y: 28 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.35 }}
-        transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ duration: 0.65, ease: EASE }}
       >
-        <p className="mb-4 text-[10px] font-black uppercase tracking-[0.32em] text-main-green">
+        <motion.p
+          className="mb-4 text-[10px] font-black uppercase tracking-[0.32em] text-main-green"
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.45, ease: EASE }}
+        >
           {kicker}
-        </p>
-        <h2 className="mb-5 text-3xl font-black uppercase tracking-tight md:text-5xl">
+        </motion.p>
+        <motion.h2
+          className="mb-5 text-3xl font-black uppercase tracking-tight md:text-5xl"
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.06, duration: 0.55, ease: EASE }}
+        >
           {title}
-        </h2>
-        <p className="max-w-md text-base leading-relaxed text-white/70 md:text-lg">
+        </motion.h2>
+        <motion.p
+          className="max-w-md text-base leading-relaxed text-white/70 md:text-lg"
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.12, duration: 0.55, ease: EASE }}
+        >
           {body}
-        </p>
+        </motion.p>
       </motion.div>
       {image ? (
         <motion.div
-          initial={{ opacity: 0, scale: 0.92 }}
-          whileInView={{ opacity: 1, scale: 1 }}
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 0.7, ease: EASE }}
         >
           <div className="overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.03]">
-            <img src={image} alt={alt ?? title} className="w-full object-contain" />
+            <RevealMedia src={image} alt={alt ?? title} className="w-full object-contain" />
           </div>
           {caption ? (
             <p className="mt-4 text-sm leading-relaxed text-white/55">{caption}</p>
@@ -250,9 +456,12 @@ export function FrameChapter({
   index: number;
   fallbackLabel?: string;
 }) {
-  const { t } = useTranslation();
-  const kicker = roleLabel(item, t, fallbackLabel ?? "");
-  const caption = item.caption?.trim() ?? "";
+  const { t, i18n } = useTranslation();
+  const lang = i18n.language;
+  const defaultKicker = roleLabel(item, t, fallbackLabel ?? "");
+  const kicker = copyLine(item.kicker, lang, defaultKicker);
+  const headline = copyLine(item.title, lang, "");
+  const caption = stillCaption(item, lang, "");
   const number = String(index + 1).padStart(2, "0");
 
   return (
@@ -268,14 +477,24 @@ export function FrameChapter({
       >
         {kicker ? `${number} — ${kicker}` : number}
       </motion.p>
+      {headline ? (
+        <motion.h2
+          className="relative mb-8 text-center text-3xl font-black uppercase tracking-tight md:text-5xl"
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.4 }}
+        >
+          {headline}
+        </motion.h2>
+      ) : null}
       <motion.div
         className="relative w-full overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.03] shadow-[0_40px_100px_rgba(0,0,0,0.45)]"
-        initial={{ opacity: 0, scale: 0.94, y: 24 }}
-        whileInView={{ opacity: 1, scale: 1, y: 0 }}
+        initial={{ opacity: 0, y: 28 }}
+        whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.3 }}
-        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ duration: 0.75, ease: EASE }}
       >
-        <img src={item.url} alt={caption || kicker || ""} className="w-full object-contain" />
+        <RevealMedia src={item.url} alt={caption || headline || kicker || ""} className="w-full object-contain" />
       </motion.div>
       {caption ? (
         <motion.p

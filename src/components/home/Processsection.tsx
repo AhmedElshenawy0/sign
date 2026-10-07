@@ -2,10 +2,13 @@ import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import GridBg from "../global/GridBg";
+import { useHomeCopy } from "@/components/cms/PageCopy";
+import { cmsText } from "@/lib/cms-text";
 
 const ProcessSection = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const { t, i18n } = useTranslation();
+  const cms = useHomeCopy();
   const isArabic = i18n.language === "ar";
 
   const { scrollYProgress } = useScroll({
@@ -22,8 +25,8 @@ const ProcessSection = () => {
   const steps = [
     {
       id: "01",
-      title: t("home.process.discover.title"),
-      desc: t("home.process.discover.desc"),
+      title: cmsText(cms?.discoverTitle, i18n.language, t("home.process.discover.title")),
+      desc: cmsText(cms?.discoverDesc, i18n.language, t("home.process.discover.desc")),
       color: "#0e985d", // الأخضر الذكي
       glowClass:
         "group-hover:border-[#0e985d]/40 group-hover:shadow-[0_20px_50px_rgba(14,152,93,0.1)]",
@@ -35,8 +38,8 @@ const ProcessSection = () => {
     },
     {
       id: "02",
-      title: t("home.process.strategy.title"),
-      desc: t("home.process.strategy.desc"),
+      title: cmsText(cms?.strategyTitle, i18n.language, t("home.process.strategy.title")),
+      desc: cmsText(cms?.strategyDesc, i18n.language, t("home.process.strategy.desc")),
       color: "#4f46e5", // البنفسجي
       glowClass:
         "group-hover:border-[#4f46e5]/40 group-hover:shadow-[0_20px_50px_rgba(79,70,229,0.1)]",
@@ -48,8 +51,8 @@ const ProcessSection = () => {
     },
     {
       id: "03",
-      title: t("home.process.execute.title"),
-      desc: t("home.process.execute.desc"),
+      title: cmsText(cms?.executeTitle, i18n.language, t("home.process.execute.title")),
+      desc: cmsText(cms?.executeDesc, i18n.language, t("home.process.execute.desc")),
       color: "#db2777", // الوردي
       glowClass:
         "group-hover:border-[#db2777]/40 group-hover:shadow-[0_20px_50px_rgba(219,39,119,0.1)]",
@@ -61,8 +64,8 @@ const ProcessSection = () => {
     },
     {
       id: "04",
-      title: t("home.process.optimize.title"),
-      desc: t("home.process.optimize.desc"),
+      title: cmsText(cms?.optimizeTitle, i18n.language, t("home.process.optimize.title")),
+      desc: cmsText(cms?.optimizeDesc, i18n.language, t("home.process.optimize.desc")),
       color: "#ea580c", // البرتقالي
       glowClass:
         "group-hover:border-[#ea580c]/40 group-hover:shadow-[0_20px_50px_rgba(234,88,12,0.1)]",
@@ -91,7 +94,7 @@ const ProcessSection = () => {
             {t("home.process.eyebrow")}
           </span>
           <h2 className="text-4xl md:text-6xl font-black tracking-tighter uppercase text-slate-950 max-w-2xl leading-[0.95]">
-            {t("home.process.architectureTitle")}
+            {cmsText(cms?.processTitle, i18n.language, t("home.process.architectureTitle"))}
           </h2>
         </div>
 

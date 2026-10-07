@@ -20,6 +20,9 @@ if (!i18n.isInitialized) {
   });
 }
 
+i18n.addResourceBundle("en", "translation", en, true, true);
+i18n.addResourceBundle("ar", "translation", ar, true, true);
+
 export function normalizeLng(lng) {
   if (!lng) return "en";
   const lower = String(lng).toLowerCase();

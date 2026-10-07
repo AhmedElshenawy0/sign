@@ -3,6 +3,11 @@
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import i18n, { normalizeLng } from "@/i18n";
+import en from "@/translation/en/translation.json";
+import ar from "@/translation/ar/translation.json";
+
+i18n.addResourceBundle("en", "translation", en, true, true);
+i18n.addResourceBundle("ar", "translation", ar, true, true);
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const { i18n: i18nInstance } = useTranslation();
@@ -18,8 +23,9 @@ export function Providers({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const lang = normalizeLng(i18nInstance.language);
     const isAdmin = window.location.pathname.startsWith("/admin");
-    document.documentElement.lang = isAdmin ? "en" : lang;
-    document.documentElement.dir = isAdmin || lang !== "ar" ? "ltr" : "rtl";
+    const isStudio = window.location.pathname.startsWith("/studio");
+    document.documentElement.lang = isAdmin || isStudio ? "en" : lang;
+    document.documentElement.dir = isAdmin || isStudio || lang !== "ar" ? "ltr" : "rtl";
   }, [i18nInstance.language]);
 
   return <>{children}</>;

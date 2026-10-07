@@ -6,7 +6,9 @@
     "services": "Our Services",
     "about": "About",
     "contact": "Contact Us",
-    "product": "Product (NFC)",
+    "product": "Products",
+    "products": "Products",
+    "store": "Store",
     "studio": "Studio",
     "nfc": "NFC",
     "selectLanguage": "Select Language",
@@ -641,6 +643,107 @@
       "heading": "Ready to grow your business with us?",
       "desc": "Let’s build your digital presence through world-class websites, smart marketing, and creative design.",
       "button": "Contact Us"
+    }
+  },
+  "store": {
+    "eyebrow": "Marketplace",
+    "title": "The store",
+    "description": "Twelve things you can request. Pick a card, send it on WhatsApp — we close the brief with you. No checkout on the site.",
+    "services": "Services",
+    "nfc": "NFC",
+    "request": "Request on WhatsApp",
+    "quote": "Custom quote",
+    "includesLabel": "Includes",
+    "offerings": "{{n}} offerings",
+    "categories": "{{n}} categories",
+    "channel": "WhatsApp quotes",
+    "groups": {
+      "all": "All",
+      "identity": "Identity",
+      "identityLine": "The brand you can hold.",
+      "strategy": "Strategy",
+      "strategyLine": "Position and the plan.",
+      "campaign": "Campaign",
+      "campaignLine": "Screens and the street.",
+      "capture": "Capture",
+      "captureLine": "Stills and film.",
+      "nfc": "NFC",
+      "nfcLine": "Pieces they tap and keep."
+    },
+    "waMessage": "Hi Sign Up, I want to request: {{item}}",
+    "items": {
+      "brand_identity": {
+        "title": "Brand Identity",
+        "line": "Mark, book, and the system the brand walks with.",
+        "time": "3–5 weeks",
+        "includes": ["Logo system", "Brand book", "Usage rules"]
+      },
+      "packaging": {
+        "title": "Packaging",
+        "line": "Boxes and packs built from the guideline.",
+        "time": "2–4 weeks",
+        "includes": ["Structure", "Print-ready files", "From the guideline"]
+      },
+      "prints": {
+        "title": "Prints",
+        "line": "Paper, bags, and posters the brand can hold.",
+        "time": "2–3 weeks",
+        "includes": ["Paper set", "Bags / posters", "Production files"]
+      },
+      "social_media": {
+        "title": "Social Media",
+        "line": "The campaign on screens, not a pile of posts.",
+        "time": "2–4 weeks",
+        "includes": ["Campaign idea", "Key visuals", "Posting map"]
+      },
+      "outdoors": {
+        "title": "Outdoors",
+        "line": "Boards, city, the brand in the street.",
+        "time": "2–3 weeks",
+        "includes": ["Board system", "City formats", "Artwork files"]
+      },
+      "brand_strategy": {
+        "title": "Brand Strategy",
+        "line": "Where you stand, and where you walk.",
+        "time": "2–3 weeks",
+        "includes": ["Positioning", "Audience", "Where you walk"]
+      },
+      "marketing_strategy": {
+        "title": "Marketing Strategy",
+        "line": "Budget, time, and the mix tied to sales.",
+        "time": "2–4 weeks",
+        "includes": ["Budget mix", "Channels", "Tied to sales"]
+      },
+      "photos": {
+        "title": "Photos",
+        "line": "Still frames of the brand in the world.",
+        "time": "1–2 weeks",
+        "includes": ["Art direction", "Shoot", "Selects"]
+      },
+      "videos": {
+        "title": "Film",
+        "line": "Motion that proves the story.",
+        "time": "2–4 weeks",
+        "includes": ["Boards", "Film", "Final cut"]
+      },
+      "nfc_card": {
+        "title": "NFC Card",
+        "line": "Wallet size. They keep it, they tap it.",
+        "time": "2–3 weeks",
+        "includes": ["Artwork", "Chip + tap", "Wallet size"]
+      },
+      "nfc_ring": {
+        "title": "NFC Ring",
+        "line": "Worn, not carried. A tap from the hand.",
+        "time": "2–3 weeks",
+        "includes": ["Form", "Chip + tap", "Worn piece"]
+      },
+      "nfc_medal": {
+        "title": "NFC Medal",
+        "line": "Hung, worn, shown. A piece they tap and keep.",
+        "time": "2–3 weeks",
+        "includes": ["Cast / print", "Chip + tap", "Keep piece"]
+      }
     }
   }
 }

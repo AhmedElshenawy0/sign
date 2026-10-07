@@ -9,6 +9,8 @@ import {
 } from "framer-motion";
 import NoisyBg from "../global/NoisyBg";
 import GridBg from "../global/GridBg";
+import { useHomeCopy } from "@/components/cms/PageCopy";
+import { cmsText } from "@/lib/cms-text";
 
 const PANELS = [
   {
@@ -73,6 +75,7 @@ const buildPath = (points: { x: number; y: number }[]) => {
 
 const AboutSignup = () => {
   const { t, i18n } = useTranslation();
+  const cms = useHomeCopy();
   const [isArabic, setIsArabic] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
   const prefersReducedMotion = useReducedMotion();
@@ -131,10 +134,10 @@ const AboutSignup = () => {
             Corporate Blueprint
           </span>
           <h2 className="text-3xl md:text-5xl font-black tracking-tight leading-[1.1] uppercase text-slate-900">
-            {t("home.about.title")}
+            {cmsText(cms?.aboutTitle, i18n.language, t("home.about.title"))}
           </h2>
           <p className="text-base md:text-lg text-slate-500 font-medium leading-relaxed max-w-2xl mx-auto">
-            {t("home.about.description")}
+            {cmsText(cms?.aboutDescription, i18n.language, t("home.about.description"))}
           </p>
         </header>
 
@@ -197,6 +200,18 @@ const AboutSignup = () => {
           <div className="grid md:grid-cols-3 gap-8 md:gap-6">
             {PANELS.map((panel, index) => {
               const accent = accentMap[panel.accent];
+              const titleField =
+                panel.key === "vision"
+                  ? cms?.visionTitle
+                  : panel.key === "mission"
+                    ? cms?.missionTitle
+                    : cms?.differentTitle;
+              const descField =
+                panel.key === "vision"
+                  ? cms?.visionDesc
+                  : panel.key === "mission"
+                    ? cms?.missionDesc
+                    : cms?.differentDesc;
               return (
                 <motion.div
                   key={panel.key}
@@ -232,10 +247,10 @@ const AboutSignup = () => {
                   </div>
 
                   <h3 className="text-xl font-black uppercase tracking-tight text-slate-900 leading-snug">
-                    {t(panel.titleKey)}
+                    {cmsText(titleField, i18n.language, t(panel.titleKey))}
                   </h3>
                   <p className="text-slate-600 text-sm font-medium leading-relaxed">
-                    {t(panel.descKey)}
+                    {cmsText(descField, i18n.language, t(panel.descKey))}
                   </p>
 
                   {/* Quiet directional cue, appears on hover/focus */}

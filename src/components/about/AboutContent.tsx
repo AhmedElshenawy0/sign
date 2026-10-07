@@ -3,6 +3,8 @@ import Contact from "../home/Contact";
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import { FaRocket, FaGlobeAfrica, FaAward } from "react-icons/fa";
+import { useAboutCopy } from "@/components/cms/PageCopy";
+import { cmsText } from "@/lib/cms-text";
 
 const fadeIn = (direction = "up", delay = 0) => {
   return {
@@ -47,6 +49,7 @@ const accentMap: Record<
 
 const AboutContent = () => {
   const { t, i18n } = useTranslation();
+  const cms = useAboutCopy();
   const [isArabic, setIsArabic] = useState(false);
 
   useEffect(() => {
@@ -73,25 +76,25 @@ const AboutContent = () => {
           >
             <span className="inline-flex items-center gap-2 w-fit text-[10px] font-black tracking-[0.35em] uppercase text-main-green bg-main-green/5 px-4 py-1.5 rounded-full border border-main-green/10 select-none">
               <span className="w-1 h-1 rounded-full bg-main-green" />
-              {t("about.content.eyebrow")}
+              {cmsText(cms?.founderEyebrow, i18n.language, t("about.content.eyebrow"))}
             </span>
 
             <h1 className="font-black text-3xl md:text-4xl tracking-tight uppercase text-slate-900">
-              {t("about.content.founderName")}
+              {cms?.founderName || t("about.content.founderName")}
             </h1>
             <h3 className="font-bold text-sm tracking-[0.25em] uppercase text-slate-400">
-              {t("about.content.founderJob")}
+              {cmsText(cms?.founderJob, i18n.language, t("about.content.founderJob"))}
             </h3>
             <p className="leading-8 tracking-wide text-slate-600 font-medium whitespace-pre-line">
-              {t("about.content.aboutFounder")}
+              {cmsText(cms?.founderBio, i18n.language, t("about.content.aboutFounder"))}
             </p>
           </motion.div>
 
           {/* Image Section */}
           <motion.div className="flex-1 relative" variants={fadeIn("up", 0.3)}>
             <img
-              src="/founder.PNG"
-              alt={t("about.content.founderName")}
+              src={cms?.founderPhotoUrl || "/founder.PNG"}
+              alt={cms?.founderName || t("about.content.founderName")}
               className="h-full w-full object-cover rounded-[1.75rem] shadow-xl"
             />
           </motion.div>
@@ -119,10 +122,18 @@ const AboutContent = () => {
                   <Icon />
                 </span>
                 <span className="text-lg font-black text-slate-900">
-                  {t(`about.milestones.${milestone.key}.value`)}
+                  {cmsText(
+                    cms?.milestones?.[index]?.value,
+                    i18n.language,
+                    t(`about.milestones.${milestone.key}.value`),
+                  )}
                 </span>
                 <span className="text-[11px] font-bold uppercase tracking-widest text-slate-400">
-                  {t(`about.milestones.${milestone.key}.label`)}
+                  {cmsText(
+                    cms?.milestones?.[index]?.label,
+                    i18n.language,
+                    t(`about.milestones.${milestone.key}.label`),
+                  )}
                 </span>
               </motion.div>
             );

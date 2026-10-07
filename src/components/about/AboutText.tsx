@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
+import { useAboutCopy } from "@/components/cms/PageCopy";
+import { cmsText } from "@/lib/cms-text";
 
 const AboutText = () => {
   const { t, i18n } = useTranslation();
+  const cms = useAboutCopy();
   const [isArabic, setIsArabic] = useState(false);
 
   useEffect(() => {
@@ -30,15 +33,15 @@ const AboutText = () => {
       >
         <span className="inline-flex items-center gap-2 text-[10px] font-black tracking-[0.35em] uppercase text-main-green bg-main-green/5 px-4 py-1.5 rounded-full border border-main-green/10 select-none">
           <span className="w-1 h-1 rounded-full bg-main-green" />
-          {t("about.text.eyebrow")}
+          {cmsText(cms?.whatEyebrow, i18n.language, t("about.text.eyebrow"))}
         </span>
 
         <h2 className="text-2xl md:text-4xl font-black tracking-tight uppercase text-slate-900">
-          {t("about.text.title")}
+          {cmsText(cms?.whatTitle, i18n.language, t("about.text.title"))}
         </h2>
 
         <p className="text-[15px] md:text-lg leading-8 tracking-wide text-slate-600 font-medium whitespace-pre-line text-left">
-          {t("about.text.description")}
+          {cmsText(cms?.whatDescription, i18n.language, t("about.text.description"))}
         </p>
       </motion.div>
     </div>

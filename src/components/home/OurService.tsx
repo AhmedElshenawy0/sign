@@ -2,9 +2,12 @@ import Section from "./VideoSection";
 import { useTranslation } from "react-i18next";
 import { useEffect, useState, useRef } from "react";
 import GridBg from "../global/GridBg";
+import { useHomeCopy } from "@/components/cms/PageCopy";
+import { cmsText } from "@/lib/cms-text";
 
 const OurService = () => {
   const { t, i18n } = useTranslation();
+  const cms = useHomeCopy();
   const [isArabic, setIsArabic] = useState(false);
 
   useEffect(() => {
@@ -129,11 +132,11 @@ const OurService = () => {
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-main-green opacity-75" />
             <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-main-green" />
           </span>
-          {t("home.servicesSection.eyebrow")}
+          {cmsText(cms?.servicesEyebrow, i18n.language, t("home.servicesSection.eyebrow"))}
         </span>
 
         <h2 className="text-3xl md:text-5xl font-black tracking-tighter text-slate-900 uppercase">
-          {t("home.servicesSection.title")}
+          {cmsText(cms?.servicesTitle, i18n.language, t("home.servicesSection.title"))}
         </h2>
 
         <span className="inline-block text-[11px] font-mono font-bold tracking-[0.25em] uppercase text-slate-400">
@@ -150,7 +153,11 @@ const OurService = () => {
               onClick={() => scrollToIndex(i)}
               className="text-[10px] font-black uppercase tracking-wider px-3.5 py-1.5 rounded-full border border-slate-200 text-slate-500 hover:border-main-green/40 hover:text-main-green transition-colors"
             >
-              {t(`home.services.${service.key}.tag`)}
+              {cmsText(
+                cms?.[service.key as "section1"]?.tag,
+                i18n.language,
+                t(`home.services.${service.key}.tag`),
+              )}
             </button>
           ))}
         </div>
@@ -175,13 +182,21 @@ const OurService = () => {
                 key={service.key}
                 onClick={() => scrollToIndex(i)}
                 className="group relative flex items-center"
-                aria-label={t(`home.services.${service.key}.tag`)}
+                aria-label={cmsText(
+                  cms?.[service.key as "section1"]?.tag,
+                  i18n.language,
+                  t(`home.services.${service.key}.tag`),
+                )}
               >
                 {/* Tooltip label */}
                 <span
                   className={`absolute ${isArabic ? "left-6" : "right-6"} whitespace-nowrap text-[10px] font-black uppercase tracking-widest bg-slate-900 text-white px-3 py-1.5 rounded-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-200`}
                 >
-                  {t(`home.services.${service.key}.tag`)}
+                  {cmsText(
+                    cms?.[service.key as "section1"]?.tag,
+                    i18n.language,
+                    t(`home.services.${service.key}.tag`),
+                  )}
                 </span>
 
                 <span
@@ -216,10 +231,25 @@ const OurService = () => {
               videoHeight={service.height}
               videoCover
               caseLabel={t("home.servicesSection.caseLabel")}
-              tag={t(`home.services.${service.key}.tag`)}
-              stat={t(`home.services.${service.key}.stat`)}
-              title={t(`home.services.${service.key}.title`)}
-              desc={t(`home.services.${service.key}.description`)}
+              tag={cmsText(
+                cms?.[service.key as "section1"]?.tag,
+                i18n.language,
+                t(`home.services.${service.key}.tag`),
+              )}
+              stat={
+                cms?.[service.key as "section1"]?.stat ||
+                t(`home.services.${service.key}.stat`)
+              }
+              title={cmsText(
+                cms?.[service.key as "section1"]?.title,
+                i18n.language,
+                t(`home.services.${service.key}.title`),
+              )}
+              desc={cmsText(
+                cms?.[service.key as "section1"]?.description,
+                i18n.language,
+                t(`home.services.${service.key}.description`),
+              )}
               ctaText={t("home.servicesSection.cta")}
               ctaHref="/projects"
               index={i + 1}
