@@ -12,11 +12,12 @@ After every change, click **Publish**. An empty field keeps the site’s default
 | In Sanity | Not in Sanity |
 |---|---|
 | Work cases (**Projects**) on `/projects` | The shop catalog on `/store` (WhatsApp products, photos, filters) |
-| NFC work grids on `/nfc` (projects typed as NFC Card / Ring / Medal) | Fixed NFC product stills (card, ring, medal, default stand photo) |
+| NFC work grids on `/nfc` (up to 2 examples per shape, picked on **NFC page**) | Fixed NFC product stills (card, ring, medal, default stand photo) |
 | Homepage copy, stats numbers, partner logos | Homepage contact block, results chart, service-section videos |
 | Intro loop + showreel videos | Navbar, footer, colors, routes |
-| About page copy | “Visit NFC” button (`https://nfc.signuptap.com`) |
-| NFC page titles/body + optional stand photo | Journey **layout** (chapter design is code) |
+| About page copy | About page layout |
+| NFC page titles/body, store-button **label**, hint, optional stand photo | NFC store-button **destination** (always `/store`) |
+| | Journey **layout** (chapter design is code) |
 | | New service categories (the type list is fixed) |
 
 The shop (`/store`) is a fixed catalog. Adding a Project does **not** add a shop tile.
@@ -350,13 +351,19 @@ You cannot change the page layout from Studio.
 
 ### NFC page
 
-You can update: hero eyebrow/title/description; stand kicker/title/body; **Stand photo** (upload or URL); card / ring / medal kicker, title, body.
+You can update: hero eyebrow/title/description; **Store button label** (English + Arabic); **Store button hint**; stand kicker/title/body; **Stand photo** (upload or URL); card / ring / medal kicker, title, body; **Card / Ring / Medal examples** (up to 2 Projects each).
 
 If a stand photo (or URL) is set, it replaces the default stand image. If empty, the site default stand is used.
 
-Work thumbnails under each NFC shape come from **Projects** whose Service is NFC Card, Ring, or Medal — not from this document.
+Under each NFC shape, `/nfc` shows **at most two** example cases. Pick them here (Card examples / Ring examples / Medal examples). The picker only lists Projects whose Service matches that shape.
 
-You cannot change the “Visit NFC” link.
+If an examples list is empty, the site shows the first two Projects of that Service by **Order**. If there are none, that shape has no work grid.
+
+All NFC cases still appear on `/projects` under NFC Services. Changing examples on this document does not hide a case from `/projects`.
+
+The green button on `/nfc` always opens `/store`. In Studio you only change the words on the button (defaults: “Open the store” / «روح على المتجر») and the small hint under it. You cannot point that button at `nfc.signuptap.com` or anywhere else.
+
+If those two fields are empty, the site uses the built-in defaults above.
 
 ---
 
@@ -414,5 +421,8 @@ Do not leave a published override in one language and expect the other language 
 | Change intro / showreel video | Yes — Intro & showreel |
 | Change hero title and partner logos | Yes — Homepage |
 | Change NFC page headings | Yes — NFC page |
+| Change `/nfc` store-button label or hint | Yes — NFC page (**Store button label** / **Store button hint**) |
+| Choose which 1–2 cases show under each NFC shape | Yes — NFC page (**Card / Ring / Medal examples**) |
+| Change where that button goes | No — always `/store` |
 | Change NFC product stills (card/ring/medal photos) | No |
 | Change journey animation/layout | No |

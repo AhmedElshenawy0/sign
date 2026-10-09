@@ -4,13 +4,11 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { FiExternalLink } from "react-icons/fi";
 import type { Project } from "@/types/project";
 import { useNfcCopy } from "@/components/cms/PageCopy";
 import { cmsText } from "@/lib/cms-text";
 
 const NFC_TYPES = ["nfc_card", "nfc_ring", "nfc_medal"] as const;
-const NFC_SITE = "https://nfc.signuptap.com";
 const NFC_STILLS = {
   nfc_card: "/images/nfc/nfc-card.jpg",
   nfc_ring: "/images/nfc/nfc-ring.jpg",
@@ -18,7 +16,7 @@ const NFC_STILLS = {
 } as const;
 const STAND_STILL = "/images/nfc/stand-signup.jpg";
 
-function VisitNfcButton({
+function VisitStoreButton({
   label,
   className = "",
 }: {
@@ -26,24 +24,23 @@ function VisitNfcButton({
   className?: string;
 }) {
   return (
-    <a
-      href={NFC_SITE}
-      target="_blank"
-      rel="noopener noreferrer"
-      className={`inline-flex items-center justify-center gap-2 rounded-full bg-main-green px-7 py-3.5 text-xs font-black uppercase tracking-[0.22em] text-white shadow-[0_18px_40px_rgba(14,152,93,0.35)] transition hover:bg-main-dark-green hover:shadow-[0_18px_46px_rgba(14,152,93,0.5)] ${className}`}
+    <Link
+      href="/store"
+      className={`inline-flex items-center justify-center rounded-full bg-main-green px-7 py-3.5 text-xs font-black uppercase tracking-[0.22em] text-white shadow-[0_18px_40px_rgba(14,152,93,0.35)] transition hover:bg-main-dark-green hover:shadow-[0_18px_46px_rgba(14,152,93,0.5)] ${className}`}
     >
       {label}
-      <FiExternalLink size={14} />
-    </a>
+    </Link>
   );
 }
 
 function ProductStill({
   src,
+  alt = "",
   compact = false,
   aspect = "aspect-[16/10]",
 }: {
   src: string;
+  alt?: string;
   compact?: boolean;
   aspect?: string;
 }) {
@@ -55,7 +52,7 @@ function ProductStill({
       animate={{ y: [0, -10, 0] }}
       transition={{ duration: 5.2, repeat: Infinity, ease: "easeInOut" }}
     >
-      <img src={src} alt="" className={`w-full object-cover ${compact ? "aspect-[4/3]" : aspect}`} />
+      <img src={src} alt={alt} className={`w-full object-cover ${compact ? "aspect-[4/3]" : aspect}`} />
     </motion.div>
   );
 }
@@ -135,9 +132,11 @@ export default function NfcProducts({ items }: { items: Project[] }) {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.24 }}
             >
-              <VisitNfcButton label={t("nfcPage.openSite")} />
+              <VisitStoreButton
+                label={cmsText(cms?.openSite, i18n.language, t("nfcPage.openSite"))}
+              />
               <p className="pt-3 text-[10px] font-black uppercase tracking-[0.28em] text-white/40">
-                {t("nfcPage.ctaHint")}
+                {cmsText(cms?.ctaHint, i18n.language, t("nfcPage.ctaHint"))}
               </p>
             </motion.div>
           </div>
@@ -197,18 +196,21 @@ export default function NfcProducts({ items }: { items: Project[] }) {
               <p className="mb-8 max-w-md text-base leading-relaxed text-white/70 md:text-lg">
                 {cmsText(cms?.standBody, i18n.language, t("nfcPage.standBody"))}
               </p>
-              <VisitNfcButton label={t("nfcPage.openSite")} />
+              <VisitStoreButton
+                label={cmsText(cms?.openSite, i18n.language, t("nfcPage.openSite"))}
+              />
             </motion.div>
             <motion.div
-              initial={{ opacity: 0, scale: 0.96 }}
+              initial={{ opacity: 0, scale: 0.94 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true, amount: 0.3 }}
-              className="rounded-[1.5rem] bg-white p-6 shadow-[0_30px_80px_rgba(0,0,0,0.35)]"
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              className="relative flex min-h-[300px] items-center justify-center"
             >
-              <img
+              <div className="pointer-events-none absolute h-56 w-56 rounded-full bg-main-green/15 blur-3xl" />
+              <ProductStill
                 src={cms?.standImageUrl || STAND_STILL}
                 alt={cmsText(cms?.standTitle, i18n.language, t("nfcPage.standTitle"))}
-                className="mx-auto w-full max-w-md object-contain"
               />
             </motion.div>
           </div>
@@ -251,7 +253,9 @@ export default function NfcProducts({ items }: { items: Project[] }) {
                   <p className="mb-8 max-w-md text-base leading-relaxed text-white/70 md:text-lg">
                     {cmsText(typeCopy.body, i18n.language, t(`nfcPage.types.${type}.body`))}
                   </p>
-                  <VisitNfcButton label={t("nfcPage.openSite")} />
+                  <VisitStoreButton
+                    label={cmsText(cms?.openSite, i18n.language, t("nfcPage.openSite"))}
+                  />
                 </motion.div>
 
                 <motion.div
@@ -298,8 +302,12 @@ export default function NfcProducts({ items }: { items: Project[] }) {
         })}
 
         <section className="mx-auto max-w-3xl px-6 pb-28 pt-8 text-center">
-          <p className="mb-6 text-sm font-medium text-white/55">{t("nfcPage.ctaHint")}</p>
-          <VisitNfcButton label={t("nfcPage.openSite")} />
+          <p className="mb-6 text-sm font-medium text-white/55">
+            {cmsText(cms?.ctaHint, i18n.language, t("nfcPage.ctaHint"))}
+          </p>
+          <VisitStoreButton
+            label={cmsText(cms?.openSite, i18n.language, t("nfcPage.openSite"))}
+          />
         </section>
       </div>
     </div>

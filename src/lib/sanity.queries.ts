@@ -114,6 +114,8 @@ export type SanityNfcPage = {
   eyebrow?: LocaleField | null;
   title?: LocaleField | null;
   description?: LocaleField | null;
+  openSite?: LocaleField | null;
+  ctaHint?: LocaleField | null;
   standKicker?: LocaleField | null;
   standTitle?: LocaleField | null;
   standBody?: LocaleField | null;
@@ -127,6 +129,9 @@ export type SanityNfcPage = {
   medalKicker?: LocaleField | null;
   medalTitle?: LocaleField | null;
   medalBody?: LocaleField | null;
+  cardExampleIds?: string[] | null;
+  ringExampleIds?: string[] | null;
+  medalExampleIds?: string[] | null;
 };
 
 const ASSET = `{
@@ -194,9 +199,13 @@ export const ABOUT_PAGE_QUERY = `*[_type == "aboutPage" && _id == "aboutPage"][0
 
 export const NFC_PAGE_QUERY = `*[_type == "nfcPage" && _id == "nfcPage"][0] {
   eyebrow ${LOCALE}, title ${LOCALE}, description ${LOCALE},
+  openSite ${LOCALE}, ctaHint ${LOCALE},
   standKicker ${LOCALE}, standTitle ${LOCALE}, standBody ${LOCALE},
   "standImageUrl": coalesce(standImageUrl, standImage.asset->url),
   cardKicker ${LOCALE}, cardTitle ${LOCALE}, cardBody ${LOCALE},
   ringKicker ${LOCALE}, ringTitle ${LOCALE}, ringBody ${LOCALE},
-  medalKicker ${LOCALE}, medalTitle ${LOCALE}, medalBody ${LOCALE}
+  medalKicker ${LOCALE}, medalTitle ${LOCALE}, medalBody ${LOCALE},
+  "cardExampleIds": cardExamples[]._ref,
+  "ringExampleIds": ringExamples[]._ref,
+  "medalExampleIds": medalExamples[]._ref
 }`;
