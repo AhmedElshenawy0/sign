@@ -97,8 +97,15 @@ const Navbar = () => {
 
   const productsActive = pathname === "/nfc" || pathname.startsWith("/store");
 
+  function closeProductsMenu() {
+    if (document.activeElement instanceof HTMLElement) {
+      document.activeElement.blur();
+    }
+  }
+
   useEffect(() => {
     setMenuOpen(false);
+    closeProductsMenu();
   }, [pathname]);
 
   const isActivePath = (path: string) =>
@@ -200,10 +207,7 @@ const Navbar = () => {
               )}
             </button>
             <div className="invisible absolute start-0 top-full z-50 min-w-[11rem] pt-2 opacity-0 transition duration-150 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
-              <div
-                className="rounded-2xl border border-white/15 bg-[#0c1016] p-1.5 shadow-[0_20px_50px_rgba(0,0,0,0.65)]"
-                onMouseDown={(e) => e.preventDefault()}
-              >
+              <div className="rounded-2xl border border-white/15 bg-[#0c1016] p-1.5 shadow-[0_20px_50px_rgba(0,0,0,0.65)]">
                 {productLinks.map((item) => (
                   <Link
                     key={item.path}

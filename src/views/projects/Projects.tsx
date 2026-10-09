@@ -2,9 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useEffect, useMemo, useState } from "react";
-import { IoIosArrowDown } from "react-icons/io";
 import { useTranslation } from "react-i18next";
-import GridBg from "../../components/global/GridBg";
 import {
   SERVICE_GROUPS,
   isVideoProjectType,
@@ -12,6 +10,17 @@ import {
   type ProjectType,
   type ServiceGroupId,
 } from "@/types/project";
+
+function CropMarks() {
+  return (
+    <span className="pointer-events-none absolute inset-3 z-[3]" aria-hidden>
+      <span className="absolute start-0 top-0 h-4 w-4 border-s-2 border-t-2 border-white/40" />
+      <span className="absolute end-0 top-0 h-4 w-4 border-e-2 border-t-2 border-white/40" />
+      <span className="absolute bottom-0 start-0 h-4 w-4 border-s-2 border-b-2 border-white/40" />
+      <span className="absolute bottom-0 end-0 h-4 w-4 border-e-2 border-b-2 border-white/40" />
+    </span>
+  );
+}
 
 const ShowReels = ({ items }: { items: Project[] }) => {
   const { t, i18n } = useTranslation();
@@ -23,7 +32,8 @@ const ShowReels = ({ items }: { items: Project[] }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
 
-  const group = SERVICE_GROUPS.find((item) => item.id === groupId) ?? SERVICE_GROUPS[0];
+  const group =
+    SERVICE_GROUPS.find((item) => item.id === groupId) ?? SERVICE_GROUPS[0];
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -49,88 +59,26 @@ const ShowReels = ({ items }: { items: Project[] }) => {
 
   return (
     <div
-      className="relative min-h-screen text-white select-none"
+      className="relative min-h-screen bg-[#05070c] text-white select-none"
       dir={isArabic ? "rtl" : "ltr"}
     >
-      <div className="fixed inset-0 w-full h-full z-0 overflow-hidden bg-slate-950">
-        <motion.img
-          src="/images/sign3.jpg"
-          className="w-full h-full object-cover opacity-25 pointer-events-none"
-          alt=""
-          initial={{ scale: 1.08, opacity: 0 }}
-          animate={{ scale: 1, opacity: 0.25 }}
-          transition={{ duration: 1.2, ease: "easeOut" }}
-        />
-      </div>
-
-      <section className="h-screen w-full relative z-10 flex flex-col items-center justify-center text-center px-4">
-        <div className="max-w-4xl mx-auto space-y-6">
-          <motion.h1
-            className="text-5xl md:text-7xl font-black tracking-tight text-main-green uppercase"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
+      <section className="relative z-10 px-6 pb-16 pt-24 md:px-14 md:pb-20 md:pt-28">
+        <div className="mx-auto mb-10 max-w-3xl text-center">
+          <h1 className="text-[36px] font-black uppercase leading-none tracking-tight md:text-[52px]">
             {t("projects.hero.title")}
-          </motion.h1>
-          <motion.p
-            className="text-lg md:text-xl text-slate-300 max-w-xl mx-auto font-medium leading-relaxed"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2, duration: 0.6 }}
-          >
-            {t("projects.hero.description")}
-          </motion.p>
-          <motion.div
-            className="pt-16 flex justify-center text-slate-400 text-3xl"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: [0.4, 1, 0.4], y: [0, 10, 0] }}
-            transition={{
-              repeat: Infinity,
-              duration: 2,
-              ease: "easeInOut",
-              delay: 0.6,
-            }}
-          >
-            <IoIosArrowDown />
-          </motion.div>
-        </div>
-      </section>
-
-      <section className="px-6 relative md:px-14 py-28 bg-neutral-50 text-slate-900 rounded-t-[2rem] md:rounded-t-[3rem] z-20 shadow-[-0px_-20px_50px_rgba(0,0,0,0.3)]">
-        <GridBg variant="light" />
-
-        <div className="flex flex-col items-center text-center mb-12 max-w-2xl mx-auto space-y-4">
-          <motion.div
-            className="p-3 border border-white/20 rounded-full bg-main-green shadow-lg backdrop-blur-sm"
-            initial={{ scale: 0.8, opacity: 0 }}
-            whileInView={{ scale: 1, opacity: 1 }}
-            viewport={{ once: true }}
-          >
-            <img
-              src="/images/SignUp Logo White.png"
-              className="w-[72px] h-[72px] object-contain"
-              alt="Sign Up Logo"
-              loading="lazy"
-            />
-          </motion.div>
-          <h3 className="text-3xl md:text-4xl font-black tracking-tight text-slate-900 uppercase">
-            {t("projects.moreProjects.heading")}
-          </h3>
-          <p className="text-slate-500 font-medium max-w-md">
-            {t("projects.moreProjects.description")}
-          </p>
+          </h1>
         </div>
 
-        <div className="flex justify-center gap-2.5 mb-6 flex-wrap">
+        <div className="mb-6 flex flex-wrap justify-center gap-2.5">
           {SERVICE_GROUPS.map((item) => (
             <button
               key={item.id}
+              type="button"
               onClick={() => setGroupId(item.id)}
-              className={`px-5 py-2.5 text-xs font-black uppercase tracking-wider rounded-full border transition-all duration-200 cursor-pointer ${
+              className={`rounded-full border px-5 py-2.5 text-xs font-black uppercase tracking-wider transition-all duration-200 cursor-pointer ${
                 groupId === item.id
-                  ? "bg-main-dark-green text-white border-main-dark-green shadow-md shadow-main-dark-green/10"
-                  : "bg-white border-neutral-200 text-slate-600 hover:border-main-dark-green hover:text-main-dark-green"
+                  ? "border-main-green bg-main-green text-white"
+                  : "border-white/15 bg-white/5 text-white/65 hover:border-white/35 hover:text-white"
               }`}
             >
               {t(`projects.groups.${item.id}.label`)}
@@ -138,22 +86,23 @@ const ShowReels = ({ items }: { items: Project[] }) => {
           ))}
         </div>
 
-        <p className="text-center text-slate-500 text-sm font-medium max-w-2xl mx-auto mb-8">
+        <p className="mx-auto mb-8 max-w-2xl text-center text-sm font-medium text-white/45">
           {t(`projects.groups.${groupId}.intro`)}
         </p>
 
-        <div className="flex justify-center gap-2 mb-12 flex-wrap">
+        <div className="mb-10 flex flex-wrap justify-center gap-2">
           {group.types.map((type) => (
             <button
               key={type}
+              type="button"
               onClick={() => {
                 setSubType(type);
                 setCurrentPage(1);
               }}
-              className={`px-4 py-2 text-[11px] font-black uppercase tracking-wider rounded-full border transition-all duration-200 cursor-pointer ${
+              className={`rounded-full border px-4 py-2 text-[11px] font-black uppercase tracking-wider transition-all duration-200 cursor-pointer ${
                 subType === type
-                  ? "bg-slate-900 text-white border-slate-900"
-                  : "bg-white border-neutral-200 text-slate-500 hover:border-slate-900 hover:text-slate-900"
+                  ? "border-white bg-white text-slate-900"
+                  : "border-white/15 bg-transparent text-white/55 hover:border-white/40 hover:text-white"
               }`}
             >
               {t(`projects.types.${type}`)}
@@ -162,63 +111,77 @@ const ShowReels = ({ items }: { items: Project[] }) => {
         </div>
 
         {paginated.length === 0 ? (
-          <p className="text-center text-slate-400 py-16">{t("projects.empty")}</p>
+          <p className="py-16 text-center text-white/40">{t("projects.empty")}</p>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {paginated.map((item) => (
-              <motion.div
-                key={item.id}
-                className="relative overflow-hidden rounded-2xl shadow-sm border border-neutral-200/60 group bg-white"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-40px" }}
-                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-              >
-                <a
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 xl:grid-cols-4">
+            {paginated.map((item, index) => {
+              const number = String(
+                (currentPage - 1) * itemsPerPage + index + 1,
+              ).padStart(2, "0");
+
+              return (
+                <motion.a
+                  key={item.id}
                   href={`/projects/${item.id}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block"
+                  className="group relative isolate aspect-[3/4] overflow-hidden rounded-[18px] bg-[#0a0d12] ring-1 ring-white/10"
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-40px" }}
+                  transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
                 >
-                  <div className="w-full h-64 overflow-hidden relative bg-neutral-900">
-                    {isVideoProjectType(item.type) ? (
-                      <video
-                        src={item.media_url}
-                        className="w-full h-full object-cover pointer-events-none"
-                        poster={item.poster_url ?? undefined}
-                        preload="metadata"
-                        muted
-                      />
-                    ) : (
-                      <img
-                        src={item.media_url}
-                        alt={item.title}
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                        loading="lazy"
-                      />
-                    )}
+                  {isVideoProjectType(item.type) ? (
+                    <video
+                      src={item.media_url}
+                      className="absolute inset-0 h-full w-full object-cover pointer-events-none transition duration-700 group-hover:scale-[1.05]"
+                      poster={item.poster_url ?? undefined}
+                      preload="metadata"
+                      muted
+                    />
+                  ) : (
+                    <img
+                      src={item.media_url}
+                      alt={item.title}
+                      className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-[1.05]"
+                      loading="lazy"
+                    />
+                  )}
+
+                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black via-black/35 to-black/10" />
+                  <CropMarks />
+
+                  <span className="absolute start-5 top-5 z-[4] text-[15px] font-black tabular-nums text-main-green">
+                    {number}
+                  </span>
+
+                  <div className="absolute inset-x-0 bottom-0 z-[4] p-5 md:p-6">
+                    <h3 className="text-[26px] font-black uppercase leading-[0.9] tracking-tight text-white md:text-[30px]">
+                      {item.title}
+                    </h3>
+                    <p className="mt-2 max-w-[16rem] text-[13px] leading-snug text-white/70">
+                      {t(`projects.journey.lines.${item.type}`)}
+                    </p>
                   </div>
-                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent p-4 pt-10 text-xs font-bold tracking-wide uppercase text-white opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
-                    {item.title}
-                  </div>
-                </a>
-              </motion.div>
-            ))}
+                </motion.a>
+              );
+            })}
           </div>
         )}
 
         {totalPages > 1 && (
-          <div className="flex justify-center mt-16 gap-2 flex-wrap">
+          <div className="mt-14 flex flex-wrap justify-center gap-2">
             {[...Array(totalPages)].map((_, i) => {
               const activePage = i + 1;
               return (
                 <button
                   key={activePage}
+                  type="button"
                   onClick={() => setCurrentPage(activePage)}
-                  className={`w-11 h-11 rounded-full text-xs font-black transition-all ${
+                  className={`h-11 w-11 rounded-full text-xs font-black transition-all ${
                     currentPage === activePage
-                      ? "bg-main-dark-green text-white shadow-md shadow-main-dark-green/10"
-                      : "bg-white text-slate-600 border border-neutral-200 hover:border-main-dark-green hover:text-main-dark-green"
+                      ? "bg-main-green text-white"
+                      : "border border-white/15 bg-white/5 text-white/60 hover:border-white/35 hover:text-white"
                   }`}
                 >
                   {activePage}
@@ -229,10 +192,10 @@ const ShowReels = ({ items }: { items: Project[] }) => {
         )}
       </section>
 
-      <section className="px-6 md:px-14 min-h-[70vh] text-center relative z-10 flex justify-center items-center overflow-hidden">
-        <div className="max-w-2xl mx-auto space-y-8">
+      <section className="relative z-10 flex min-h-[50vh] items-center justify-center overflow-hidden px-6 py-20 text-center md:px-14">
+        <div className="mx-auto max-w-2xl space-y-8">
           <motion.h4
-            className="text-3xl md:text-5xl font-black uppercase tracking-tight text-white"
+            className="text-3xl font-black uppercase tracking-tight text-white md:text-5xl"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -240,7 +203,7 @@ const ShowReels = ({ items }: { items: Project[] }) => {
             {t("projects.cta.title")}
           </motion.h4>
           <motion.p
-            className="text-slate-300 font-medium text-base md:text-lg max-w-xl mx-auto leading-relaxed"
+            className="mx-auto max-w-xl text-base font-medium leading-relaxed text-white/55 md:text-lg"
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -254,7 +217,7 @@ const ShowReels = ({ items }: { items: Project[] }) => {
           >
             <motion.a
               href="/contact"
-              className="inline-block bg-main-green text-white text-xs font-black uppercase tracking-widest py-4 px-10 rounded-full hover:bg-main-dark-green transition-all shadow-lg shadow-main-green/10"
+              className="inline-block rounded-full bg-main-green px-10 py-4 text-xs font-black uppercase tracking-widest text-white shadow-lg shadow-main-green/10 transition-all hover:bg-main-dark-green"
               whileHover={{ y: -2, scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >

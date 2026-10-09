@@ -36,6 +36,15 @@ body {
   font-family: var(--font-montserrat);
 }
 
+html.store-page,
+html.store-page body {
+  scrollbar-width: none;
+}
+html.store-page::-webkit-scrollbar,
+html.store-page body::-webkit-scrollbar {
+  display: none;
+}
+
 :lang(ar) {
   font-family: var(--font-cairo);
 }

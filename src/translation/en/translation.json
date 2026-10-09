@@ -648,7 +648,7 @@
   "store": {
     "eyebrow": "Marketplace",
     "title": "The store",
-    "description": "Twelve things you can request. Pick a card, send it on WhatsApp — we close the brief with you. No checkout on the site.",
+    "description": "Departments as aisles. Ideas as products. Impact by design.",
     "services": "Services",
     "nfc": "NFC",
     "request": "Request on WhatsApp",
@@ -659,17 +659,19 @@
     "channel": "WhatsApp quotes",
     "groups": {
       "all": "All",
+      "allAisles": "All aisles",
       "identity": "Identity",
-      "identityLine": "The brand you can hold.",
+      "identityLine": "Branding foundations that define and differentiate.",
       "strategy": "Strategy",
-      "strategyLine": "Position and the plan.",
+      "strategyLine": "Research, insight and direction that drive decisions.",
       "campaign": "Campaign",
-      "campaignLine": "Screens and the street.",
+      "campaignLine": "Stories, moments and movements that move people.",
       "capture": "Capture",
-      "captureLine": "Stills and film.",
+      "captureLine": "Visual capture and content that freeze truth in time.",
       "nfc": "NFC",
-      "nfcLine": "Pieces they tap and keep."
+      "nfcLine": "Tangible touchpoints that connect in the moment."
     },
+    "waHero": "Hi Sign Up, I want to request something from the store.",
     "waMessage": "Hi Sign Up, I want to request: {{item}}",
     "items": {
       "brand_identity": {
