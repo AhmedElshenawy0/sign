@@ -27,7 +27,7 @@ export const journeyCopy = defineType({
   title: "Custom page text",
   type: "object",
   description:
-    "Leave a field empty to keep the default sentences. Text for a chapter shows only if that Extra photo exists.",
+    "Empty keeps the default sentence. Text for a chapter shows only if that Extra photo exists.",
   fields: [
     defineField({
       name: "scroll",

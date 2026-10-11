@@ -58,15 +58,35 @@ function ProductStill({
 }
 
 export function CardShape({ compact = false }: { compact?: boolean }) {
-  return <ProductStill src={NFC_STILLS.nfc_card} compact={compact} />;
+  const cms = useNfcCopy();
+  return (
+    <ProductStill
+      src={cms?.cardImageUrl?.trim() || NFC_STILLS.nfc_card}
+      compact={compact}
+    />
+  );
 }
 
 export function RingShape({ compact = false }: { compact?: boolean }) {
-  return <ProductStill src={NFC_STILLS.nfc_ring} compact={compact} aspect="aspect-square" />;
+  const cms = useNfcCopy();
+  return (
+    <ProductStill
+      src={cms?.ringImageUrl?.trim() || NFC_STILLS.nfc_ring}
+      compact={compact}
+      aspect="aspect-square"
+    />
+  );
 }
 
 export function MedalShape({ compact = false }: { compact?: boolean }) {
-  return <ProductStill src={NFC_STILLS.nfc_medal} compact={compact} aspect="aspect-square" />;
+  const cms = useNfcCopy();
+  return (
+    <ProductStill
+      src={cms?.medalImageUrl?.trim() || NFC_STILLS.nfc_medal}
+      compact={compact}
+      aspect="aspect-square"
+    />
+  );
 }
 
 const SHAPES = {

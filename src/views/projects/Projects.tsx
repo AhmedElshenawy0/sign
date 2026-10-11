@@ -111,7 +111,7 @@ const ShowReels = ({ items }: { items: Project[] }) => {
     SERVICE_GROUPS[0].types[0],
   );
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 4;
+  const itemsPerPage = 8;
 
   const group =
     SERVICE_GROUPS.find((item) => item.id === groupId) ?? SERVICE_GROUPS[0];
@@ -137,8 +137,8 @@ const ShowReels = ({ items }: { items: Project[] }) => {
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage,
   );
-  const featured = paginated[0];
-  const stacked = paginated.slice(1);
+  const pageOffset = (currentPage - 1) * itemsPerPage;
+  const hasLeftover = paginated.length % 2 === 1;
 
   return (
     <div
@@ -199,42 +199,23 @@ const ShowReels = ({ items }: { items: Project[] }) => {
 
         {paginated.length === 0 ? (
           <p className="py-16 text-white/40">{t("projects.empty")}</p>
-        ) : stacked.length > 0 ? (
-          <div className="grid items-start gap-4 md:grid-cols-12 md:gap-5">
-            {featured ? (
-              <CasePoster
-                key={featured.id}
-                item={featured}
-                variant="featured"
-                className="md:col-span-5"
-                number={String((currentPage - 1) * itemsPerPage + 1).padStart(2, "0")}
-                line={t(`projects.journey.lines.${featured.type}`)}
-              />
-            ) : null}
-            <div className="flex w-full min-w-0 flex-col gap-4 md:col-span-7">
-              {stacked.map((item, index) => (
+        ) : (
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-5">
+            {paginated.map((item, index) => {
+              const leftover = hasLeftover && index === paginated.length - 1;
+              return (
                 <CasePoster
                   key={item.id}
                   item={item}
                   variant="stack"
-                  number={String(
-                    (currentPage - 1) * itemsPerPage + index + 2,
-                  ).padStart(2, "0")}
+                  className={leftover ? "md:col-span-2" : undefined}
+                  number={String(pageOffset + index + 1).padStart(2, "0")}
                   line={t(`projects.journey.lines.${item.type}`)}
                 />
-              ))}
-            </div>
+              );
+            })}
           </div>
-        ) : featured ? (
-          <CasePoster
-            key={featured.id}
-            item={featured}
-            variant="featured"
-            className="w-full max-w-[32rem]"
-            number={String((currentPage - 1) * itemsPerPage + 1).padStart(2, "0")}
-            line={t(`projects.journey.lines.${featured.type}`)}
-          />
-        ) : null}
+        )}
 
         {totalPages > 1 && (
           <div className="mt-14 flex flex-wrap gap-2">

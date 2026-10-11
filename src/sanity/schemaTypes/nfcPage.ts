@@ -14,6 +14,7 @@ function nfcExamplesField(
     of: [
       {
         type: "reference",
+        weak: true,
         to: [{ type: "project" }],
         options: {
           filter: "type == $service",
@@ -62,14 +63,35 @@ export const nfcPage = defineType({
     defineField({ name: "cardKicker", title: "Card kicker", type: "localeString" }),
     defineField({ name: "cardTitle", title: "Card title", type: "localeString" }),
     defineField({ name: "cardBody", title: "Card body", type: "localeText" }),
+    defineField({
+      name: "cardImage",
+      title: "Card photo",
+      type: "image",
+      options: { hotspot: true },
+    }),
+    defineField({ name: "cardImageUrl", title: "Or card photo URL", type: "string" }),
     nfcExamplesField("cardExamples", "Card examples", "nfc_card"),
     defineField({ name: "ringKicker", title: "Ring kicker", type: "localeString" }),
     defineField({ name: "ringTitle", title: "Ring title", type: "localeString" }),
     defineField({ name: "ringBody", title: "Ring body", type: "localeText" }),
+    defineField({
+      name: "ringImage",
+      title: "Ring photo",
+      type: "image",
+      options: { hotspot: true },
+    }),
+    defineField({ name: "ringImageUrl", title: "Or ring photo URL", type: "string" }),
     nfcExamplesField("ringExamples", "Ring examples", "nfc_ring"),
     defineField({ name: "medalKicker", title: "Medal kicker", type: "localeString" }),
     defineField({ name: "medalTitle", title: "Medal title", type: "localeString" }),
     defineField({ name: "medalBody", title: "Medal body", type: "localeText" }),
+    defineField({
+      name: "medalImage",
+      title: "Medal photo",
+      type: "image",
+      options: { hotspot: true },
+    }),
+    defineField({ name: "medalImageUrl", title: "Or medal photo URL", type: "string" }),
     nfcExamplesField("medalExamples", "Medal examples", "nfc_medal"),
   ],
   preview: {

@@ -7,11 +7,13 @@ import {
   PROJECT_QUERY,
   PROJECTS_QUERY,
   SITE_MEDIA_QUERY,
+  STORE_PAGE_QUERY,
   type SanityAboutPage,
   type SanityHomePage,
   type SanityNfcPage,
   type SanityProjectDoc,
   type SanitySiteMedia,
+  type SanityStorePage,
 } from "@/lib/sanity.queries";
 import type { Project, ProjectGalleryItem, ProjectType } from "@/types/project";
 import { PROJECT_TYPES } from "@/types/project";
@@ -148,4 +150,9 @@ export async function getSanityAboutPage(): Promise<SanityAboutPage | null> {
 export async function getSanityNfcPage(): Promise<SanityNfcPage | null> {
   if (!(await shouldReadSanity())) return null;
   return sanityFetch<SanityNfcPage | null>(NFC_PAGE_QUERY);
+}
+
+export async function getSanityStorePage(): Promise<SanityStorePage | null> {
+  if (!(await shouldReadSanity())) return null;
+  return sanityFetch<SanityStorePage | null>(STORE_PAGE_QUERY);
 }

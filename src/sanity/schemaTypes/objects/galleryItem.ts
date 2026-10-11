@@ -16,25 +16,19 @@ export const galleryItem = defineType({
   name: "galleryItem",
   title: "Photo",
   type: "object",
+  fieldsets: [
+    {
+      name: "copy",
+      title: "Replace sentences on this photo (optional)",
+      description:
+        "Leave closed to keep the Sentences section (or the site default). Open only to override this chapter.",
+      options: { collapsible: true, collapsed: true },
+    },
+  ],
   fields: [
     defineField({
-      name: "role",
-      title: "This photo is for",
-      type: "string",
-      description:
-        "Pick the chapter for this photo. Leave empty and the next empty chapter for this service is used.",
-      options: { list: slotOptionsForType() },
-      components: { input: SlotInput },
-    }),
-    defineField({
-      name: "caption",
-      title: "Photo label",
-      type: "string",
-      description: "Optional small label on the photo. Not the chapter headline.",
-    }),
-    defineField({
       name: "asset",
-      title: "Upload",
+      title: "Photo",
       type: "cloudinaryAsset",
       validation: (rule) =>
         rule.custom((value) =>
@@ -42,22 +36,36 @@ export const galleryItem = defineType({
         ),
     }),
     defineField({
+      name: "role",
+      title: "This photo is for",
+      type: "string",
+      description: "Which chapter. Empty = the next empty chapter for this service.",
+      options: { list: slotOptionsForType() },
+      components: { input: SlotInput },
+    }),
+    defineField({
+      name: "caption",
+      title: "Photo label",
+      type: "string",
+      description: "Optional small caption on the photo, not the chapter headline.",
+    }),
+    defineField({
       name: "kicker",
       title: "Small line",
       type: "localeString",
-      description: "Optional. Replaces the default small line on this chapter. Leave empty to keep the default.",
+      fieldset: "copy",
     }),
     defineField({
       name: "title",
       title: "Headline",
       type: "localeString",
-      description: "Optional. Used on chapters that show a headline. Leave empty to keep the default.",
+      fieldset: "copy",
     }),
     defineField({
       name: "body",
       title: "Paragraph",
       type: "localeText",
-      description: "Optional. Replaces the default paragraph or the photo label text. Leave empty to keep the default.",
+      fieldset: "copy",
     }),
   ],
   preview: {

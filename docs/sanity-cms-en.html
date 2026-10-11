@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Sign Up CMS — Team guide</title>
+  <style>
+    @page { size: A4; margin: 16mm 15mm 18mm; }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      color: #14241c;
+      background: #fff;
+      font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+      font-size: 11pt;
+      line-height: 1.45;
+    }
+    .wrap { max-width: 780px; margin: 0 auto; }
+    h1 { font-size: 26pt; line-height: 1.15; margin: 0 0 8px; letter-spacing: -0.03em; }
+    h2 {
+      font-size: 14pt;
+      margin: 26px 0 10px;
+      padding-bottom: 5px;
+      border-bottom: 2px solid #1f6b45;
+      page-break-after: avoid;
+    }
+    h3 { font-size: 12pt; margin: 16px 0 8px; page-break-after: avoid; }
+    p { margin: 0 0 8px; }
+    .kicker { color: #1f6b45; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; font-size: 9pt; }
+    .lead { font-size: 12.5pt; color: #31463b; margin-bottom: 14px; }
+    .note {
+      background: #f3f8f4;
+      border-left: 4px solid #1f6b45;
+      padding: 10px 12px;
+      margin: 12px 0;
+      page-break-inside: avoid;
+    }
+    .warn {
+      background: #fff7e8;
+      border-left: 4px solid #c98912;
+      padding: 10px 12px;
+      margin: 12px 0;
+      page-break-inside: avoid;
+    }
+    ol.steps { padding-left: 22px; }
+    ol.steps li { margin: 0 0 7px; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 8px 0 14px;
+      font-size: 10.2pt;
+      page-break-inside: auto;
+    }
+    th, td {
+      border: 1px solid #d5e3da;
+      padding: 6px 8px;
+      vertical-align: top;
+      text-align: left;
+    }
+    th { background: #1f6b45; color: #fff; font-weight: 600; }
+    tr:nth-child(even) td { background: #f6faf7; }
+    .muted { color: #5b6f65; }
+    .footer-note { margin-top: 28px; font-size: 9.5pt; color: #5b6f65; }
+    ul { margin: 4px 0 10px; padding-left: 20px; }
+    li { margin: 0 0 4px; }
+    .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .card {
+      border: 1px solid #d5e3da;
+      padding: 10px 12px;
+      page-break-inside: avoid;
+    }
+    .card strong { display: block; margin-bottom: 4px; }
+    code { font-family: Consolas, "Courier New", monospace; font-size: 10pt; background: #eef4f0; padding: 1px 4px; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <p class="kicker">Sign Up · Sanity Studio</p>
+    <h1>CMS team guide</h1>
+    <p class="lead">How to add a project, how to edit one, and what every field is for. Written for the Sign Up team — not for developers.</p>
+
+    <div class="note">
+      <strong>Open Studio:</strong> go to <code>/studio</code> on the website (on a computer: <code>http://localhost:3000/studio</code>).<br />
+      After every change, click <strong>Publish</strong>. If you only type and leave, the live site does not update.
+    </div>
+
+    <h2>1. Remember these four things</h2>
+    <ol class="steps">
+      <li>An empty field keeps the site’s current default text or photo. Empty does <strong>not</strong> delete a section.</li>
+      <li>When you change a sentence, fill <strong>English and Arabic</strong>.</li>
+      <li>You can add, edit, and delete <strong>Projects</strong>. There are many of them.</li>
+      <li><strong>Homepage, About, NFC page, Store page, Intro &amp; showreel</strong> are one document each. Edit them. Do not try to create a second Homepage.</li>
+    </ol>
+
+    <h2>2. What you see on the left</h2>
+    <table>
+      <thead>
+        <tr><th>Sidebar item</th><th>What it is</th><th>Can you add another?</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Intro &amp; showreel</strong></td><td>Home intro video + showreel film</td><td>No — edit only</td></tr>
+        <tr><td><strong>Homepage</strong></td><td>Home titles, numbers, partners, services text</td><td>No — edit only</td></tr>
+        <tr><td><strong>About</strong></td><td>About page text, founder, milestones</td><td>No — edit only</td></tr>
+        <tr><td><strong>NFC page</strong></td><td>NFC page text, product photos, which 1–2 cases show</td><td>No — edit only</td></tr>
+        <tr><td><strong>Store page</strong></td><td>Store titles, filter names, the 12 product tiles</td><td>No — edit only</td></tr>
+        <tr><td><strong>Projects</strong></td><td>Every work case on <code>/projects</code></td><td><strong>Yes</strong> — one document per case</td></tr>
+      </tbody>
+    </table>
+
+    <h2>3. How to add a project</h2>
+    <p>Use this when you have a new case for <code>/projects</code> (and for <code>/nfc</code> if it is NFC Card, Ring, or Medal). The form is short on purpose: name, service, cover first. Sentences and list order start closed.</p>
+    <ol class="steps">
+      <li>Open Studio and sign in.</li>
+      <li>Click <strong>Projects</strong> on the left.</li>
+      <li>Click <strong>+</strong> or <strong>Create</strong> (top of the list). A new empty project opens. Do not open Homepage for this.</li>
+      <li>Type <strong>Project name</strong>.</li>
+      <li>Pick <strong>Service</strong> from the list (Brand Identity, Packaging, Videos, NFC Card, …). You cannot type a new service.</li>
+      <li>In <strong>Cover</strong>, upload the opening photo (image only). If Service is <strong>Videos</strong>, upload the film here instead, and add a <strong>Video thumbnail</strong> if you have a still.</li>
+      <li>Optional: <strong>Extra photos</strong> — click <strong>Add item</strong> for each extra chapter. Each item is a photo + which chapter it is.</li>
+      <li>Optional: <strong>Short description</strong> — one or two lines under the name. Leave empty to keep the default line.</li>
+      <li>Optional: open <strong>Sentences (optional)</strong> only if you want to change the default English/Arabic lines.</li>
+      <li>Optional: open <strong>List order (optional)</strong> to change <strong>Order on Projects page</strong> (smaller number = higher in the list).</li>
+      <li>Click <strong>Publish</strong>.</li>
+      <li>Check the live site: <code>/projects</code>, the same filter as Service, then open the case. If it is NFC, also check <code>/nfc</code>.</li>
+    </ol>
+    <div class="note"><strong>Minimum to publish:</strong> Project name + Service + Cover.</div>
+
+    <h2>4. What each project field is for</h2>
+    <table>
+      <thead>
+        <tr><th>Field in Studio</th><th>What it does</th><th>If you leave it empty</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Project name</strong></td><td>Title on <code>/projects</code> and on the journey page. Required.</td><td>You cannot publish without it.</td></tr>
+        <tr><td><strong>Service</strong></td><td>Which filter the case sits under. Required. Pick from the list only.</td><td>You cannot publish without it.</td></tr>
+        <tr><td><strong>Cover</strong></td><td>Opening photo (image upload). If Service is Videos, film upload instead. Required. You may paste a URL.</td><td>You cannot publish without it.</td></tr>
+        <tr><td><strong>Video thumbnail</strong></td><td>Still image before the film plays. Only appears when Service is Videos.</td><td>Site default still, or none.</td></tr>
+        <tr><td><strong>Extra photos</strong></td><td>Each item is one extra chapter. Photo + chapter name. Hidden when Service is Videos.</td><td>Only the cover chapter shows.</td></tr>
+        <tr><td><strong>Short description</strong></td><td>One or two lines under the name on the site.</td><td>The default line for that service stays.</td></tr>
+        <tr><td><strong>Sentences (optional)</strong></td><td>Starts closed. Cover line and chapter sentences (English + Arabic).</td><td>Built-in default sentences stay.</td></tr>
+        <tr><td><strong>List order (optional)</strong></td><td>Starts closed. <strong>Order on Projects page</strong> — smaller number = higher up. Does not add photos.</td><td>Treated as 0.</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Inside Cover (and any photo/video field)</h3>
+    <p>Studio only shows the upload that matches the field. You do not see image and video together unless both are needed.</p>
+    <table>
+      <thead>
+        <tr><th>Field</th><th>Use it when</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Upload image</strong></td><td>Cover (non-Videos), Extra photos, video thumbnail, intro poster.</td></tr>
+        <tr><td><strong>Upload video</strong></td><td>Cover when Service is Videos, homepage intro loop, showreel.</td></tr>
+        <tr><td><strong>Or paste a URL</strong></td><td>The file is already online. Leave empty if you uploaded above.</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Inside each Extra photo</h3>
+    <table>
+      <thead>
+        <tr><th>Field</th><th>What it does</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Photo</strong></td><td>The image (or a URL). Required for that extra item.</td></tr>
+        <tr><td><strong>This photo is for</strong></td><td>Which chapter (Logo, In hand, Poster, …). If empty, Studio uses the next empty chapter for this service.</td></tr>
+        <tr><td><strong>Photo label</strong></td><td>Small caption on the photo. Not the chapter headline.</td></tr>
+        <tr><td><strong>Replace sentences on this photo</strong></td><td>Starts closed. Optional English + Arabic for this chapter only. Leave closed to keep Sentences (or the site default).</td></tr>
+      </tbody>
+    </table>
+    <div class="warn">Writing sentences without uploading that Extra photo will not show the chapter. <strong>Photo first, then text.</strong></div>
+
+    <h2>5. Service list (you pick one)</h2>
+    <table>
+      <thead>
+        <tr><th>Group on /projects</th><th>Service in Studio</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Branding</td><td>Brand Identity · Packaging · Prints</td></tr>
+        <tr><td>Marketing</td><td>Social Media · Outdoors · Brand Strategy · Marketing Strategy</td></tr>
+        <tr><td>Photography &amp; Videography</td><td>Photos · Videos</td></tr>
+        <tr><td>NFC (also on /nfc)</td><td>NFC Card · Ring · Medal</td></tr>
+      </tbody>
+    </table>
+
+    <h2>6. Extra photo chapters by service</h2>
+    <p>Use the matching chapter name. Videos have no extra photos — cover film only.</p>
+    <table>
+      <thead>
+        <tr><th>Service</th><th>Extra chapters (in order)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Brand Identity</td><td>Logo, Brand book, Packaging, Business card, Environmental</td></tr>
+        <tr><td>Packaging</td><td>Another SKU, Detail, In hand, On shelf</td></tr>
+        <tr><td>Prints</td><td>Bag, Letterhead, Poster</td></tr>
+        <tr><td>Social Media</td><td>Story, Campaign</td></tr>
+        <tr><td>Outdoors</td><td>City, Vehicle</td></tr>
+        <tr><td>Brand Strategy</td><td>Now, Horizon, Path</td></tr>
+        <tr><td>Marketing Strategy</td><td>Budget, Time, Mix</td></tr>
+        <tr><td>Photos</td><td>Portrait, Detail, Wide</td></tr>
+        <tr><td>Videos</td><td>None — cover video (+ thumbnail) only</td></tr>
+        <tr><td>NFC Card</td><td>Back, In hand</td></tr>
+        <tr><td>Ring</td><td>On hand, Detail</td></tr>
+        <tr><td>Medal</td><td>Worn, Detail</td></tr>
+      </tbody>
+    </table>
+
+    <h2>7. How to edit a project</h2>
+    <ol class="steps">
+      <li>Studio → <strong>Projects</strong>.</li>
+      <li>Click the project (use search if the list is long).</li>
+      <li>Change only what you need — name, service, cover, order, description, extra photos, or sentences.</li>
+      <li>Click <strong>Publish</strong>.</li>
+      <li>Check <code>/projects</code> and the journey. If it is NFC, check <code>/nfc</code> too.</li>
+    </ol>
+    <div class="warn">If you change <strong>Service</strong> after photos are already there, open every Extra photo and re-check <strong>This photo is for</strong>. Chapters for Identity are not the same as Packaging or NFC.</div>
+
+    <h2>8. How to delete a project</h2>
+    <ol class="steps">
+      <li>Open the project.</li>
+      <li>Click the <strong>⋯</strong> at the <strong>top right</strong> of the document (next to the X).</li>
+      <li>Click <strong>Delete</strong>, then confirm.</li>
+    </ol>
+    <p>The case leaves <code>/projects</code>. If it was NFC, it also leaves the NFC examples grid. Keyboard shortcut: <strong>Ctrl+Alt+D</strong>.</p>
+    <p class="muted">You cannot delete Homepage, About, NFC page, Store page, or Intro &amp; showreel. Those pages must stay.</p>
+
+    <h2>9. Homepage</h2>
+    <p>The home page is two documents. You only edit them — you never create a new one.</p>
+
+    <h3>Intro &amp; showreel</h3>
+    <table>
+      <thead>
+        <tr><th>Field</th><th>What it is</th><th>If empty</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Homepage intro loop</td><td>Video behind the home hero</td><td>Default intro video</td></tr>
+        <tr><td>Intro poster</td><td>Still image before the intro loads</td><td>Default still</td></tr>
+        <tr><td>Showreel video</td><td>Film in the hero player</td><td>Default intro video</td></tr>
+        <tr><td>Showreel eyebrow / title (EN + AR)</td><td>Text on the showreel</td><td>Default words</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Homepage document — groups at the top of the form</h3>
+    <table>
+      <thead>
+        <tr><th>Group</th><th>What you can change</th><th>What you cannot</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Hero</strong></td>
+          <td>Studio pill, hero title, hero description (EN+AR). In the description keep the brand as <code>&lt;1&gt;Sign Up&lt;/1&gt;</code> so it stays green. Partner logos: name + logo upload or URL.</td>
+          <td>If you add any partner logo, the old logo strip is replaced. Leave the list empty to keep the current logos.</td>
+        </tr>
+        <tr>
+          <td><strong>Stats</strong></td>
+          <td>The four numbers: years, clients, campaigns, satisfaction.</td>
+          <td>Labels, icons, + / % signs.</td>
+        </tr>
+        <tr>
+          <td><strong>About / Vision</strong></td>
+          <td>Titles and body for Who we are, What makes us different, Vision, Mission (EN+AR).</td>
+          <td>Button destination and panel layout.</td>
+        </tr>
+        <tr>
+          <td><strong>Process</strong></td>
+          <td>Main title/description, then Discover / Strategy / Execute / Optimize title + text.</td>
+          <td>A fifth step. Deliverable lists under each step.</td>
+        </tr>
+        <tr>
+          <td><strong>Services</strong></td>
+          <td>Eyebrow, title, then Service 1 through Service 6 (title, description, tag, stat).</td>
+          <td>A seventh service, videos, posters, or layout.</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="muted">Contact block, results chart, navbar, and footer are not in Studio.</p>
+
+    <h2>10. About page</h2>
+    <table>
+      <thead>
+        <tr><th>Field</th><th>What it is</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Hero eyebrow / title / description</td><td>Top of the About page (EN+AR)</td></tr>
+        <tr><td>Hero years / clients / campaigns numbers</td><td>The three numbers in the hero</td></tr>
+        <tr><td>What is Signup — eyebrow / title / body</td><td>The “what is Sign Up” block</td></tr>
+        <tr><td>Founder eyebrow / name / role / bio / photo</td><td>Founder section. Photo upload or URL</td></tr>
+        <tr><td>Milestones</td><td>Value + label (EN+AR) for each milestone</td></tr>
+      </tbody>
+    </table>
+    <p class="muted">You cannot change the About page layout from Studio.</p>
+
+    <h2>11. NFC page</h2>
+    <table>
+      <thead>
+        <tr><th>Field</th><th>What it is</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Eyebrow / Title / Description</td><td>Top of <code>/nfc</code> (EN+AR)</td></tr>
+        <tr><td>Store button label</td><td>Words on the green button. The button always opens <code>/store</code></td></tr>
+        <tr><td>Store button hint</td><td>Small line under that button</td></tr>
+        <tr><td>Stand kicker / title / body / photo</td><td>Stand block text and photo (upload or URL)</td></tr>
+        <tr><td>Card / Ring / Medal kicker, title, body, photo</td><td>The three product blocks</td></tr>
+        <tr><td>Card / Ring / Medal examples</td><td>Up to 2 projects under each shape. Picker only shows matching Projects</td></tr>
+      </tbody>
+    </table>
+    <div class="note">
+      If an examples list is empty, the site shows the first two projects of that type by Order.<br />
+      All NFC work still appears on <code>/projects</code>. Choosing examples here does not hide a case from Projects.
+    </div>
+
+    <h2>12. Store page</h2>
+    <p>The shop has a <strong>fixed set of 12 tiles</strong>. Adding a Project does <strong>not</strong> add a shop tile.</p>
+    <table>
+      <thead>
+        <tr><th>Field</th><th>What it is</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Eyebrow / Title</td><td>Top of <code>/store</code></td></tr>
+        <tr><td>Quote button label</td><td>Label on the WhatsApp button</td></tr>
+        <tr><td>Filter: All / Identity / Strategy / Campaign / Capture / NFC</td><td>Names of the filter chips</td></tr>
+        <tr><td>Catalog tiles</td><td>Each of the 12 products: Title, Line (EN+AR), Photo or URL</td></tr>
+      </tbody>
+    </table>
+    <p>Clear a tile field to restore the built-in photo or sentence. You cannot add a 13th tile, remove a tile, change the lookbook layout, or change the WhatsApp number.</p>
+
+    <h2>13. English and Arabic</h2>
+    <p>Most text fields have English and Arabic. Fill both when you replace a default.</p>
+    <p>If only one language is filled, the site may copy the other language, then fall back to the built-in default. Do not publish an English-only change and expect Arabic to keep the old default for that same field.</p>
+
+    <h2>14. Before you Publish</h2>
+    <h3>New project</h3>
+    <ul>
+      <li>Name + Service + Cover</li>
+      <li>Extra photos only for chapters you want live</li>
+      <li><strong>This photo is for</strong> matches the service</li>
+      <li>English + Arabic if you are not using defaults</li>
+      <li>Publish, then check <code>/projects</code> (and <code>/nfc</code> if NFC)</li>
+    </ul>
+    <h3>If something does not show on the site</h3>
+    <ul>
+      <li>Did you click <strong>Publish</strong>? Drafts stay invisible.</li>
+      <li>Does that chapter have an Extra photo?</li>
+      <li>Are you looking at the same Service filter as the project?</li>
+      <li>Empty text fields use defaults on purpose — that is normal.</li>
+    </ul>
+
+    <h2>15. Can I…?</h2>
+    <table>
+      <thead>
+        <tr><th>Task</th><th>In Studio?</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Add a Brand Identity / Packaging / NFC case</td><td>Yes — Create a Project</td></tr>
+        <tr><td>Change photos or sentences later</td><td>Yes — open the Project and Publish</td></tr>
+        <tr><td>Reorder cases on /projects</td><td>Yes — Order on Projects page</td></tr>
+        <tr><td>Delete a case</td><td>Yes — ⋯ → Delete</td></tr>
+        <tr><td>Add a new service type (for example Events)</td><td>No</td></tr>
+        <tr><td>Change journey layout or animation</td><td>No</td></tr>
+        <tr><td>Add a seventh home service</td><td>No</td></tr>
+        <tr><td>Change home intro / showreel video</td><td>Yes — Intro &amp; showreel</td></tr>
+        <tr><td>Change hero title and partner logos</td><td>Yes — Homepage</td></tr>
+        <tr><td>Change NFC headings or product photos</td><td>Yes — NFC page</td></tr>
+        <tr><td>Choose which 1–2 cases sit under each NFC shape</td><td>Yes — NFC page examples</td></tr>
+        <tr><td>Point the NFC store button somewhere else</td><td>No — always /store</td></tr>
+        <tr><td>Change /store tile photos or titles</td><td>Yes — Store page</td></tr>
+        <tr><td>Add or remove a shop tile</td><td>No — 12 tiles are fixed</td></tr>
+        <tr><td>Change the WhatsApp number</td><td>No</td></tr>
+        <tr><td>Change navbar, footer, or colors</td><td>No</td></tr>
+      </tbody>
+    </table>
+
+    <p class="footer-note">Sign Up CMS team guide · Always Publish after you edit · Empty field = keep the default</p>
+  </div>
+</body>
+</html>

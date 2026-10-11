@@ -1,10 +1,11 @@
 /**
- * Upserts homepage / about / NFC / intro copy from the live i18n files.
+ * Upserts homepage / about / NFC / store / intro copy from the live i18n files.
  * Does not touch Express, Prisma, Neon, /admin, or project documents.
  *
  * Token: SANITY_API_WRITE_TOKEN in .env.local, or `npx sanity exec --with-user-token`
+ * Optional: npm run sanity:seed -- storePage
  */
-import { readFileSync } from "node:fs";
+import { createReadStream, existsSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { createClient } from "next-sanity";
@@ -48,12 +49,29 @@ const locText = (enText, arText = "") => ({
   en: enText,
   ar: arText,
 });
-const asset = (url, resourceType = "image", publicId = "") => ({
-  _type: "cloudinaryAsset",
-  url,
-  publicId,
-  resourceType,
-});
+async function uploadImage(absPath, filename) {
+  const uploaded = await client.assets.upload(
+    "image",
+    createReadStream(absPath),
+    { filename },
+  );
+  return {
+    _type: "image",
+    asset: { _type: "reference", _ref: uploaded._id },
+  };
+}
+
+async function uploadFile(absPath, filename) {
+  const uploaded = await client.assets.upload(
+    "file",
+    createReadStream(absPath),
+    { filename },
+  );
+  return {
+    _type: "file",
+    asset: { _type: "reference", _ref: uploaded._id },
+  };
+}
 
 const service = (key) => ({
   title: loc(en.home.services[key].title, ar.home.services[key].title),
@@ -65,37 +83,114 @@ const service = (key) => ({
   stat: en.home.services[key].stat,
 });
 
-const partners = [
-  { name: "القطان", logo: "/images/Partner/القطان.png" },
-  { name: "الزينى", logo: "/images/Partner/الزينى.png" },
-  { name: "المتبولى", logo: "/images/Partner/المتبولى.png" },
-  { name: "باب الحارة", logo: "/images/Partner/باب الحارة.png" },
-  { name: "كوتشى", logo: "/images/Partner/كوتشى.png" },
-  { name: "جيرلز", logo: "/images/Partner/جيرلز.png" },
-  { name: "الزميتى", logo: "/images/Partner/الزميتى.png" },
-  { name: "الجندى", logo: "/images/Partner/الجندى.png" },
-  { name: "هلال", logo: "/images/Partner/هلال.png" },
-  { name: "النخبة", logo: "/images/Partner/النخبة.png" },
-  { name: "هيرو", logo: "/images/Partner/هيرو.png" },
-  { name: "تمامى", logo: "/images/Partner/تمامى.png" },
-  { name: "سي", logo: "/images/Partner/سي (1).png" },
-  { name: "عيون المدينة", logo: "/images/Partner/عيون المدينة.png" },
-  { name: "قنديل", logo: "/images/Partner/قنديل.png" },
-  { name: "نجم", logo: "/images/Partner/نجم.png" },
-  { name: "نيو انجلاند", logo: "/images/Partner/نيو انجلاند.png" },
-].map((item, index) => ({
-  _key: `partner-${index + 1}`,
-  name: item.name,
-  logoUrl: item.logo,
-}));
+const partnerFiles = [
+  { name: "القطان", file: "القطان.png" },
+  { name: "الزينى", file: "الزينى.png" },
+  { name: "المتبولى", file: "المتبولى.png" },
+  { name: "باب الحارة", file: "باب الحارة.png" },
+  { name: "كوتشى", file: "كوتشى.png" },
+  { name: "جيرلز", file: "جيرلز.png" },
+  { name: "الزميتى", file: "الزميتى.png" },
+  { name: "الجندى", file: "الجندى.png" },
+  { name: "هلال", file: "هلال.png" },
+  { name: "النخبة", file: "النخبة.png" },
+  { name: "هيرو", file: "هيرو.png" },
+  { name: "تمامى", file: "تمامى.png" },
+  { name: "سي", file: "سي (1).png" },
+  { name: "عيون المدينة", file: "عيون المدينة.png" },
+  { name: "قنديل", file: "قنديل.png" },
+  { name: "نجم", file: "نجم.png" },
+  { name: "نيو انجلاند", file: "نيو انجلاند.png" },
+];
+
+const partners = [];
+for (const [index, item] of partnerFiles.entries()) {
+  const abs = join(root, "public/images/Partner", item.file);
+  const row = { _key: `partner-${index + 1}`, name: item.name };
+  if (existsSync(abs)) {
+    row.logo = await uploadImage(abs, item.file);
+    console.log("uploaded partner", item.name);
+  } else {
+    row.logoUrl = `/images/Partner/${item.file}`;
+    console.warn("missing partner file", item.file);
+  }
+  partners.push(row);
+}
+
+const introVideo = await uploadFile(
+  join(root, "public/videos/intro.mp4"),
+  "intro.mp4",
+);
+const introPosterImage = await uploadImage(
+  join(root, "public/images/sign7.jpg"),
+  "sign7.jpg",
+);
+const founderPhoto = await uploadImage(
+  join(root, "public/founder.PNG"),
+  "founder.PNG",
+);
+const standImage = await uploadImage(
+  join(root, "public/images/nfc/stand-signup.jpg"),
+  "stand-signup.jpg",
+);
+const cardImage = await uploadImage(
+  join(root, "public/images/nfc/nfc-card.jpg"),
+  "nfc-card.jpg",
+);
+const ringImage = await uploadImage(
+  join(root, "public/images/nfc/nfc-ring.jpg"),
+  "nfc-ring.jpg",
+);
+const medalImage = await uploadImage(
+  join(root, "public/images/nfc/nfc-medal.jpg"),
+  "nfc-medal.jpg",
+);
+console.log("uploaded intro, poster, founder, nfc stills");
+
+async function nfcExampleRefs(type) {
+  const rows = await client.fetch(
+    `*[_type == "project" && type == $type] | order(sortOrder asc, _createdAt desc)[0...2]{ _id }`,
+    { type },
+  );
+  return (rows ?? []).map((row, index) => ({
+    _type: "reference",
+    _ref: row._id,
+    _key: `${type}-${index}`,
+  }));
+}
+
+const existingNfc = await client.fetch(
+  `*[_id == "nfcPage"][0]{ cardExamples, ringExamples, medalExamples }`,
+);
+const cardExamples = existingNfc?.cardExamples?.length
+  ? existingNfc.cardExamples
+  : await nfcExampleRefs("nfc_card");
+const ringExamples = existingNfc?.ringExamples?.length
+  ? existingNfc.ringExamples
+  : await nfcExampleRefs("nfc_ring");
+const medalExamples = existingNfc?.medalExamples?.length
+  ? existingNfc.medalExamples
+  : await nfcExampleRefs("nfc_medal");
 
 const docs = [
   {
     _id: "siteMedia",
     _type: "siteMedia",
-    intro: asset("/videos/intro.mp4", "video"),
-    introPoster: asset("/images/sign7.jpg", "image"),
-    showreel: asset("/videos/intro.mp4", "video"),
+    intro: {
+      _type: "cloudinaryAsset",
+      file: introVideo,
+      resourceType: "video",
+    },
+    introPoster: {
+      _type: "cloudinaryAsset",
+      image: introPosterImage,
+      resourceType: "image",
+    },
+    showreel: {
+      _type: "cloudinaryAsset",
+      file: introVideo,
+      resourceType: "video",
+    },
     eyebrowEn: en.home.hero.visualProof,
     eyebrowAr: ar.home.hero.visualProof,
     titleEn: en.home.hero.showreel,
@@ -206,7 +301,7 @@ const docs = [
       en.about.content.aboutFounder,
       ar.about.content.aboutFounder,
     ),
-    founderPhotoUrl: "/founder.PNG",
+    founderPhoto,
     milestones: ["founded", "reach", "recognition"].map((key) => ({
       _key: key,
       value: loc(
@@ -225,10 +320,12 @@ const docs = [
     eyebrow: loc(en.nfcPage.eyebrow, ar.nfcPage.eyebrow),
     title: loc(en.nfcPage.title, ar.nfcPage.title),
     description: locText(en.nfcPage.description, ar.nfcPage.description),
+    openSite: loc(en.nfcPage.openSite, ar.nfcPage.openSite),
+    ctaHint: loc(en.nfcPage.ctaHint, ar.nfcPage.ctaHint),
     standKicker: loc(en.nfcPage.standKicker, ar.nfcPage.standKicker),
     standTitle: loc(en.nfcPage.standTitle, ar.nfcPage.standTitle),
     standBody: locText(en.nfcPage.standBody, ar.nfcPage.standBody),
-    standImageUrl: "/images/nfc/stand.jpg",
+    standImage,
     cardKicker: loc(
       en.nfcPage.types.nfc_card.kicker,
       ar.nfcPage.types.nfc_card.kicker,
@@ -241,6 +338,8 @@ const docs = [
       en.nfcPage.types.nfc_card.body,
       ar.nfcPage.types.nfc_card.body,
     ),
+    cardImage,
+    cardExamples,
     ringKicker: loc(
       en.nfcPage.types.nfc_ring.kicker,
       ar.nfcPage.types.nfc_ring.kicker,
@@ -253,6 +352,8 @@ const docs = [
       en.nfcPage.types.nfc_ring.body,
       ar.nfcPage.types.nfc_ring.body,
     ),
+    ringImage,
+    ringExamples,
     medalKicker: loc(
       en.nfcPage.types.nfc_medal.kicker,
       ar.nfcPage.types.nfc_medal.kicker,
@@ -265,10 +366,83 @@ const docs = [
       en.nfcPage.types.nfc_medal.body,
       ar.nfcPage.types.nfc_medal.body,
     ),
+    medalImage,
+    medalExamples,
   },
 ];
 
-for (const doc of docs) {
+const STORE_IMAGES = {
+  brand_identity: "identity.jpg",
+  packaging: "packaging.jpg",
+  prints: "prints.jpg",
+  social_media: "social.jpg",
+  outdoors: "outdoors.jpg",
+  brand_strategy: "strategy.jpg",
+  marketing_strategy: "marketing.jpg",
+  photos: "photos.jpg",
+  videos: "film.jpg",
+  nfc_card: "nfc-card.jpg",
+  nfc_ring: "nfc-ring.jpg",
+  nfc_medal: "nfc-medal.jpg",
+};
+
+async function uploadStoreImage(filename) {
+  const uploaded = await client.assets.upload(
+    "image",
+    createReadStream(join(root, "public/images/store", filename)),
+    { filename },
+  );
+  return {
+    _type: "image",
+    asset: { _type: "reference", _ref: uploaded._id },
+  };
+}
+
+async function storeItem(key) {
+  return {
+    _type: "storeItem",
+    title: loc(en.store.items[key].title, ar.store.items[key].title),
+    line: locText(en.store.items[key].line, ar.store.items[key].line),
+    image: await uploadStoreImage(STORE_IMAGES[key]),
+  };
+}
+
+const requested = process.argv.slice(2).filter(Boolean);
+const knownIds = ["siteMedia", "homePage", "aboutPage", "nfcPage", "storePage"];
+const unknown = requested.find((id) => !knownIds.includes(id));
+if (unknown) {
+  console.error(`Unknown document id: ${unknown}`);
+  process.exit(1);
+}
+
+if (!requested.length || requested.includes("storePage")) {
+  const storeItems = {};
+  for (const key of Object.keys(STORE_IMAGES)) {
+    storeItems[key] = await storeItem(key);
+    console.log("uploaded store image", key);
+  }
+
+  docs.push({
+    _id: "storePage",
+    _type: "storePage",
+    eyebrow: loc(en.store.eyebrow, ar.store.eyebrow),
+    title: loc(en.store.title, ar.store.title),
+    quote: loc(en.store.quote, ar.store.quote),
+    groupAll: loc(en.store.groups.all, ar.store.groups.all),
+    groupIdentity: loc(en.store.groups.identity, ar.store.groups.identity),
+    groupStrategy: loc(en.store.groups.strategy, ar.store.groups.strategy),
+    groupCampaign: loc(en.store.groups.campaign, ar.store.groups.campaign),
+    groupCapture: loc(en.store.groups.capture, ar.store.groups.capture),
+    groupNfc: loc(en.store.groups.nfc, ar.store.groups.nfc),
+    items: storeItems,
+  });
+}
+
+const selected = requested.length
+  ? docs.filter((doc) => requested.includes(doc._id))
+  : docs;
+
+for (const doc of selected) {
   await client.createOrReplace(doc);
   try {
     await client.delete(`drafts.${doc._id}`);

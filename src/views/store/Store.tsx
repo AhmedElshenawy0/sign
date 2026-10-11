@@ -5,6 +5,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { FaWhatsapp } from "react-icons/fa";
 import { whatsappRequestUrl } from "@/lib/constants";
+import { useStoreCopy } from "@/components/cms/PageCopy";
+import { cmsText } from "@/lib/cms-text";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -76,6 +78,14 @@ const tileVariants = {
   },
 };
 
+const GROUP_FIELDS = {
+  identity: "groupIdentity",
+  strategy: "groupStrategy",
+  campaign: "groupCampaign",
+  capture: "groupCapture",
+  nfc: "groupNfc",
+} as const;
+
 function LookbookTile({
   itemKey,
   requestHref,
@@ -87,8 +97,20 @@ function LookbookTile({
   featured?: boolean;
   className?: string;
 }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const cms = useStoreCopy();
   const visual = VISUALS[itemKey];
+  const image = cms?.items?.[itemKey]?.imageUrl?.trim() || visual?.image;
+  const title = cmsText(
+    cms?.items?.[itemKey]?.title,
+    i18n.language,
+    t(`store.items.${itemKey}.title`),
+  );
+  const line = cmsText(
+    cms?.items?.[itemKey]?.line,
+    i18n.language,
+    t(`store.items.${itemKey}.line`),
+  );
 
   return (
     <motion.div
@@ -101,9 +123,9 @@ function LookbookTile({
         rel="noopener noreferrer"
         className="group relative isolate flex h-full min-h-[inherit] flex-col overflow-hidden rounded-[12px] bg-[#0a0d12] ring-1 ring-white/[0.08]"
       >
-        {visual?.image ? (
+        {image ? (
           <img
-            src={visual.image}
+            src={image}
             alt=""
             className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-[1.04]"
           />
@@ -127,19 +149,19 @@ function LookbookTile({
                 : "text-[15px] md:text-[17px]"
             }`}
           >
-            {t(`store.items.${itemKey}.title`)}
+            {title}
           </h3>
           <p
             className={`mt-1 max-w-[16rem] leading-snug text-white/70 ${
               featured ? "text-[13px] md:text-[14px]" : "text-[12px]"
             }`}
           >
-            {t(`store.items.${itemKey}.line`)}
+            {line}
           </p>
 
           {featured ? (
             <span className="mt-4 inline-flex w-fit items-center gap-2 rounded-full border border-white/70 px-3.5 py-1.5 text-[10px] font-bold uppercase tracking-[0.14em] text-white transition group-hover:border-main-green group-hover:text-main-green">
-              {t("store.quote")}
+              {cmsText(cms?.quote, i18n.language, t("store.quote"))}
               <FaWhatsapp size={13} />
             </span>
           ) : (
@@ -160,7 +182,19 @@ function FilterChips({
   filter: Filter;
   selectFilter: (id: Filter) => void;
 }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const cms = useStoreCopy();
+
+  function chipLabel(id: Filter) {
+    if (id === "all") {
+      return cmsText(cms?.groupAll, i18n.language, t("store.groups.all"));
+    }
+    return cmsText(
+      cms?.[GROUP_FIELDS[id]],
+      i18n.language,
+      t(`store.groups.${id}`),
+    );
+  }
 
   return (
     <div className="mt-5 flex w-full min-w-0 flex-nowrap gap-1.5 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:flex-wrap md:overflow-visible">
@@ -185,9 +219,7 @@ function FilterChips({
               <span className="absolute inset-0 rounded-full border border-white/20" />
             )}
             <span className="relative z-10 whitespace-nowrap">
-              {id === "all"
-                ? t("store.groups.all")
-                : t(`store.groups.${id}`)}
+              {chipLabel(id)}
             </span>
           </button>
         );
@@ -198,6 +230,7 @@ function FilterChips({
 
 export default function Store() {
   const { t, i18n } = useTranslation();
+  const cms = useStoreCopy();
   const isArabic = i18n.language.startsWith("ar");
   const [filter, setFilter] = useState<Filter>("all");
 
@@ -222,7 +255,11 @@ export default function Store() {
   }
 
   function requestHref(itemKey: string) {
-    const name = t(`store.items.${itemKey}.title`);
+    const name = cmsText(
+      cms?.items?.[itemKey]?.title,
+      i18n.language,
+      t(`store.items.${itemKey}.title`),
+    );
     return whatsappRequestUrl(t("store.waMessage", { item: name }));
   }
 
@@ -239,10 +276,10 @@ export default function Store() {
           <div className="flex min-h-0 min-w-0 flex-col gap-4">
             <header className="min-w-0">
               <p className="text-[10px] font-bold uppercase tracking-[0.32em] text-main-green">
-                {t("store.eyebrow")}
+                {cmsText(cms?.eyebrow, i18n.language, t("store.eyebrow"))}
               </p>
               <h1 className="mt-1 text-[42px] font-black italic uppercase leading-none tracking-tight md:text-[58px]">
-                {t("store.title")}
+                {cmsText(cms?.title, i18n.language, t("store.title"))}
               </h1>
               <FilterChips filter={filter} selectFilter={selectFilter} />
             </header>

@@ -120,6 +120,9 @@ export type SanityNfcPage = {
   standTitle?: LocaleField | null;
   standBody?: LocaleField | null;
   standImageUrl?: string | null;
+  cardImageUrl?: string | null;
+  ringImageUrl?: string | null;
+  medalImageUrl?: string | null;
   cardKicker?: LocaleField | null;
   cardTitle?: LocaleField | null;
   cardBody?: LocaleField | null;
@@ -134,12 +137,32 @@ export type SanityNfcPage = {
   medalExampleIds?: string[] | null;
 };
 
+export type SanityStoreItem = {
+  title?: LocaleField | null;
+  line?: LocaleField | null;
+  imageUrl?: string | null;
+};
+
+export type SanityStorePage = {
+  eyebrow?: LocaleField | null;
+  title?: LocaleField | null;
+  quote?: LocaleField | null;
+  groupAll?: LocaleField | null;
+  groupIdentity?: LocaleField | null;
+  groupStrategy?: LocaleField | null;
+  groupCampaign?: LocaleField | null;
+  groupCapture?: LocaleField | null;
+  groupNfc?: LocaleField | null;
+  items?: Partial<Record<string, SanityStoreItem | null>> | null;
+};
+
 const ASSET = `{
   url, publicId, resourceType,
   "imageUrl": image.asset->url,
   "fileUrl": file.asset->url
 }`;
 const LOCALE = `{ en, ar }`;
+const STORE_ITEM = `{ title ${LOCALE}, line ${LOCALE}, "imageUrl": coalesce(image.asset->url, imageUrl) }`;
 const CHAPTER = `{ kicker ${LOCALE}, title ${LOCALE}, body ${LOCALE} }`;
 const JOURNEY_COPY = `journeyCopy {
   scroll ${LOCALE}, kicker ${LOCALE}, skus ${LOCALE}, wear ${LOCALE},
@@ -168,7 +191,7 @@ export const SITE_MEDIA_QUERY = `*[_type == "siteMedia" && _id == "siteMedia"][0
 
 export const HOME_PAGE_QUERY = `*[_type == "homePage" && _id == "homePage"][0] {
   studioPill ${LOCALE}, heroTitle ${LOCALE}, heroDescription ${LOCALE},
-  partners[] { name, "logoUrl": coalesce(logoUrl, logo.asset->url) },
+  partners[] { name, "logoUrl": coalesce(logo.asset->url, logoUrl) },
   experienceValue, clientsValue, campaignsValue, satisfactionValue,
   aboutTitle ${LOCALE}, aboutDescription ${LOCALE},
   differentTitle ${LOCALE}, differentDesc ${LOCALE},
@@ -193,7 +216,7 @@ export const ABOUT_PAGE_QUERY = `*[_type == "aboutPage" && _id == "aboutPage"][0
   yearsValue, clientsValue, campaignsValue,
   whatEyebrow ${LOCALE}, whatTitle ${LOCALE}, whatDescription ${LOCALE},
   founderEyebrow ${LOCALE}, founderName, founderJob ${LOCALE}, founderBio ${LOCALE},
-  "founderPhotoUrl": coalesce(founderPhotoUrl, founderPhoto.asset->url),
+  "founderPhotoUrl": coalesce(founderPhoto.asset->url, founderPhotoUrl),
   milestones[] { value ${LOCALE}, label ${LOCALE} }
 }`;
 
@@ -201,11 +224,34 @@ export const NFC_PAGE_QUERY = `*[_type == "nfcPage" && _id == "nfcPage"][0] {
   eyebrow ${LOCALE}, title ${LOCALE}, description ${LOCALE},
   openSite ${LOCALE}, ctaHint ${LOCALE},
   standKicker ${LOCALE}, standTitle ${LOCALE}, standBody ${LOCALE},
-  "standImageUrl": coalesce(standImageUrl, standImage.asset->url),
+  "standImageUrl": coalesce(standImage.asset->url, standImageUrl),
   cardKicker ${LOCALE}, cardTitle ${LOCALE}, cardBody ${LOCALE},
+  "cardImageUrl": coalesce(cardImage.asset->url, cardImageUrl),
   ringKicker ${LOCALE}, ringTitle ${LOCALE}, ringBody ${LOCALE},
+  "ringImageUrl": coalesce(ringImage.asset->url, ringImageUrl),
   medalKicker ${LOCALE}, medalTitle ${LOCALE}, medalBody ${LOCALE},
+  "medalImageUrl": coalesce(medalImage.asset->url, medalImageUrl),
   "cardExampleIds": cardExamples[]._ref,
   "ringExampleIds": ringExamples[]._ref,
   "medalExampleIds": medalExamples[]._ref
+}`;
+
+export const STORE_PAGE_QUERY = `*[_type == "storePage" && _id == "storePage"][0] {
+  eyebrow ${LOCALE}, title ${LOCALE}, quote ${LOCALE},
+  groupAll ${LOCALE}, groupIdentity ${LOCALE}, groupStrategy ${LOCALE},
+  groupCampaign ${LOCALE}, groupCapture ${LOCALE}, groupNfc ${LOCALE},
+  items {
+    brand_identity ${STORE_ITEM},
+    packaging ${STORE_ITEM},
+    prints ${STORE_ITEM},
+    social_media ${STORE_ITEM},
+    outdoors ${STORE_ITEM},
+    brand_strategy ${STORE_ITEM},
+    marketing_strategy ${STORE_ITEM},
+    photos ${STORE_ITEM},
+    videos ${STORE_ITEM},
+    nfc_card ${STORE_ITEM},
+    nfc_ring ${STORE_ITEM},
+    nfc_medal ${STORE_ITEM}
+  }
 }`;

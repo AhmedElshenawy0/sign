@@ -9,7 +9,8 @@
     "start": "next start",
     "lint": "eslint .",
     "sanity:seed": "node --env-file=.env.local scripts/seed-sanity.mjs",
-    "sanity:seed:demos": "node --env-file=.env.local scripts/seed-demo-projects.mjs"
+    "sanity:seed:demos": "node --env-file=.env.local scripts/seed-demo-projects.mjs",
+    "sanity:seed:project-copy": "node --env-file=.env.local scripts/seed-project-copy.mjs"
   },
   "dependencies": {
     "@ant-design/icons": "^6.3.2",

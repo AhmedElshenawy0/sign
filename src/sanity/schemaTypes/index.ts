@@ -7,6 +7,8 @@ import { siteMedia } from "./siteMedia";
 import { homePage } from "./homePage";
 import { aboutPage } from "./aboutPage";
 import { nfcPage } from "./nfcPage";
+import { storeItem } from "./objects/storeItem";
+import { storePage } from "./storePage";
 
 export const schemaTypes = [
   cloudinaryAsset,
@@ -15,9 +17,11 @@ export const schemaTypes = [
   galleryItem,
   journeyChapter,
   journeyCopy,
+  storeItem,
   project,
   siteMedia,
   homePage,
   aboutPage,
   nfcPage,
+  storePage,
 ];

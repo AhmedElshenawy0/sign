@@ -1,4 +1,4 @@
-import { defineConfig } from "sanity";
+import { defineConfig, type DocumentActionComponent } from "sanity";
 import { structureTool, type StructureResolver } from "sanity/structure";
 import { visionTool } from "@sanity/vision";
 import { schemaTypes } from "./src/sanity/schemaTypes";
@@ -9,6 +9,7 @@ const SINGLETONS = [
   { type: "homePage", title: "Homepage" },
   { type: "aboutPage", title: "About" },
   { type: "nfcPage", title: "NFC page" },
+  { type: "storePage", title: "Store page" },
 ] as const;
 
 const structure: StructureResolver = (S) =>
@@ -45,5 +46,33 @@ export default defineConfig({
         (template) =>
           !SINGLETONS.some((item) => item.type === template.schemaType),
       ),
+  },
+  document: {
+    actions: (prev, context) => {
+      const isSingleton = SINGLETONS.some((item) => item.type === context.schemaType);
+      if (isSingleton) {
+        return prev.filter(
+          (action) =>
+            action.action !== "delete" &&
+            action.action !== "unpublish" &&
+            action.action !== "duplicate",
+        );
+      }
+
+      return prev.map((Action) => {
+        if (Action.action !== "delete") return Action;
+        const DeleteInMenu: DocumentActionComponent = (props) => {
+          const result = Action(props);
+          if (!result) return result;
+          return {
+            ...result,
+            group: ["default", "paneActions"],
+          };
+        };
+        DeleteInMenu.action = "delete";
+        DeleteInMenu.displayName = Action.displayName;
+        return DeleteInMenu;
+      });
+    },
   },
 });

@@ -1,30 +1,29 @@
 import { defineField, defineType } from "sanity";
+import { CloudinaryAssetInput } from "@/sanity/components/CloudinaryAssetInput";
 
 export const cloudinaryAsset = defineType({
   name: "cloudinaryAsset",
   title: "Media",
   type: "object",
+  components: { input: CloudinaryAssetInput },
   fields: [
     defineField({
       name: "image",
       title: "Upload image",
       type: "image",
       options: { hotspot: true },
-      description: "Stored on Sanity. Use this for project stills, posters, and logos.",
     }),
     defineField({
       name: "file",
       title: "Upload video",
       type: "file",
       options: { accept: "video/*" },
-      description: "Stored on Sanity. Use this for intro, showreel, and video projects.",
     }),
     defineField({
       name: "url",
       title: "Or paste a URL",
       type: "string",
-      description:
-        "Optional. Cloudinary URL or a site path like /videos/intro.mp4. Leave empty if you uploaded above.",
+      description: "Leave empty if you uploaded a file above.",
     }),
     defineField({
       name: "publicId",

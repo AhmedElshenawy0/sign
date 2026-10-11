@@ -16,13 +16,21 @@ export const project = defineType({
   name: "project",
   title: "Project",
   type: "document",
+  description:
+    "Name, service, and cover are enough to publish. Extra photos and sentences are optional.",
   fieldsets: [
     {
       name: "pageSentences",
-      title: "Page sentences",
+      title: "Sentences (optional)",
       description:
-        "English + Arabic for this project. Leave a field empty to keep the default sentence. A chapter still needs its Extra photo, or it will not show.",
-      options: { collapsible: true, collapsed: false },
+        "English + Arabic. Empty keeps the default. A chapter still needs its Extra photo, or it will not show.",
+      options: { collapsible: true, collapsed: true },
+    },
+    {
+      name: "listing",
+      title: "List order (optional)",
+      description: "Smaller number appears first on /projects. Does not add photos.",
+      options: { collapsible: true, collapsed: true },
     },
   ],
   fields: [
@@ -45,24 +53,11 @@ export const project = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
-      name: "sortOrder",
-      title: "Order on Projects page",
-      type: "number",
-      initialValue: 0,
-      description: "Smaller number appears first in the list. This does not add photos or chapters.",
-    }),
-    defineField({
-      name: "story",
-      title: "Short description",
-      type: "text",
-      rows: 5,
-      description: "One or two lines under the name on the live page. Leave empty to keep the default line.",
-    }),
-    defineField({
       name: "hero",
       title: "Cover",
       type: "cloudinaryAsset",
-      description: "The opening photo (or the film, if Service is Videos). Extra chapters are added below.",
+      description:
+        "Opening photo. If Service is Videos, upload the film here instead.",
       validation: (rule) =>
         rule.custom((value) =>
           hasMedia(value)
@@ -75,7 +70,7 @@ export const project = defineType({
       title: "Video thumbnail",
       type: "cloudinaryAsset",
       hidden: ({ parent }) => parent?.type !== "videos",
-      description: "Still image shown before the film plays.",
+      description: "Still shown before the film plays.",
     }),
     defineField({
       name: "gallery",
@@ -83,8 +78,16 @@ export const project = defineType({
       type: "array",
       of: [{ type: "galleryItem" }],
       description:
-        "Each photo is one extra chapter. Add only what you want on the page. No photo = that chapter does not appear.",
+        "One photo per extra chapter. Add only chapters you want on the page. No photo = that chapter stays off.",
       hidden: ({ parent }) => parent?.type === "videos",
+    }),
+    defineField({
+      name: "story",
+      title: "Short description",
+      type: "text",
+      rows: 3,
+      description:
+        "One or two lines under the name. Leave empty to keep the default line.",
     }),
     defineField({
       name: "journeyCopy",
@@ -92,7 +95,14 @@ export const project = defineType({
       type: "journeyCopy",
       fieldset: "pageSentences",
       description:
-        "Cover line, chapter sentences, and labels. Same names as Extra photos (Logo with Logo). Empty = default.",
+        "Defaults for this project. Same chapter names as Extra photos. Empty = site default.",
+    }),
+    defineField({
+      name: "sortOrder",
+      title: "Order on Projects page",
+      type: "number",
+      initialValue: 0,
+      fieldset: "listing",
     }),
   ],
   preview: {

@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <title>دليل نظام المحتوى — Sign Up</title>
+  <style>
+    @page { size: A4; margin: 16mm 15mm 18mm; }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      color: #14241c;
+      background: #fff;
+      font-family: "Segoe UI", Tahoma, "Arial Unicode MS", Arial, sans-serif;
+      font-size: 11.5pt;
+      line-height: 1.65;
+    }
+    .wrap { max-width: 780px; margin: 0 auto; }
+    h1 { font-size: 26pt; line-height: 1.25; margin: 0 0 8px; }
+    h2 {
+      font-size: 14.5pt;
+      margin: 26px 0 10px;
+      padding-bottom: 5px;
+      border-bottom: 2px solid #1f6b45;
+      page-break-after: avoid;
+    }
+    h3 { font-size: 12.5pt; margin: 16px 0 8px; page-break-after: avoid; }
+    p { margin: 0 0 8px; }
+    .kicker { color: #1f6b45; font-weight: 700; font-size: 10pt; }
+    .lead { font-size: 13pt; color: #31463b; margin-bottom: 14px; }
+    .note {
+      background: #f3f8f4;
+      border-right: 4px solid #1f6b45;
+      padding: 10px 12px;
+      margin: 12px 0;
+      page-break-inside: avoid;
+    }
+    .warn {
+      background: #fff7e8;
+      border-right: 4px solid #c98912;
+      padding: 10px 12px;
+      margin: 12px 0;
+      page-break-inside: avoid;
+    }
+    ol.steps { padding-right: 22px; padding-left: 0; }
+    ol.steps li { margin: 0 0 7px; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 8px 0 14px;
+      font-size: 10.4pt;
+    }
+    th, td {
+      border: 1px solid #d5e3da;
+      padding: 6px 8px;
+      vertical-align: top;
+      text-align: right;
+    }
+    th { background: #1f6b45; color: #fff; font-weight: 600; }
+    tr:nth-child(even) td { background: #f6faf7; }
+    .muted { color: #5b6f65; }
+    .footer-note { margin-top: 28px; font-size: 10pt; color: #5b6f65; }
+    ul { margin: 4px 0 10px; padding-right: 20px; padding-left: 0; }
+    li { margin: 0 0 4px; }
+    code, .en {
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 10pt;
+      background: #eef4f0;
+      padding: 1px 4px;
+      direction: ltr;
+      unicode-bidi: isolate;
+    }
+    .en { font-family: "Segoe UI", Tahoma, Arial, sans-serif; background: transparent; padding: 0; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <p class="kicker">Sign Up · Sanity Studio</p>
+    <h1>دليل نظام المحتوى للفريق</h1>
+    <p class="lead">إزاي تضيف مشروع، إزاي تعدّل، ومعنى كل حقل. مكتوب للفريق — مش للمبرمجين.</p>
+
+    <div class="note">
+      <strong>افتح الـ Studio:</strong> من الموقع روح على <code>/studio</code>.
+      على الجهاز: <code>http://localhost:3000/studio</code>.<br />
+      بعد أي تعديل اضغط <strong class="en">Publish</strong> عشان الموقع يتحدث. الكتابة من غير نشر مش بتظهر.
+    </div>
+
+    <h2>1. أربع حاجات تفضل في بالك</h2>
+    <ol class="steps">
+      <li>الحقل الفاضي بيفضّل النص أو الصورة الحالية على الموقع. الفاضي <strong>مش</strong> بيمسح السكشن.</li>
+      <li>لما تغيّر جملة، عبّي <strong>الإنجليزي والعربي</strong>.</li>
+      <li>تقدر تضيف وتعدّل وتمسح <strong class="en">Projects</strong>. دول كتير.</li>
+      <li><strong>Homepage و About و NFC page و Store page و Intro &amp; showreel</strong> كل واحد مستند واحد. عدّله. متتعملش Homepage تانية.</li>
+    </ol>
+
+    <h2>2. اللي ظاهر شمال في الـ Studio</h2>
+    <table>
+      <thead>
+        <tr><th>العنصر</th><th>هو إيه</th><th>ينفع تضيف واحد تاني؟</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Intro &amp; showreel</strong></td><td>فيديو الإنترو + فيلم الشوريل على الهوم</td><td>لا — تعديل بس</td></tr>
+        <tr><td><strong>Homepage</strong></td><td>عناوين الهوم، الأرقام، الشركاء، نصوص الخدمات</td><td>لا — تعديل بس</td></tr>
+        <tr><td><strong>About</strong></td><td>صفحة من نحن، المؤسس، المحطات</td><td>لا — تعديل بس</td></tr>
+        <tr><td><strong>NFC page</strong></td><td>نصوص صفحة NFC، صور المنتجات، أنهي شغل يظهر (حد أقصى 2)</td><td>لا — تعديل بس</td></tr>
+        <tr><td><strong>Store page</strong></td><td>عناوين المتجر، أسماء الفلاتر، الـ 12 بلاطة</td><td>لا — تعديل بس</td></tr>
+        <tr><td><strong class="en">Projects</strong></td><td>كل شغل ظاهر على <code>/projects</code></td><td><strong>نعم</strong> — مستند لكل شغل</td></tr>
+      </tbody>
+    </table>
+
+    <h2>3. إزاي تضيف مشروع</h2>
+    <p>اعمل الخطوات دي لما يكون عندك شغل جديد يظهر في <code>/projects</code> (وفي <code>/nfc</code> لو النوع NFC Card أو Ring أو Medal). الفورم قصيرة عمدًا: الاسم، الخدمة، الغلاف الأول. الجمل وترتيب الليست مقفولين من الأول.</p>
+    <ol class="steps">
+      <li>افتح الـ Studio وسجّل الدخول.</li>
+      <li>من السايدبار اضغط <strong class="en">Projects</strong>.</li>
+      <li>اضغط <strong>+</strong> أو <strong class="en">Create</strong> (فوق الليست). هيفتح مشروع فاضي. متفتحش Homepage عشان الخطوة دي.</li>
+      <li>اكتب <strong>Project name</strong> (اسم المشروع).</li>
+      <li>اختار <strong>Service</strong> من القائمة (Brand Identity، Packaging، Videos، NFC Card، …). مش هتقدر تكتب خدمة جديدة.</li>
+      <li>في <strong>Cover</strong> ارفع صورة الافتتاح (صورة بس). لو الخدمة <strong>Videos</strong>، ارفع الفيلم هنا بدل الصورة، وحط <strong>Video thumbnail</strong> لو عندك ستيل.</li>
+      <li>اختياري: <strong>Extra photos</strong> — اضغط <strong>Add item</strong> لكل تشابتر زيادة. كل عنصر = صورة + أنهي تشابتر.</li>
+      <li>اختياري: <strong>Short description</strong> — سطر أو اتنين تحت الاسم. فاضي = السطر الافتراضي يفضل.</li>
+      <li>اختياري: افتح <strong>Sentences (optional)</strong> بس لو هتغيّر الجمل الافتراضية إنجليزي/عربي.</li>
+      <li>اختياري: افتح <strong>List order (optional)</strong> عشان <strong>Order on Projects page</strong> (الرقم الأصغر = أعلى في الليست).</li>
+      <li>اضغط <strong class="en">Publish</strong> عشان يظهر على الموقع.</li>
+      <li>راجع الموقع: <code>/projects</code>، نفس فلتر الـ Service، وبعدين افتح الشغل. لو NFC راجع <code>/nfc</code> كمان.</li>
+    </ol>
+    <div class="note"><strong>الحد الأدنى للنشر:</strong> الاسم + الخدمة + الغلاف.</div>
+
+    <h2>4. كل حقل في المشروع بيعمل إيه</h2>
+    <table>
+      <thead>
+        <tr><th>الحقل في الـ Studio</th><th>بيعمل إيه</th><th>لو سيبته فاضي</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Project name</strong></td><td>العنوان على <code>/projects</code> وعلى صفحة المشروع. مطلوب.</td><td>مش هينفع تنشر من غيره.</td></tr>
+        <tr><td><strong>Service</strong></td><td>تحت أنهي فلتر المشروع هيظهر. مطلوب. اختار من القائمة بس.</td><td>مش هينفع تنشر من غيره.</td></tr>
+        <tr><td><strong>Cover</strong></td><td>صورة الافتتاح (رفع صورة). لو الخدمة Videos، رفع فيلم بدلها. مطلوب. ممكن تلصق رابط.</td><td>مش هينفع تنشر من غيره.</td></tr>
+        <tr><td><strong>Video thumbnail</strong></td><td>صورة قبل ما الفيلم يشتغل. بتظهر بس لما الخدمة Videos.</td><td>الصورة الافتراضية، أو من غير.</td></tr>
+        <tr><td><strong>Extra photos</strong></td><td>كل عنصر = تشابتر زيادة. صورة + اسم التشابتر. بتختفي لو الخدمة Videos.</td><td>غلاف بس هو اللي يظهر.</td></tr>
+        <tr><td><strong>Short description</strong></td><td>سطر أو اتنين تحت الاسم على الموقع.</td><td>السطر الافتراضي للخدمة دي يفضل.</td></tr>
+        <tr><td><strong>Sentences (optional)</strong></td><td>مقفول من الأول. سطر الغلاف وجمل التشابتر (إنجليزي + عربي).</td><td>الجمل الافتراضية تفضل.</td></tr>
+        <tr><td><strong>List order (optional)</strong></td><td>مقفول من الأول. <strong>Order on Projects page</strong> — الرقم الأصغر = أعلى. مش بيضيف صور.</td><td>بيتحسب 0.</td></tr>
+      </tbody>
+    </table>
+
+    <h3>جوه Cover (وأي حقل صورة/فيديو)</h3>
+    <p>الـ Studio بيظهر نوع الرفع المناسب للحقل. مش هتشوف صورة وفيديو مع بعض إلا لو الاتنين مطلوبين.</p>
+    <table>
+      <thead>
+        <tr><th>الحقل</th><th>استخدمه امتى</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Upload image</strong></td><td>الغلاف (غير Videos)، Extra photos، صورة الفيلم، بوستر الإنترو.</td></tr>
+        <tr><td><strong>Upload video</strong></td><td>الغلاف لما الخدمة Videos، إنترو الهوم، الشوريل.</td></tr>
+        <tr><td><strong>Or paste a URL</strong></td><td>الملف أونلاين أصلًا. سيبها فاضية لو رفعت فوق.</td></tr>
+      </tbody>
+    </table>
+
+    <h3>جوه كل Extra photo</h3>
+    <table>
+      <thead>
+        <tr><th>الحقل</th><th>بيعمل إيه</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Photo</strong></td><td>الصورة نفسها (أو رابط). مطلوب للعنصر ده.</td></tr>
+        <tr><td><strong>This photo is for</strong></td><td>الصورة دي لـ أنهي تشابتر (Logo، In hand، Poster، …). لو فاضي، بيتاخد أول تشابتر فاضي للخدمة دي.</td></tr>
+        <tr><td><strong>Photo label</strong></td><td>تسمية صغيرة على الصورة. مش عنوان التشابتر.</td></tr>
+        <tr><td><strong>Replace sentences on this photo</strong></td><td>مقفول من الأول. جمل اختيارية إنجليزي + عربي للتشابتر ده بس. سيبه مقفول عشان Sentences (أو الافتراضي) تفضل.</td></tr>
+      </tbody>
+    </table>
+    <div class="warn">كتابة جمل من غير ما ترفع صورة الـ Extra photo مش هتظهر التشابتر. <strong>الصورة الأول، وبعدين النص.</strong></div>
+
+    <h2>5. قائمة الخدمات (بتختار واحدة)</h2>
+    <table>
+      <thead>
+        <tr><th>المجموعة على /projects</th><th>الخدمة في الـ Studio</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Branding</td><td>Brand Identity · Packaging · Prints</td></tr>
+        <tr><td>Marketing</td><td>Social Media · Outdoors · Brand Strategy · Marketing Strategy</td></tr>
+        <tr><td>Photography &amp; Videography</td><td>Photos · Videos</td></tr>
+        <tr><td>NFC (كمان على /nfc)</td><td>NFC Card · Ring · Medal</td></tr>
+      </tbody>
+    </table>
+
+    <h2>6. تشابترز Extra photos حسب الخدمة</h2>
+    <p>استخدم اسم التشابتر المطابق. Videos مفيهاش صور زيادة — فيلم الغلاف بس.</p>
+    <table>
+      <thead>
+        <tr><th>الخدمة</th><th>التشابترز الزيادة (بالترتيب)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Brand Identity</td><td>Logo، Brand book، Packaging، Business card، Environmental</td></tr>
+        <tr><td>Packaging</td><td>Another SKU، Detail، In hand، On shelf</td></tr>
+        <tr><td>Prints</td><td>Bag، Letterhead، Poster</td></tr>
+        <tr><td>Social Media</td><td>Story، Campaign</td></tr>
+        <tr><td>Outdoors</td><td>City، Vehicle</td></tr>
+        <tr><td>Brand Strategy</td><td>Now، Horizon، Path</td></tr>
+        <tr><td>Marketing Strategy</td><td>Budget، Time، Mix</td></tr>
+        <tr><td>Photos</td><td>Portrait، Detail، Wide</td></tr>
+        <tr><td>Videos</td><td>مفيش — فيديو الغلاف (+ الثامبنيل) فقط</td></tr>
+        <tr><td>NFC Card</td><td>Back، In hand</td></tr>
+        <tr><td>Ring</td><td>On hand، Detail</td></tr>
+        <tr><td>Medal</td><td>Worn، Detail</td></tr>
+      </tbody>
+    </table>
+
+    <h2>7. إزاي تعدّل مشروع</h2>
+    <ol class="steps">
+      <li>Studio → <strong class="en">Projects</strong>.</li>
+      <li>اضغط المشروع (دور بالاسم لو الليست طويلة).</li>
+      <li>غيّر اللي محتاجه بس — الاسم، الخدمة، الغلاف، الترتيب، الوصف، الصور الزيادة، أو الجمل.</li>
+      <li>اضغط <strong class="en">Publish</strong> عشان يظهر على الموقع.</li>
+      <li>راجع <code>/projects</code> وصفحة المشروع. لو NFC راجع <code>/nfc</code> كمان.</li>
+    </ol>
+    <div class="warn">لو غيّرت <strong>Service</strong> بعد ما الصور اتحطت، افتح كل Extra photo وراجع <strong>This photo is for</strong>. تشابترز الهوية مش هي نفسها باكجينج أو NFC.</div>
+
+    <h2>8. إزاي تمسح مشروع</h2>
+    <ol class="steps">
+      <li>افتح المشروع.</li>
+      <li>اضغط <strong>⋯</strong> أعلى يمين المستند (جنب علامة X).</li>
+      <li>اضغط <strong class="en">Delete</strong>، وبعدين أكّد.</li>
+    </ol>
+    <p>الشغل بيختفي من <code>/projects</code>. لو كان NFC بيختفي كمان من أمثلة صفحة NFC. اختصار الكيبورد: <strong>Ctrl+Alt+D</strong>.</p>
+    <p class="muted">مش هتقدر تمسح Homepage أو About أو NFC page أو Store page أو Intro &amp; showreel. الصفحات دي لازم تفضل.</p>
+
+    <h2>9. الهوم</h2>
+    <p>الهوم مستندين. بتعدّلهم بس — مش بتعمل واحد جديد.</p>
+
+    <h3>Intro &amp; showreel</h3>
+    <table>
+      <thead>
+        <tr><th>الحقل</th><th>هو إيه</th><th>لو فاضي</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Homepage intro loop</td><td>الفيديو ورا هيرو الهوم</td><td>فيديو الإنترو الافتراضي</td></tr>
+        <tr><td>Intro poster</td><td>صورة قبل ما الإنترو يحمّل</td><td>الصورة الافتراضية</td></tr>
+        <tr><td>Showreel video</td><td>الفيلم في بلير الهيرو</td><td>فيديو الإنترو الافتراضي</td></tr>
+        <tr><td>Showreel eyebrow / title (EN + AR)</td><td>النص على الشوريل</td><td>الكلام الافتراضي</td></tr>
+      </tbody>
+    </table>
+
+    <h3>مستند Homepage — المجموعات فوق الفورم</h3>
+    <table>
+      <thead>
+        <tr><th>المجموعة</th><th>تقدر تغيّر</th><th>مش هتقدر</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Hero</strong></td>
+          <td>الـ pill، عنوان الهيرو، وصف الهيرو (EN+AR). في الوصف خليك حاطط اسم البراند <code>&lt;1&gt;Sign Up&lt;/1&gt;</code> عشان يفضل أخضر. لوجوهات الشركاء: اسم + رفع لوجو أو رابط.</td>
+          <td>لو ضفت أي لوجو شريك، شريط اللوجوهات القديم بيتبدل. سيب الليست فاضية عشان اللوجوهات الحالية تفضل.</td>
+        </tr>
+        <tr>
+          <td><strong>Stats</strong></td>
+          <td>الأرقام الأربعة: السنين، العملاء، الحملات، الرضا.</td>
+          <td>الليبلز، الأيقونات، علامات + / %.</td>
+        </tr>
+        <tr>
+          <td><strong>About / Vision</strong></td>
+          <td>العناوين والنصوص لـ Who we are، What makes us different، Vision، Mission (EN+AR).</td>
+          <td>وجهة الزرار وشكل البانلز.</td>
+        </tr>
+        <tr>
+          <td><strong>Process</strong></td>
+          <td>العنوان والوصف العام، وبعدين Discover / Strategy / Execute / Optimize عنوان + نص.</td>
+          <td>خطوة خامسة. قوائم التسليم تحت كل خطوة.</td>
+        </tr>
+        <tr>
+          <td><strong>Services</strong></td>
+          <td>الـ eyebrow والعنوان، وبعدين Service 1 لحد Service 6 (عنوان، وصف، تاج، رقم).</td>
+          <td>خدمة سابعة، الفيديوهات، البوسترز، أو الشكل.</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="muted">سكشن التواصل، شارت النتائج، النافبار، والفوتر مش في الـ Studio.</p>
+
+    <h2>10. صفحة About</h2>
+    <table>
+      <thead>
+        <tr><th>الحقل</th><th>هو إيه</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Hero eyebrow / title / description</td><td>أعلى صفحة من نحن (EN+AR)</td></tr>
+        <tr><td>Hero years / clients / campaigns numbers</td><td>الأرقام الثلاثة في الهيرو</td></tr>
+        <tr><td>What is Signup — eyebrow / title / body</td><td>بلوك «إيه هي Sign Up»</td></tr>
+        <tr><td>Founder eyebrow / name / role / bio / photo</td><td>سكشن المؤسس. رفع صورة أو رابط</td></tr>
+        <tr><td>Milestones</td><td>قيمة + ليبول (EN+AR) لكل محطة</td></tr>
+      </tbody>
+    </table>
+    <p class="muted">مش هتغيّر تخطيط صفحة About من الـ Studio.</p>
+
+    <h2>11. صفحة NFC</h2>
+    <table>
+      <thead>
+        <tr><th>الحقل</th><th>هو إيه</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Eyebrow / Title / Description</td><td>أعلى <code>/nfc</code> (EN+AR)</td></tr>
+        <tr><td>Store button label</td><td>الكلام على الزرار الأخضر. الزرار دايمًا بيفتح <code>/store</code></td></tr>
+        <tr><td>Store button hint</td><td>سطر صغير تحت الزرار</td></tr>
+        <tr><td>Stand kicker / title / body / photo</td><td>نص وصورة بلوك الاستاند (رفع أو رابط)</td></tr>
+        <tr><td>Card / Ring / Medal kicker, title, body, photo</td><td>بلوكات المنتجات الثلاثة</td></tr>
+        <tr><td>Card / Ring / Medal examples</td><td>حد أقصى مشروعين تحت كل شكل. القائمة بتظهر المشاريع المطابقة بس</td></tr>
+      </tbody>
+    </table>
+    <div class="note">
+      لو قائمة الأمثلة فاضية، الموقع بيعرض أول مشروعين من نفس النوع حسب Order.<br />
+      كل شغل NFC يفضل ظاهر على <code>/projects</code>. اختيار الأمثلة هنا مش بيخفي المشروع من خدماتنا.
+    </div>
+
+    <h2>12. صفحة Store</h2>
+    <p>المتجر فيه <strong>12 بلاطة ثابتة</strong>. إضافة Project <strong>مش</strong> بتضيف بلاطة في المتجر.</p>
+    <table>
+      <thead>
+        <tr><th>الحقل</th><th>هو إيه</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Eyebrow / Title</td><td>أعلى <code>/store</code></td></tr>
+        <tr><td>Quote button label</td><td>نص زرار الواتساب</td></tr>
+        <tr><td>Filter: All / Identity / Strategy / Campaign / Capture / NFC</td><td>أسماء الفلاتر</td></tr>
+        <tr><td>Catalog tiles</td><td>كل بلاطة من الـ 12: Title، Line (EN+AR)، صورة أو رابط</td></tr>
+      </tbody>
+    </table>
+    <p>امسح حقل في البلاطة عشان الصورة أو الجملة الافتراضية ترجع. مش هتضيف بلاطة 13، مش هتمسح بلاطة، مش هتغيّر شكل اللوكبوك، ومش هتغيّر رقم الواتساب.</p>
+
+    <h2>13. الإنجليزي والعربي</h2>
+    <p>أغلب حقول النصوص فيها English و Arabic. عبّي الاتنين لما تغيّر الافتراضي.</p>
+    <p>لو لغة واحدة بس متعبّية، الموقع ممكن ينسخ التانية، وبعدين يرجع للافتراضي. متتنشرش تعديل إنجليزي بس وتتوقع إن العربي يفضل على الجملة القديمة لنفس الحقل.</p>
+
+    <h2>14. قبل ما تضغط Publish</h2>
+    <h3>مشروع جديد</h3>
+    <ul>
+      <li>الاسم + Service + Cover</li>
+      <li>Extra photos للتشابترز اللي عايزها تظهر بس</li>
+      <li><strong>This photo is for</strong> مطابق للخدمة</li>
+      <li>إنجليزي + عربي لو مش هتستخدم الافتراضي</li>
+      <li>Publish، وبعدين راجع <code>/projects</code> (و <code>/nfc</code> لو NFC)</li>
+    </ul>
+    <h3>لو حاجة مش ظاهرة على الموقع</h3>
+    <ul>
+      <li>ضغطت <strong class="en">Publish</strong>؟ الدرافت مش بيظهر.</li>
+      <li>التشابتر ده عنده Extra photo؟</li>
+      <li>بتبص على نفس فلتر الـ Service بتاع المشروع؟</li>
+      <li>الحقول الفاضية بتستخدم الافتراضي عمدًا — ده طبيعي.</li>
+    </ul>
+
+    <h2>15. أقدر…؟</h2>
+    <table>
+      <thead>
+        <tr><th>المهمة</th><th>من الـ Studio؟</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>أضيف شغل Brand Identity / Packaging / NFC</td><td>نعم — Create Project</td></tr>
+        <tr><td>أغيّر صور أو جمل بعدين</td><td>نعم — افتح المشروع وPublish</td></tr>
+        <tr><td>أعيد ترتيب الشغل على /projects</td><td>نعم — Order on Projects page</td></tr>
+        <tr><td>أمسح شغل</td><td>نعم — ⋯ ثم Delete</td></tr>
+        <tr><td>أضيف نوع خدمة جديد (مثلاً Events)</td><td>لا</td></tr>
+        <tr><td>أغيّر شكل أو أنيميشن صفحة المشروع</td><td>لا</td></tr>
+        <tr><td>أضيف خدمة سابعة على الهوم</td><td>لا</td></tr>
+        <tr><td>أغيّر فيديو الإنترو / الشوريل</td><td>نعم — Intro &amp; showreel</td></tr>
+        <tr><td>أغيّر عنوان الهيرو ولوجوهات الشركاء</td><td>نعم — Homepage</td></tr>
+        <tr><td>أغيّر عناوين أو صور منتجات NFC</td><td>نعم — NFC page</td></tr>
+        <tr><td>أختار مثال/اتنين تحت كل شكل NFC</td><td>نعم — أمثلة NFC page</td></tr>
+        <tr><td>أوجّه زرار متجر NFC لمكان تاني</td><td>لا — دايمًا /store</td></tr>
+        <tr><td>أغيّر صور أو عناوين بلاطات /store</td><td>نعم — Store page</td></tr>
+        <tr><td>أضيف أو أمسح بلاطة من المتجر</td><td>لا — 12 بلاطة ثابتة</td></tr>
+        <tr><td>أغيّر رقم الواتساب</td><td>لا</td></tr>
+        <tr><td>أغيّر النافبار أو الفوتر أو الألوان</td><td>لا</td></tr>
+      </tbody>
+    </table>
+
+    <p class="footer-note">دليل نظام المحتوى لفريق Sign Up · بعد أي تعديل اضغط Publish · الحقل الفاضي = الافتراضي يفضل</p>
+  </div>
+</body>
+</html>
