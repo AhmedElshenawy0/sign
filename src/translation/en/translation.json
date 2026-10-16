@@ -646,105 +646,84 @@
     }
   },
   "store": {
-    "eyebrow": "Marketplace",
-    "title": "The store",
-    "description": "Departments as aisles. Ideas as products. Impact by design.",
-    "services": "Services",
-    "nfc": "NFC",
-    "request": "Request on WhatsApp",
+    "eyebrow": "The product",
+    "title": "Everything you need, in one tap.",
+    "description": "Physical NFC — card, stand, ring, medal, and the pieces they wear and keep.",
+    "cta": "Request a piece",
+    "request": "Request this piece",
     "quote": "Custom quote",
-    "includesLabel": "Includes",
-    "offerings": "{{n}} offerings",
-    "categories": "{{n}} categories",
-    "channel": "WhatsApp quotes",
-    "groups": {
-      "all": "All",
-      "allAisles": "All aisles",
-      "identity": "Identity",
-      "identityLine": "Branding foundations that define and differentiate.",
-      "strategy": "Strategy",
-      "strategyLine": "Research, insight and direction that drive decisions.",
-      "campaign": "Campaign",
-      "campaignLine": "Stories, moments and movements that move people.",
-      "capture": "Capture",
-      "captureLine": "Visual capture and content that freeze truth in time.",
-      "nfc": "NFC",
-      "nfcLine": "Tangible touchpoints that connect in the moment."
-    },
     "waHero": "Hi Sign Up, I want to request something from the store.",
     "waMessage": "Hi Sign Up, I want to request: {{item}}",
+    "form": {
+      "request": "Request",
+      "title": "Request this piece",
+      "back": "Back to product",
+      "done": "Back to store",
+      "close": "Close",
+      "intent": "What do you need",
+      "quote": "Request a quote",
+      "order": "Place an order",
+      "qty": "Quantity",
+      "packs": "Or pick a pack",
+      "total": "Total",
+      "custom": "Custom",
+      "name": "Name",
+      "phone": "Phone",
+      "email": "Email",
+      "company": "Company",
+      "note": "Note",
+      "namePlaceholder": "Your name",
+      "phonePlaceholder": "01xxxxxxxxx",
+      "emailPlaceholder": "you@studio.com",
+      "companyPlaceholder": "Brand or company",
+      "notePlaceholder": "Anything we should know",
+      "submit": "Send request",
+      "submitting": "Sending",
+      "required": "Name and phone are required.",
+      "error": "The request was not saved. Try again.",
+      "successTitle": "Request sent",
+      "successLine": "We have the request. The studio will get back to you."
+    },
     "items": {
-      "brand_identity": {
-        "title": "Brand Identity",
-        "line": "Mark, book, and the system the brand walks with.",
-        "time": "3–5 weeks",
-        "includes": ["Logo system", "Brand book", "Usage rules"]
-      },
-      "packaging": {
-        "title": "Packaging",
-        "line": "Boxes and packs built from the guideline.",
-        "time": "2–4 weeks",
-        "includes": ["Structure", "Print-ready files", "From the guideline"]
-      },
-      "prints": {
-        "title": "Prints",
-        "line": "Paper, bags, and posters the brand can hold.",
-        "time": "2–3 weeks",
-        "includes": ["Paper set", "Bags / posters", "Production files"]
-      },
-      "social_media": {
-        "title": "Social Media",
-        "line": "The campaign on screens, not a pile of posts.",
-        "time": "2–4 weeks",
-        "includes": ["Campaign idea", "Key visuals", "Posting map"]
-      },
-      "outdoors": {
-        "title": "Outdoors",
-        "line": "Boards, city, the brand in the street.",
-        "time": "2–3 weeks",
-        "includes": ["Board system", "City formats", "Artwork files"]
-      },
-      "brand_strategy": {
-        "title": "Brand Strategy",
-        "line": "Where you stand, and where you walk.",
-        "time": "2–3 weeks",
-        "includes": ["Positioning", "Audience", "Where you walk"]
-      },
-      "marketing_strategy": {
-        "title": "Marketing Strategy",
-        "line": "Budget, time, and the mix tied to sales.",
-        "time": "2–4 weeks",
-        "includes": ["Budget mix", "Channels", "Tied to sales"]
-      },
-      "photos": {
-        "title": "Photos",
-        "line": "Still frames of the brand in the world.",
-        "time": "1–2 weeks",
-        "includes": ["Art direction", "Shoot", "Selects"]
-      },
-      "videos": {
-        "title": "Film",
-        "line": "Motion that proves the story.",
-        "time": "2–4 weeks",
-        "includes": ["Boards", "Film", "Final cut"]
-      },
       "nfc_card": {
+        "kicker": "Card",
         "title": "NFC Card",
-        "line": "Wallet size. They keep it, they tap it.",
-        "time": "2–3 weeks",
-        "includes": ["Artwork", "Chip + tap", "Wallet size"]
+        "line": "Wallet size. They keep it, they tap it — the first physical touch of the brand."
+      },
+      "nfc_stand": {
+        "kicker": "Stand",
+        "title": "Counter stand",
+        "line": "Social, pay, and reviews in one piece on the counter."
       },
       "nfc_ring": {
+        "kicker": "Wear",
         "title": "NFC Ring",
-        "line": "Worn, not carried. A tap from the hand.",
-        "time": "2–3 weeks",
-        "includes": ["Form", "Chip + tap", "Worn piece"]
+        "line": "Worn, not carried. A tap from the hand."
       },
       "nfc_medal": {
+        "kicker": "Keep",
         "title": "NFC Medal",
-        "line": "Hung, worn, shown. A piece they tap and keep.",
-        "time": "2–3 weeks",
-        "includes": ["Cast / print", "Chip + tap", "Keep piece"]
+        "line": "Hung, worn, shown. A piece they tap and keep."
+      },
+      "nfc_keytag": {
+        "kicker": "Keys",
+        "title": "NFC Keytag",
+        "line": "On the keys they already carry. One tap, the brand is there."
+      },
+      "nfc_sticker": {
+        "kicker": "Tap",
+        "title": "NFC Sticker",
+        "line": "On a pack, a table, a window. They tap where they already look."
+      },
+      "nfc_band": {
+        "kicker": "Strap",
+        "title": "NFC Wristband",
+        "line": "On the wrist like a strap — tap without pulling a card."
+      },
+      "nfc_badge": {
+        "kicker": "Name",
+        "title": "NFC Badge",
+        "line": "On the chest, in the room. A name they can tap."
       }
     }
   }

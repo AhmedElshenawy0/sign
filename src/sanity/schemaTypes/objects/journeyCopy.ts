@@ -1,8 +1,11 @@
 import { defineField, defineType } from "sanity";
 
 function unlessType(...types: string[]) {
-  return ({ document }: { document?: { type?: string } }) =>
-    !types.includes(document?.type ?? "");
+  return (context: { document?: unknown }) => {
+    const doc = context.document as { type?: unknown } | undefined;
+    const projectType = typeof doc?.type === "string" ? doc.type : "";
+    return !types.includes(projectType);
+  };
 }
 
 export const journeyChapter = defineType({

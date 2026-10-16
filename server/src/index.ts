@@ -8,6 +8,7 @@ import { authRouter } from "./routes/auth.js";
 import { projectsRouter } from "./routes/projects.js";
 import { uploadsRouter } from "./routes/uploads.js";
 import { settingsRouter } from "./routes/settings.js";
+import { storeRouter } from "./routes/store.js";
 import { UPLOADS_DIR } from "./lib/storage.js";
 
 const app = express();
@@ -40,6 +41,7 @@ app.use("/api/auth", authRouter);
 app.use("/api/projects", projectsRouter);
 app.use("/api/uploads", uploadsRouter);
 app.use("/api/settings", settingsRouter);
+app.use("/api/store", storeRouter);
 
 app.use((err: Error, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
   console.error(err);

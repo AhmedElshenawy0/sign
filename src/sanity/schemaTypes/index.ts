@@ -9,6 +9,7 @@ import { aboutPage } from "./aboutPage";
 import { nfcPage } from "./nfcPage";
 import { storeItem } from "./objects/storeItem";
 import { storePage } from "./storePage";
+import { ourServicesPage } from "./ourServicesPage";
 
 export const schemaTypes = [
   cloudinaryAsset,
@@ -24,4 +25,5 @@ export const schemaTypes = [
   aboutPage,
   nfcPage,
   storePage,
+  ourServicesPage,
 ];

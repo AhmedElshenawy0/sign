@@ -13,7 +13,35 @@ import {
 } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { copyLine, stillCaption } from "@/lib/journey-copy";
-import { groupIdForType, type Project, type ProjectGalleryItem } from "@/types/project";
+import {
+  groupIdForType,
+  type Project,
+  type ProjectGalleryItem,
+  type ServiceGroupId,
+} from "@/types/project";
+
+const FRAME_KICKERS = ["text-main-red", "text-main-move", "text-main-green"] as const;
+
+export const GROUP_ACCENT: Record<ServiceGroupId, { text: string; border: string; bg: string }> = {
+  branding: { text: "text-main-green", border: "border-main-green", bg: "bg-main-green" },
+  marketing: { text: "text-main-red", border: "border-main-red", bg: "bg-main-red" },
+  photoVideo: { text: "text-main-move", border: "border-main-move", bg: "bg-main-move" },
+  nfc: { text: "text-main-green", border: "border-main-green", bg: "bg-main-green" },
+};
+
+export function accentForGroup(id: ServiceGroupId) {
+  return GROUP_ACCENT[id];
+}
+
+export function BrandDots({ className = "" }: { className?: string }) {
+  return (
+    <span className={`inline-flex items-center gap-1.5 ${className}`} aria-hidden>
+      <span className="h-1.5 w-1.5 rounded-full bg-main-red" />
+      <span className="h-1.5 w-1.5 rounded-full bg-main-move" />
+      <span className="h-1.5 w-1.5 rounded-full bg-main-green" />
+    </span>
+  );
+}
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -121,7 +149,7 @@ export function JourneyIntro({
       />
       <div className="pointer-events-none absolute inset-0 z-[1] flex flex-col items-center justify-center px-6 text-center">
         <motion.span
-          className="mb-7 h-px w-10 bg-main-green"
+          className="mb-7 h-px w-10 bg-gradient-to-r from-main-red via-main-move to-main-green"
           initial={{ scaleX: 0, opacity: 0 }}
           animate={{ scaleX: 1, opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -162,6 +190,7 @@ export function JourneyShell({
   const { t, i18n } = useTranslation();
   const isArabic = i18n.language.startsWith("ar");
   const groupId = groupIdForType(project.type);
+  const accent = accentForGroup(groupId);
   const reduce = useReducedMotion();
   const [ready, setReady] = useState(() => Boolean(reduce));
   const [intro, setIntro] = useState(() => !reduce);
@@ -177,7 +206,7 @@ export function JourneyShell({
       }`}
       dir={isArabic ? "rtl" : "ltr"}
     >
-      <div className="pointer-events-none fixed inset-0 z-0 bg-[radial-gradient(ellipse_at_top,rgba(14,152,93,0.12),transparent_42%),radial-gradient(ellipse_at_bottom_right,rgba(232,80,91,0.08),transparent_38%)]" />
+      <div className="pointer-events-none fixed inset-0 z-0 bg-[radial-gradient(ellipse_at_top,rgba(14,152,93,0.14),transparent_42%),radial-gradient(ellipse_at_bottom_left,rgba(85,37,131,0.12),transparent_40%),radial-gradient(ellipse_at_bottom_right,rgba(229,68,17,0.10),transparent_38%)]" />
       <div
         className="pointer-events-none fixed inset-0 z-0 opacity-[0.09]"
         style={{ backgroundImage: "url('/images/noisy3.png')" }}
@@ -186,13 +215,13 @@ export function JourneyShell({
       <header className="pointer-events-none sticky top-0 z-40 flex items-start justify-between gap-4 px-6 py-6 md:px-12">
         <Link
           href="/projects"
-          className="pointer-events-auto inline-flex rounded-full border border-white/20 bg-black/50 px-4 py-2 text-[10px] font-black uppercase tracking-[0.22em] text-white/80 backdrop-blur-md transition hover:border-white hover:text-white"
+          className="pointer-events-auto inline-flex rounded-full border border-white/20 bg-black/50 px-4 py-2 text-[10px] font-black uppercase tracking-[0.22em] text-white/80 backdrop-blur-md transition hover:border-main-green hover:text-main-green"
         >
           {t("projects.journey.back")}
         </Link>
         <p className="max-w-[55%] text-end text-[10px] font-black uppercase tracking-[0.22em] text-white/50">
           {t(`projects.groups.${groupId}.label`)}
-          <span className="mx-2 text-main-green">·</span>
+          <span className={`mx-2 ${accent.text}`}>·</span>
           {t(`projects.types.${project.type}`)}
         </p>
       </header>
@@ -229,6 +258,7 @@ export function JourneyClose({ project }: { project: Project }) {
 
   return (
     <section className="relative flex min-h-[56vh] flex-col items-center justify-center px-6 py-24 text-center">
+      <BrandDots className="mb-5" />
       <motion.p
         className="mb-4 text-[10px] font-black uppercase tracking-[0.35em] text-main-green"
         initial={{ opacity: 0, y: 16 }}
@@ -257,7 +287,7 @@ export function JourneyClose({ project }: { project: Project }) {
       </motion.p>
       <Link
         href="/projects"
-        className="inline-flex rounded-full border border-white/20 px-5 py-2.5 text-[10px] font-black uppercase tracking-[0.22em] text-white/80 transition hover:border-white hover:text-white"
+        className="inline-flex rounded-full border border-white/20 px-5 py-2.5 text-[10px] font-black uppercase tracking-[0.22em] text-white/80 transition hover:border-main-green hover:text-main-green"
       >
         {t("projects.journey.back")}
       </Link>
@@ -400,6 +430,7 @@ export function CopyChapter({
         viewport={{ once: true, amount: 0.35 }}
         transition={{ duration: 0.65, ease: EASE }}
       >
+        <span className="mb-4 block h-px w-10 bg-gradient-to-r from-main-red via-main-move to-main-green" aria-hidden />
         <motion.p
           className="mb-4 text-[10px] font-black uppercase tracking-[0.32em] text-main-green"
           initial={{ opacity: 0, y: 10 }}
@@ -470,7 +501,7 @@ export function FrameChapter({
         {number}
       </span>
       <motion.p
-        className="relative mb-6 text-[10px] font-black uppercase tracking-[0.32em] text-main-green"
+        className={`relative mb-6 text-[10px] font-black uppercase tracking-[0.32em] ${FRAME_KICKERS[index % 3]}`}
         initial={{ opacity: 0, y: 16 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.4 }}

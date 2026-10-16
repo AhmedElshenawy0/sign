@@ -54,7 +54,7 @@ const ContactPage = () => {
   return (
     <div
       dir={i18n.language.startsWith("ar") ? "rtl" : "ltr"}
-      className="bg-slate-950 text-white min-h-screen relative overflow-hidden selection:bg-main-green/30"
+      className="bg-slate-950 text-white min-h-screen relative overflow-x-clip selection:bg-main-green/30"
     >
       {/* Pinned Cinematic Background Blur Window Frame */}
       <div className="absolute inset-0 w-full h-[60vh] z-0 pointer-events-none">

@@ -10,6 +10,7 @@ const SINGLETONS = [
   { type: "aboutPage", title: "About" },
   { type: "nfcPage", title: "NFC page" },
   { type: "storePage", title: "Store page" },
+  { type: "ourServicesPage", title: "Our Services tabs" },
 ] as const;
 
 const structure: StructureResolver = (S) =>

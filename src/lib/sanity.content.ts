@@ -7,10 +7,12 @@ import {
   PROJECT_QUERY,
   PROJECTS_QUERY,
   SITE_MEDIA_QUERY,
+  OUR_SERVICES_PAGE_QUERY,
   STORE_PAGE_QUERY,
   type SanityAboutPage,
   type SanityHomePage,
   type SanityNfcPage,
+  type SanityOurServicesPage,
   type SanityProjectDoc,
   type SanitySiteMedia,
   type SanityStorePage,
@@ -155,4 +157,9 @@ export async function getSanityNfcPage(): Promise<SanityNfcPage | null> {
 export async function getSanityStorePage(): Promise<SanityStorePage | null> {
   if (!(await shouldReadSanity())) return null;
   return sanityFetch<SanityStorePage | null>(STORE_PAGE_QUERY);
+}
+
+export async function getSanityOurServicesPage(): Promise<SanityOurServicesPage | null> {
+  if (!(await shouldReadSanity())) return null;
+  return sanityFetch<SanityOurServicesPage | null>(OUR_SERVICES_PAGE_QUERY);
 }

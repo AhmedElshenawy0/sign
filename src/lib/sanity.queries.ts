@@ -138,22 +138,41 @@ export type SanityNfcPage = {
 };
 
 export type SanityStoreItem = {
+  kicker?: LocaleField | null;
   title?: LocaleField | null;
   line?: LocaleField | null;
+  body?: LocaleField | null;
+  includes?: LocaleField | null;
+  how?: LocaleField | null;
+  compatibility?: LocaleField | null;
   imageUrl?: string | null;
+  photos?: { imageUrl?: string | null }[] | null;
+  price?: number | null;
+  offers?: {
+    qty?: number | null;
+    price?: number | null;
+    badge?: LocaleField | null;
+  }[] | null;
 };
 
 export type SanityStorePage = {
   eyebrow?: LocaleField | null;
   title?: LocaleField | null;
+  description?: LocaleField | null;
   quote?: LocaleField | null;
-  groupAll?: LocaleField | null;
-  groupIdentity?: LocaleField | null;
-  groupStrategy?: LocaleField | null;
-  groupCampaign?: LocaleField | null;
-  groupCapture?: LocaleField | null;
-  groupNfc?: LocaleField | null;
   items?: Partial<Record<string, SanityStoreItem | null>> | null;
+};
+
+export type SanityServiceGroup = {
+  id?: string | null;
+  title?: LocaleField | null;
+  intro?: LocaleField | null;
+  accent?: string | null;
+  types?: string[] | null;
+};
+
+export type SanityOurServicesPage = {
+  groups?: SanityServiceGroup[] | null;
 };
 
 const ASSET = `{
@@ -162,7 +181,7 @@ const ASSET = `{
   "fileUrl": file.asset->url
 }`;
 const LOCALE = `{ en, ar }`;
-const STORE_ITEM = `{ title ${LOCALE}, line ${LOCALE}, "imageUrl": coalesce(image.asset->url, imageUrl) }`;
+const STORE_ITEM = `{ kicker ${LOCALE}, title ${LOCALE}, line ${LOCALE}, body ${LOCALE}, includes ${LOCALE}, how ${LOCALE}, compatibility ${LOCALE}, price, offers[]{ qty, price, badge ${LOCALE} }, "imageUrl": coalesce(image.asset->url, imageUrl), "photos": photos[]{ "imageUrl": coalesce(image.asset->url, imageUrl) } }`;
 const CHAPTER = `{ kicker ${LOCALE}, title ${LOCALE}, body ${LOCALE} }`;
 const JOURNEY_COPY = `journeyCopy {
   scroll ${LOCALE}, kicker ${LOCALE}, skus ${LOCALE}, wear ${LOCALE},
@@ -236,22 +255,26 @@ export const NFC_PAGE_QUERY = `*[_type == "nfcPage" && _id == "nfcPage"][0] {
   "medalExampleIds": medalExamples[]._ref
 }`;
 
+export const OUR_SERVICES_PAGE_QUERY = `*[_type == "ourServicesPage" && _id == "ourServicesPage"][0] {
+  groups[] {
+    "id": id.current,
+    title ${LOCALE},
+    intro ${LOCALE},
+    accent,
+    types
+  }
+}`;
+
 export const STORE_PAGE_QUERY = `*[_type == "storePage" && _id == "storePage"][0] {
-  eyebrow ${LOCALE}, title ${LOCALE}, quote ${LOCALE},
-  groupAll ${LOCALE}, groupIdentity ${LOCALE}, groupStrategy ${LOCALE},
-  groupCampaign ${LOCALE}, groupCapture ${LOCALE}, groupNfc ${LOCALE},
+  eyebrow ${LOCALE}, title ${LOCALE}, description ${LOCALE}, quote ${LOCALE},
   items {
-    brand_identity ${STORE_ITEM},
-    packaging ${STORE_ITEM},
-    prints ${STORE_ITEM},
-    social_media ${STORE_ITEM},
-    outdoors ${STORE_ITEM},
-    brand_strategy ${STORE_ITEM},
-    marketing_strategy ${STORE_ITEM},
-    photos ${STORE_ITEM},
-    videos ${STORE_ITEM},
     nfc_card ${STORE_ITEM},
+    nfc_stand ${STORE_ITEM},
     nfc_ring ${STORE_ITEM},
-    nfc_medal ${STORE_ITEM}
+    nfc_medal ${STORE_ITEM},
+    nfc_keytag ${STORE_ITEM},
+    nfc_sticker ${STORE_ITEM},
+    nfc_band ${STORE_ITEM},
+    nfc_badge ${STORE_ITEM}
   }
 }`;

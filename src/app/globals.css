@@ -32,8 +32,19 @@
     }
   }
 }
+html {
+  scroll-padding-top: calc(5.25rem + env(safe-area-inset-top, 0px));
+}
+
+html,
+body {
+  overflow-x: clip;
+  overscroll-behavior-y: contain;
+}
+
 body {
   font-family: var(--font-montserrat);
+  -webkit-overflow-scrolling: touch;
 }
 
 html.store-page,

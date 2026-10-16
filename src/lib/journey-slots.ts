@@ -109,7 +109,7 @@ export function fillMissingRoles(
   const taken = new Set(
     items
       .map((item) => item.role)
-      .filter((role): role is string => Boolean(role) && roles.includes(role)),
+      .filter((role): role is string => typeof role === "string" && roles.includes(role)),
   );
   let cursor = 0;
   return items.map((item) => {

@@ -1,238 +1,127 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { useEffect } from "react";
+import Link from "next/link";
+import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
-import { FaWhatsapp } from "react-icons/fa";
-import { whatsappRequestUrl } from "@/lib/constants";
+import { FaArrowRight } from "react-icons/fa";
 import { useStoreCopy } from "@/components/cms/PageCopy";
-import { cmsText } from "@/lib/cms-text";
+import NoisyBg from "@/components/global/NoisyBg";
+import { cn } from "@/lib/utils";
+import {
+  STORE_ITEM_KEYS,
+  storeHeaderCopy,
+  storeItemCopy,
+  storeItemImage,
+  type StoreItemKey,
+} from "@/lib/store-catalog";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
-const GROUPS = [
-  {
-    id: "identity",
-    keys: ["brand_identity", "packaging", "prints"],
-  },
-  {
-    id: "strategy",
-    keys: ["brand_strategy", "marketing_strategy"],
-  },
-  {
-    id: "campaign",
-    keys: ["social_media", "outdoors"],
-  },
-  {
-    id: "capture",
-    keys: ["photos", "videos"],
-  },
-  {
-    id: "nfc",
-    keys: ["nfc_card", "nfc_ring", "nfc_medal"],
-  },
+const ACCENTS = [
+  { pill: "bg-main-green/10 text-main-green" },
+  { pill: "bg-main-red/10 text-main-red" },
+  { pill: "bg-main-move/10 text-main-move" },
 ] as const;
 
-const VISUALS: Record<string, { image?: string; blob?: string }> = {
-  brand_identity: { image: "/images/store/identity.jpg" },
-  packaging: { image: "/images/store/packaging.jpg" },
-  prints: { image: "/images/store/prints.jpg" },
-  outdoors: { image: "/images/store/outdoors.jpg" },
-  brand_strategy: { image: "/images/store/strategy.jpg" },
-  videos: { image: "/images/store/film.jpg" },
-  nfc_card: { image: "/images/store/nfc-card.jpg" },
-  nfc_ring: { image: "/images/store/nfc-ring.jpg" },
-  social_media: { image: "/images/store/social.jpg" },
-  marketing_strategy: { image: "/images/store/marketing.jpg" },
-  photos: { image: "/images/store/photos.jpg" },
-  nfc_medal: { image: "/images/store/nfc-medal.jpg" },
-};
-
-type GroupId = (typeof GROUPS)[number]["id"];
-type Filter = "all" | GroupId;
-type ItemKey = (typeof GROUPS)[number]["keys"][number];
-
-const FILTERS: Filter[] = [
-  "all",
-  "identity",
-  "strategy",
-  "campaign",
-  "capture",
-  "nfc",
-];
-
-const catalogVariants = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: { staggerChildren: 0.05 },
-  },
-};
-
 const tileVariants = {
-  hidden: { opacity: 0, y: 12 },
+  hidden: { opacity: 0, y: 18 },
   show: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.35, ease: EASE },
+    transition: { duration: 0.4, ease: EASE },
   },
 };
 
-const GROUP_FIELDS = {
-  identity: "groupIdentity",
-  strategy: "groupStrategy",
-  campaign: "groupCampaign",
-  capture: "groupCapture",
-  nfc: "groupNfc",
-} as const;
-
-function LookbookTile({
+function NfcTile({
   itemKey,
-  requestHref,
-  featured = false,
-  className = "",
+  featured,
+  index,
 }: {
-  itemKey: ItemKey;
-  requestHref: (key: string) => string;
+  itemKey: StoreItemKey;
   featured?: boolean;
-  className?: string;
+  index: number;
 }) {
-  const { t, i18n } = useTranslation();
+  const { i18n } = useTranslation();
   const cms = useStoreCopy();
-  const visual = VISUALS[itemKey];
-  const image = cms?.items?.[itemKey]?.imageUrl?.trim() || visual?.image;
-  const title = cmsText(
-    cms?.items?.[itemKey]?.title,
-    i18n.language,
-    t(`store.items.${itemKey}.title`),
-  );
-  const line = cmsText(
-    cms?.items?.[itemKey]?.line,
-    i18n.language,
-    t(`store.items.${itemKey}.line`),
-  );
+  const accent = ACCENTS[index % ACCENTS.length];
+  const image = storeItemImage(cms, itemKey);
+  const kicker = storeItemCopy(cms, i18n.language, itemKey, "kicker");
+  const title = storeItemCopy(cms, i18n.language, itemKey, "title");
+  const line = storeItemCopy(cms, i18n.language, itemKey, "line");
 
   return (
     <motion.div
       variants={tileVariants}
-      className={`h-full min-h-0 ${className}`}
+      className={cn("h-full", featured ? "md:col-span-2" : "")}
     >
-      <a
-        href={requestHref(itemKey)}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="group relative isolate flex h-full min-h-[inherit] flex-col overflow-hidden rounded-[12px] bg-[#0a0d12] ring-1 ring-white/[0.08]"
+      <Link
+        href={`/store/${itemKey}`}
+        className="group flex h-full w-full flex-col rounded-[1.6rem] bg-white p-5 text-start ring-1 ring-[#e7e2d8] transition hover:-translate-y-0.5 hover:shadow-[0_18px_40px_rgba(40,30,20,0.08)] md:p-6"
       >
-        {image ? (
+        <div className="flex items-start justify-between gap-3">
+          <div className="min-w-0 flex-1">
+            <span
+              className={cn(
+                "inline-flex rounded-full px-2.5 py-0.5 text-[11px] font-medium",
+                accent.pill,
+              )}
+            >
+              {kicker}
+            </span>
+            <h3
+              className={cn(
+                "mt-2 font-bold tracking-tight text-neutral-950",
+                featured
+                  ? "text-[22px] leading-tight md:text-[28px]"
+                  : "text-[18px] leading-snug md:text-[20px]",
+              )}
+            >
+              {title}
+            </h3>
+            <p
+              className={cn(
+                "mt-1.5 text-[13px] leading-relaxed text-neutral-500",
+                featured ? "max-w-md md:text-[15px]" : "line-clamp-2",
+              )}
+            >
+              {line}
+            </p>
+          </div>
+          <span
+            className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-neutral-200 bg-white text-neutral-800 transition group-hover:border-neutral-400"
+            aria-hidden
+          >
+            <FaArrowRight className="rtl:rotate-180" size={12} />
+          </span>
+        </div>
+
+        <div
+          className={cn(
+            "relative mt-5 flex-1 overflow-hidden rounded-[1.15rem] bg-[#f3efe8]",
+            featured ? "min-h-[16rem] md:min-h-[20rem]" : "min-h-[14.5rem]",
+          )}
+        >
           <img
             src={image}
             alt=""
-            className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-[1.04]"
+            className="absolute inset-0 h-full w-full object-cover"
           />
-        ) : (
-          <div
-            className={`absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(14,152,93,0.18),transparent_62%)] ${visual?.blob ?? ""}`}
-          />
-        )}
-
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent" />
-
-        <div
-          className={`relative z-[2] mt-auto flex flex-col justify-end ${
-            featured ? "p-5 md:p-7" : "p-4 md:p-5"
-          }`}
-        >
-          <h3
-            className={`font-bold uppercase tracking-tight text-white ${
-              featured
-                ? "text-[22px] md:text-[28px]"
-                : "text-[15px] md:text-[17px]"
-            }`}
-          >
-            {title}
-          </h3>
-          <p
-            className={`mt-1 max-w-[16rem] leading-snug text-white/70 ${
-              featured ? "text-[13px] md:text-[14px]" : "text-[12px]"
-            }`}
-          >
-            {line}
-          </p>
-
-          {featured ? (
-            <span className="mt-4 inline-flex w-fit items-center gap-2 rounded-full border border-white/70 px-3.5 py-1.5 text-[10px] font-bold uppercase tracking-[0.14em] text-white transition group-hover:border-main-green group-hover:text-main-green">
-              {cmsText(cms?.quote, i18n.language, t("store.quote"))}
-              <FaWhatsapp size={13} />
-            </span>
-          ) : (
-            <span className="absolute bottom-4 end-4 flex h-8 w-8 items-center justify-center rounded-full border border-white/35 text-white/80 transition group-hover:border-main-green group-hover:text-main-green">
-              <FaWhatsapp size={14} />
-            </span>
-          )}
         </div>
-      </a>
+      </Link>
     </motion.div>
   );
 }
 
-function FilterChips({
-  filter,
-  selectFilter,
-}: {
-  filter: Filter;
-  selectFilter: (id: Filter) => void;
-}) {
-  const { t, i18n } = useTranslation();
-  const cms = useStoreCopy();
-
-  function chipLabel(id: Filter) {
-    if (id === "all") {
-      return cmsText(cms?.groupAll, i18n.language, t("store.groups.all"));
-    }
-    return cmsText(
-      cms?.[GROUP_FIELDS[id]],
-      i18n.language,
-      t(`store.groups.${id}`),
-    );
-  }
-
-  return (
-    <div className="mt-5 flex w-full min-w-0 flex-nowrap gap-1.5 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:flex-wrap md:overflow-visible">
-      {FILTERS.map((id) => {
-        const active = filter === id;
-        return (
-          <button
-            key={id}
-            type="button"
-            onClick={() => selectFilter(id)}
-            className={`relative shrink-0 rounded-full px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.14em] transition ${
-              active ? "text-white" : "text-white/70 hover:text-white"
-            }`}
-          >
-            {active ? (
-              <motion.span
-                layoutId="lookbook-chip"
-                className="absolute inset-0 rounded-full bg-main-green"
-                transition={{ type: "spring", stiffness: 380, damping: 32 }}
-              />
-            ) : (
-              <span className="absolute inset-0 rounded-full border border-white/20" />
-            )}
-            <span className="relative z-10 whitespace-nowrap">
-              {chipLabel(id)}
-            </span>
-          </button>
-        );
-      })}
-    </div>
-  );
-}
-
 export default function Store() {
-  const { t, i18n } = useTranslation();
+  const { i18n } = useTranslation();
   const cms = useStoreCopy();
   const isArabic = i18n.language.startsWith("ar");
-  const [filter, setFilter] = useState<Filter>("all");
+  const lang = i18n.language;
+
+  const title = storeHeaderCopy(cms?.title, lang, "title");
+  const description = storeHeaderCopy(cms?.description, lang, "description");
+  const cta = storeHeaderCopy(cms?.quote, lang, "cta");
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -240,112 +129,73 @@ export default function Store() {
     return () => document.documentElement.classList.remove("store-page");
   }, []);
 
-  const visibleGroups =
-    filter === "all" ? GROUPS : GROUPS.filter((group) => group.id === filter);
-  const categoryKeys = visibleGroups[0]?.keys ?? [];
-  const featuredKey: ItemKey =
-    filter === "all" ? "packaging" : categoryKeys[0];
-  const stackKeys: readonly ItemKey[] =
-    filter === "all"
-      ? ["brand_identity", "nfc_card"]
-      : categoryKeys.slice(1);
-
-  function selectFilter(id: Filter) {
-    setFilter(id);
-  }
-
-  function requestHref(itemKey: string) {
-    const name = cmsText(
-      cms?.items?.[itemKey]?.title,
-      i18n.language,
-      t(`store.items.${itemKey}.title`),
-    );
-    return whatsappRequestUrl(t("store.waMessage", { item: name }));
-  }
-
   return (
     <main
       dir={isArabic ? "rtl" : "ltr"}
-      className="relative min-h-screen overflow-x-clip bg-[#05070c] text-white"
+      className="relative min-h-screen overflow-x-clip bg-white text-neutral-950"
     >
-      <section className="relative z-10 mx-auto max-w-[1320px] px-6 pb-20 pt-24 md:px-8 md:pt-28">
-        <div
+      <div className="pointer-events-none absolute inset-0 z-0 opacity-20" aria-hidden>
+        <NoisyBg />
+      </div>
+      <section className="relative z-10 mx-auto max-w-[1220px] px-5 pb-24 pt-28 md:px-8 md:pt-32">
+        <header
           id="store-catalog"
-          className="grid min-w-0 scroll-mt-24 items-stretch gap-3 md:grid-cols-[minmax(0,1.38fr)_minmax(0,1fr)]"
+          className="mx-auto max-w-2xl scroll-mt-24 text-center"
         >
-          <div className="flex min-h-0 min-w-0 flex-col gap-4">
-            <header className="min-w-0">
-              <p className="text-[10px] font-bold uppercase tracking-[0.32em] text-main-green">
-                {cmsText(cms?.eyebrow, i18n.language, t("store.eyebrow"))}
-              </p>
-              <h1 className="mt-1 text-[42px] font-black italic uppercase leading-none tracking-tight md:text-[58px]">
-                {cmsText(cms?.title, i18n.language, t("store.title"))}
-              </h1>
-              <FilterChips filter={filter} selectFilter={selectFilter} />
-            </header>
+          <motion.h1
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.45, ease: EASE }}
+            className="text-[34px] font-bold leading-[1.12] tracking-tight text-neutral-950 md:text-[52px]"
+          >
+            {title}
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1, duration: 0.4, ease: EASE }}
+            className="mx-auto mt-3 max-w-lg text-[15px] leading-relaxed text-neutral-500 md:text-base"
+          >
+            {description}
+          </motion.p>
+        </header>
 
-            <LookbookTile
-              key={featuredKey}
-              itemKey={featuredKey}
-              featured
-              requestHref={requestHref}
-              className="min-h-[240px] flex-1 sm:min-h-[280px] md:min-h-[340px]"
+        <motion.div
+          className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 md:gap-5"
+          initial="hidden"
+          animate="show"
+          variants={{
+            hidden: { opacity: 0 },
+            show: {
+              opacity: 1,
+              transition: { staggerChildren: 0.06, delayChildren: 0.08 },
+            },
+          }}
+        >
+          {STORE_ITEM_KEYS.map((key, index) => (
+            <NfcTile
+              key={key}
+              itemKey={key}
+              featured={index === 0}
+              index={index}
             />
-          </div>
+          ))}
+        </motion.div>
 
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={filter}
-              className="flex min-h-0 min-w-0 flex-col gap-3"
-              variants={catalogVariants}
-              initial="hidden"
-              animate="show"
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.25, ease: EASE }}
-            >
-              {stackKeys.map((key) => (
-                <LookbookTile
-                  key={key}
-                  itemKey={key}
-                  requestHref={requestHref}
-                  className="min-h-[180px] flex-1 sm:min-h-[200px]"
-                />
-              ))}
-            </motion.div>
-          </AnimatePresence>
-
-          {filter === "all" ? (
-            <>
-              <LookbookTile
-                itemKey="outdoors"
-                requestHref={requestHref}
-                className="min-h-[180px] md:col-start-1 md:min-h-[220px]"
-              />
-              <LookbookTile
-                itemKey="nfc_ring"
-                requestHref={requestHref}
-                className="min-h-[180px] md:min-h-[220px]"
-              />
-              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:col-span-2 md:grid-cols-3">
-                <LookbookTile
-                  itemKey="prints"
-                  requestHref={requestHref}
-                  className="min-h-[180px] md:min-h-[210px]"
-                />
-                <LookbookTile
-                  itemKey="videos"
-                  requestHref={requestHref}
-                  className="min-h-[180px] md:min-h-[210px]"
-                />
-                <LookbookTile
-                  itemKey="brand_strategy"
-                  requestHref={requestHref}
-                  className="min-h-[180px] sm:col-span-2 md:col-span-1 md:min-h-[210px]"
-                />
-              </div>
-            </>
-          ) : null}
-        </div>
+        <motion.div
+          className="mt-10 flex justify-center"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.45, duration: 0.35, ease: EASE }}
+        >
+          <Link
+            href="/store/nfc_card"
+            className="inline-flex items-center gap-2 rounded-full bg-main-green px-7 py-3.5 text-[11px] font-bold uppercase tracking-[0.16em] text-white shadow-[0_14px_32px_rgba(14,152,93,0.25)] transition hover:bg-main-dark-green"
+          >
+            {cta}
+            <FaArrowRight className="rtl:rotate-180" size={11} />
+          </Link>
+        </motion.div>
       </section>
     </main>
   );

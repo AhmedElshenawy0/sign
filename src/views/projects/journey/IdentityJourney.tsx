@@ -7,6 +7,7 @@ import { fillMissingRoles, itemByRole } from "@/lib/journey-slots";
 import { copyApplications, copyChapterPref, copyLine, stillAsChapter, stillCaption } from "@/lib/journey-copy";
 import { galleryItems, type Project } from "@/types/project";
 import {
+  BrandDots,
   CopyChapter,
   FrameChapter,
   JourneyClose,
@@ -64,6 +65,7 @@ export default function IdentityJourney({ project }: { project: Project }) {
         ref={heroRef}
         className="relative flex min-h-[92vh] flex-col items-center justify-center px-6 pb-24 pt-8"
       >
+        <BrandDots className="mb-5" />
         <motion.p
           className="mb-8 text-[10px] font-black uppercase tracking-[0.4em] text-main-green"
           initial={{ opacity: 0, y: 12 }}

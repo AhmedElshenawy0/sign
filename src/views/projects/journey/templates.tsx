@@ -5,8 +5,9 @@ import { motion, useReducedMotion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { copyChapterPref, copyLine, stillAsChapter, stillCaption } from "@/lib/journey-copy";
 import { fillMissingRoles, itemByRole, JOURNEY_SLOT_ROLES } from "@/lib/journey-slots";
-import { galleryItems, type Project, type ProjectGalleryItem } from "@/types/project";
+import { galleryItems, groupIdForType, type Project, type ProjectGalleryItem } from "@/types/project";
 import {
+  BrandDots,
   CopyChapter,
   FrameChapter,
   JourneyClose,
@@ -14,6 +15,7 @@ import {
   JourneyShell,
   RevealMedia,
   TiltFrame,
+  accentForGroup,
   frameLabel,
   projectLine,
   useHeroScroll,
@@ -74,6 +76,7 @@ function PackagingJourney({ project }: { project: Project }) {
         ref={heroRef}
         className="relative flex min-h-[88vh] flex-col items-center justify-center px-6 py-16"
       >
+        <BrandDots className="mb-5" />
         <motion.p
           className="mb-8 text-[10px] font-black uppercase tracking-[0.35em] text-main-green"
           initial={reduce ? false : { opacity: 0, y: 12 }}
@@ -178,6 +181,7 @@ function PrintsJourney({ project }: { project: Project }) {
         ref={heroRef}
         className="relative flex min-h-[90vh] flex-col items-center justify-center overflow-hidden px-6 py-20"
       >
+        <BrandDots className="mb-5" />
         <motion.p
           className="mb-12 text-[10px] font-black uppercase tracking-[0.35em] text-main-green"
           initial={reduce ? false : { opacity: 0, y: 10 }}
@@ -258,6 +262,7 @@ function SocialJourney({ project }: { project: Project }) {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.75, ease: EASE }}
         >
+          <BrandDots className="mb-4" />
           <p className="mb-4 text-[10px] font-black uppercase tracking-[0.32em] text-main-green">
             {copyLine(project.journeyCopy?.kicker, lang, t("projects.journey.chapters.social.kicker"))}
           </p>
@@ -453,10 +458,12 @@ function PhotosJourney({ project }: { project: Project }) {
   const frames = uniqueStills(project, JOURNEY_SLOT_ROLES.photos);
   const [active, setActive] = useState(0);
   const current = frames[active] ?? frames[0];
+  const accent = accentForGroup(groupIdForType(project.type));
 
   return (
     <JourneyShell project={project}>
       <section className="flex min-h-[40vh] flex-col justify-end px-6 pb-6 pt-8 md:px-12">
+        <BrandDots className="mb-4" />
         <motion.p
           className="mb-3 text-[10px] font-black uppercase tracking-[0.35em] text-main-green"
           initial={reduce ? false : { opacity: 0, y: 10 }}
@@ -484,7 +491,7 @@ function PhotosJourney({ project }: { project: Project }) {
             type="button"
             onClick={() => setActive(index)}
             className={`relative h-28 w-40 shrink-0 overflow-hidden rounded-lg border-2 transition ${
-              active === index ? "border-main-green" : "border-white/15"
+              active === index ? accent.border : "border-white/15"
             }`}
           >
             <img src={item.url} alt="" className="h-full w-full object-cover" />
@@ -525,6 +532,7 @@ function VideosJourney({ project }: { project: Project }) {
   return (
     <JourneyShell project={project}>
       <section className="flex min-h-screen flex-col justify-center px-4 pb-16 pt-4 md:px-16">
+        <BrandDots className="mx-auto mb-5" />
         <motion.p
           className="mb-6 text-center text-[10px] font-black uppercase tracking-[0.35em] text-main-green"
           initial={reduce ? false : { opacity: 0, y: 10 }}
@@ -577,9 +585,10 @@ function NfcJourney({ project }: { project: Project }) {
         ref={heroRef}
         className="relative flex min-h-[90vh] flex-col items-center justify-center px-6 py-16"
       >
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(14,152,93,0.12),transparent_55%)]" />
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(14,152,93,0.12),transparent_50%),radial-gradient(circle_at_20%_80%,rgba(85,37,131,0.10),transparent_45%),radial-gradient(circle_at_80%_80%,rgba(229,68,17,0.08),transparent_45%)]" />
+        <BrandDots className="relative z-[1] mb-5" />
         <motion.p
-          className="mb-8 text-[10px] font-black uppercase tracking-[0.35em] text-main-green"
+          className="relative z-[1] mb-8 text-[10px] font-black uppercase tracking-[0.35em] text-main-green"
           initial={reduce ? false : { opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
         >
