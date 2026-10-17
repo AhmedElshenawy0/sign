@@ -137,6 +137,17 @@ export type SanityNfcPage = {
   medalExampleIds?: string[] | null;
 };
 
+export type SanityStoreMedia = {
+  imageUrl?: string | null;
+  videoUrl?: string | null;
+  caption?: LocaleField | null;
+};
+
+export type SanityStoreTrustNote = {
+  title?: LocaleField | null;
+  line?: LocaleField | null;
+};
+
 export type SanityStoreItem = {
   kicker?: LocaleField | null;
   title?: LocaleField | null;
@@ -146,7 +157,7 @@ export type SanityStoreItem = {
   how?: LocaleField | null;
   compatibility?: LocaleField | null;
   imageUrl?: string | null;
-  photos?: { imageUrl?: string | null }[] | null;
+  photos?: SanityStoreMedia[] | null;
   price?: number | null;
   offers?: {
     qty?: number | null;
@@ -160,6 +171,11 @@ export type SanityStorePage = {
   title?: LocaleField | null;
   description?: LocaleField | null;
   quote?: LocaleField | null;
+  trust?: {
+    one?: SanityStoreTrustNote | null;
+    two?: SanityStoreTrustNote | null;
+    three?: SanityStoreTrustNote | null;
+  } | null;
   items?: Partial<Record<string, SanityStoreItem | null>> | null;
 };
 
@@ -181,7 +197,7 @@ const ASSET = `{
   "fileUrl": file.asset->url
 }`;
 const LOCALE = `{ en, ar }`;
-const STORE_ITEM = `{ kicker ${LOCALE}, title ${LOCALE}, line ${LOCALE}, body ${LOCALE}, includes ${LOCALE}, how ${LOCALE}, compatibility ${LOCALE}, price, offers[]{ qty, price, badge ${LOCALE} }, "imageUrl": coalesce(image.asset->url, imageUrl), "photos": photos[]{ "imageUrl": coalesce(image.asset->url, imageUrl) } }`;
+const STORE_ITEM = `{ kicker ${LOCALE}, title ${LOCALE}, line ${LOCALE}, body ${LOCALE}, includes ${LOCALE}, how ${LOCALE}, compatibility ${LOCALE}, price, offers[]{ qty, price, badge ${LOCALE} }, "imageUrl": coalesce(image.asset->url, imageUrl), "photos": photos[]{ "imageUrl": coalesce(image.asset->url, imageUrl), "videoUrl": coalesce(video.asset->url, videoUrl), caption ${LOCALE} } }`;
 const CHAPTER = `{ kicker ${LOCALE}, title ${LOCALE}, body ${LOCALE} }`;
 const JOURNEY_COPY = `journeyCopy {
   scroll ${LOCALE}, kicker ${LOCALE}, skus ${LOCALE}, wear ${LOCALE},
@@ -265,8 +281,11 @@ export const OUR_SERVICES_PAGE_QUERY = `*[_type == "ourServicesPage" && _id == "
   }
 }`;
 
+const STORE_TRUST_NOTE = `{ title ${LOCALE}, line ${LOCALE} }`;
+
 export const STORE_PAGE_QUERY = `*[_type == "storePage" && _id == "storePage"][0] {
   eyebrow ${LOCALE}, title ${LOCALE}, description ${LOCALE}, quote ${LOCALE},
+  trust { one ${STORE_TRUST_NOTE}, two ${STORE_TRUST_NOTE}, three ${STORE_TRUST_NOTE} },
   items {
     nfc_card ${STORE_ITEM},
     nfc_stand ${STORE_ITEM},

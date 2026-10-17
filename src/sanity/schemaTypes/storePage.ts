@@ -26,6 +26,42 @@ export const storePage = defineType({
       description: "Green button under the grid. Empty keeps the site default.",
     }),
     defineField({
+      name: "trust",
+      title: "Notes under the product",
+      description:
+        "Three notes on every product page (quality, chip, print). Empty fields keep the site default.",
+      type: "object",
+      fields: [
+        defineField({
+          name: "one",
+          title: "Note 1",
+          type: "object",
+          fields: [
+            defineField({ name: "title", title: "Title", type: "localeString" }),
+            defineField({ name: "line", title: "Line", type: "localeText" }),
+          ],
+        }),
+        defineField({
+          name: "two",
+          title: "Note 2",
+          type: "object",
+          fields: [
+            defineField({ name: "title", title: "Title", type: "localeString" }),
+            defineField({ name: "line", title: "Line", type: "localeText" }),
+          ],
+        }),
+        defineField({
+          name: "three",
+          title: "Note 3",
+          type: "object",
+          fields: [
+            defineField({ name: "title", title: "Title", type: "localeString" }),
+            defineField({ name: "line", title: "Line", type: "localeText" }),
+          ],
+        }),
+      ],
+    }),
+    defineField({
       name: "items",
       title: "NFC pieces",
       description:

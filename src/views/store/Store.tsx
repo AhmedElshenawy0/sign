@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { FaArrowRight } from "react-icons/fa";
 import { useStoreCopy } from "@/components/cms/PageCopy";
-import NoisyBg from "@/components/global/NoisyBg";
+import GridBg from "@/components/global/GridBg";
 import { cn } from "@/lib/utils";
 import {
   STORE_ITEM_KEYS,
@@ -134,9 +134,7 @@ export default function Store() {
       dir={isArabic ? "rtl" : "ltr"}
       className="relative min-h-screen bg-white text-neutral-950"
     >
-      <div className="pointer-events-none absolute inset-0 z-0 opacity-20" aria-hidden>
-        <NoisyBg />
-      </div>
+      <GridBg variant="light" />
       <section className="relative z-10 mx-auto max-w-[1220px] px-5 pb-24 pt-28 md:px-8 md:pt-32">
         <header
           id="store-catalog"

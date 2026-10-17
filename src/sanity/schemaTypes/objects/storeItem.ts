@@ -48,17 +48,17 @@ export const storeItem = defineType({
     }),
     defineField({
       name: "photos",
-      title: "Extra photos",
+      title: "Cases / extra media",
       type: "array",
       group: "photos",
       description:
-        "More photos on the product page gallery. Empty keeps the site photos. Cover photo stays first.",
+        "Up to three stills or videos under the product (desktop gallery, mobile below Compatibility). Empty keeps the site media. Cover photo stays first in the gallery.",
       validation: (Rule) => Rule.max(6),
       of: [
         {
           type: "object",
           name: "storePhoto",
-          title: "Photo",
+          title: "Media",
           fields: [
             defineField({
               name: "image",
@@ -71,11 +71,31 @@ export const storeItem = defineType({
               title: "Or photo URL",
               type: "string",
             }),
+            defineField({
+              name: "video",
+              title: "Video (optional)",
+              type: "file",
+              options: { accept: "video/*" },
+              description: "Use for a short case or in-use clip. If set, this tile plays video.",
+            }),
+            defineField({
+              name: "videoUrl",
+              title: "Or video URL",
+              type: "string",
+            }),
+            defineField({
+              name: "caption",
+              title: "Caption (optional)",
+              type: "localeString",
+            }),
           ],
           preview: {
-            select: { media: "image", url: "imageUrl" },
-            prepare({ media, url }) {
-              return { title: url || "Photo", media };
+            select: { media: "image", url: "imageUrl", videoUrl: "videoUrl" },
+            prepare({ media, url, videoUrl }) {
+              return {
+                title: videoUrl ? "Video" : url || "Photo",
+                media,
+              };
             },
           },
         },

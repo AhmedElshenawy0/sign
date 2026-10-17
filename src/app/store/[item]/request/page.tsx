@@ -12,15 +12,18 @@ export function generateStaticParams() {
 
 export default async function Page({
   params,
+  searchParams,
 }: {
   params: Promise<{ item: string }>;
+  searchParams: Promise<{ qty?: string }>;
 }) {
   const { item } = await params;
+  const { qty } = await searchParams;
   if (!isStoreItemKey(item)) notFound();
   const storeCopy = await getSanityStorePage();
   return (
     <StoreCopyProvider value={storeCopy}>
-      <StoreRequest itemKey={item} />
+      <StoreRequest itemKey={item} initialQty={qty} />
     </StoreCopyProvider>
   );
 }

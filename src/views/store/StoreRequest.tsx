@@ -6,25 +6,35 @@ import { useTranslation } from "react-i18next";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { FiCheck, FiMinus, FiPlus } from "react-icons/fi";
 import { useStoreCopy } from "@/components/cms/PageCopy";
-import NoisyBg from "@/components/global/NoisyBg";
+import GridBg from "@/components/global/GridBg";
 import { cn } from "@/lib/utils";
 import {
   formatStorePrice,
   localeOf,
   storeItemCopy,
-  storeItemImage,
   storeItemOffers,
   storeItemPrice,
   storeOfferLabel,
   STORE_PRODUCT_COPY,
-  type StoreIntent,
   type StoreItemKey,
 } from "@/lib/store-catalog";
 
 const QTY_MIN = 1;
 const QTY_MAX = 50;
 
-export default function StoreRequest({ itemKey }: { itemKey: StoreItemKey }) {
+function clampQty(value: unknown): number {
+  const n = Number(value);
+  if (!Number.isFinite(n)) return QTY_MIN;
+  return Math.min(QTY_MAX, Math.max(QTY_MIN, Math.round(n)));
+}
+
+export default function StoreRequest({
+  itemKey,
+  initialQty,
+}: {
+  itemKey: StoreItemKey;
+  initialQty?: string | number;
+}) {
   const { t, i18n } = useTranslation();
   const cms = useStoreCopy();
   const isArabic = i18n.language.startsWith("ar");
@@ -32,12 +42,10 @@ export default function StoreRequest({ itemKey }: { itemKey: StoreItemKey }) {
   const kicker = storeItemCopy(cms, i18n.language, itemKey, "kicker");
   const title = storeItemCopy(cms, i18n.language, itemKey, "title");
   const line = storeItemCopy(cms, i18n.language, itemKey, "line");
-  const image = storeItemImage(cms, itemKey);
   const price = storeItemPrice(cms, itemKey);
   const offers = storeItemOffers(cms, i18n.language, itemKey);
   const packs = [{ qty: 1, price, badge: undefined as string | undefined }, ...offers];
-  const [intent, setIntent] = useState<StoreIntent>("quote");
-  const [qty, setQty] = useState(1);
+  const [qty, setQty] = useState(() => clampQty(initialQty));
   const [status, setStatus] = useState<"idle" | "submitting" | "error" | "success">(
     "idle",
   );
@@ -50,11 +58,10 @@ export default function StoreRequest({ itemKey }: { itemKey: StoreItemKey }) {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    setQty(1);
-    setIntent("quote");
+    setQty(clampQty(initialQty));
     document.documentElement.classList.add("store-page");
     return () => document.documentElement.classList.remove("store-page");
-  }, [itemKey]);
+  }, [itemKey, initialQty]);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -78,7 +85,7 @@ export default function StoreRequest({ itemKey }: { itemKey: StoreItemKey }) {
         body: JSON.stringify({
           item: itemKey,
           itemTitle: title,
-          intent,
+          intent: "quote",
           name,
           phone,
           email: String(data.get("email") ?? "").trim(),
@@ -115,10 +122,8 @@ export default function StoreRequest({ itemKey }: { itemKey: StoreItemKey }) {
       dir={isArabic ? "rtl" : "ltr"}
       className="relative min-h-screen bg-white text-neutral-950"
     >
-      <div className="pointer-events-none absolute inset-0 z-0 opacity-20" aria-hidden>
-        <NoisyBg />
-      </div>
-      <section className="relative z-10 mx-auto max-w-[1100px] px-5 pb-24 pt-24 md:px-8 md:pt-28">
+      <GridBg variant="light" />
+      <section className="relative z-10 mx-auto max-w-[640px] px-5 pb-24 pt-24 md:px-8 md:pt-28">
         <Link
           href={`/store/${itemKey}`}
           className="inline-flex items-center gap-2 text-[12px] font-semibold text-neutral-500 transition hover:text-neutral-950"
@@ -127,34 +132,32 @@ export default function StoreRequest({ itemKey }: { itemKey: StoreItemKey }) {
           {t("store.form.back")}
         </Link>
 
-        <div className="mt-8 grid items-start gap-8 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-12">
-          <aside className="overflow-hidden rounded-[1.6rem] bg-white ring-1 ring-[#e7e2d8]">
-            <div className="relative aspect-[4/3] overflow-hidden bg-[#f3efe8]">
-              <img src={image} alt={title} className="h-full w-full object-cover" />
-            </div>
-            <div className="p-5 md:p-6">
-              <span className="inline-flex rounded-full bg-main-green/10 px-2.5 py-0.5 text-[11px] font-medium text-main-green">
-                {kicker}
-              </span>
-              <h1 className="mt-3 text-[26px] font-bold tracking-tight text-neutral-950 md:text-[32px]">
-                {title}
-              </h1>
-              <p className="mt-2 text-sm leading-relaxed text-neutral-500">
-                {line}
-              </p>
-              <p className="mt-4 text-[22px] font-semibold tracking-tight text-neutral-950">
+        <div className="mt-5 rounded-[1.4rem] bg-white px-5 py-4 ring-1 ring-[#e7e2d8] md:px-6">
+          <div className="flex items-start justify-between gap-3">
+            <span className="inline-flex rounded-full bg-main-green/10 px-2.5 py-0.5 text-[11px] font-medium text-main-green">
+              {kicker}
+            </span>
+            <div className="shrink-0 text-end">
+              <p className="text-[18px] font-semibold tracking-tight text-neutral-950">
                 {formatStorePrice(totalPrice, i18n.language)}
               </p>
-              <p className="mt-1 text-[12px] text-neutral-400">
+              <p className="mt-0.5 text-[11px] text-neutral-400">
                 {offerLabel}
                 {qty === 1 ? ` · ${copy.perPiece}` : ""}
               </p>
             </div>
-          </aside>
+          </div>
+          <h1 className="mt-2 text-[20px] font-bold tracking-tight text-neutral-950 md:text-[22px]">
+            {title}
+          </h1>
+          <p className="mt-1 text-[13px] leading-relaxed text-neutral-500">
+            {line}
+          </p>
+        </div>
 
-          <div className="rounded-[1.6rem] bg-white p-5 ring-1 ring-[#e7e2d8] md:p-8">
+        <div className="mt-4 rounded-[1.4rem] bg-white p-5 ring-1 ring-[#e7e2d8] md:p-7">
             {status === "success" ? (
-              <div className="flex min-h-[28rem] flex-col items-center justify-center gap-4 px-4 py-10 text-center">
+              <div className="flex flex-col items-center justify-center gap-4 px-4 py-12 text-center">
                 <span className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-main-green/10 text-main-green">
                   <FiCheck size={26} />
                 </span>
@@ -183,42 +186,9 @@ export default function StoreRequest({ itemKey }: { itemKey: StoreItemKey }) {
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-                <div>
-                  <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-main-green">
-                    {t("store.form.title")}
-                  </p>
-                  <h2 className="mt-1 text-2xl font-black tracking-tight text-neutral-950">
-                    {title}
-                  </h2>
-                </div>
-
-                <fieldset className="space-y-2">
-                  <legend className="text-[10px] font-bold uppercase tracking-[0.14em] text-neutral-400">
-                    {t("store.form.intent")}
-                  </legend>
-                  <div className="grid grid-cols-2 gap-2">
-                    {(["quote", "order"] as const).map((value) => (
-                      <label
-                        key={value}
-                        className={`cursor-pointer rounded-full border px-3 py-2.5 text-center text-[10px] font-bold uppercase tracking-widest transition ${
-                          intent === value
-                            ? "border-main-green bg-main-green text-white"
-                            : "border-[#e7e2d8] text-neutral-500 hover:border-neutral-300"
-                        }`}
-                      >
-                        <input
-                          type="radio"
-                          name="intent"
-                          value={value}
-                          checked={intent === value}
-                          onChange={() => setIntent(value)}
-                          className="sr-only"
-                        />
-                        {t(`store.form.${value}`)}
-                      </label>
-                    ))}
-                  </div>
-                </fieldset>
+                <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-main-green">
+                  {t("store.form.title")}
+                </p>
 
                 <div className="space-y-3">
                   <div className="flex items-center justify-between gap-3">
@@ -369,7 +339,6 @@ export default function StoreRequest({ itemKey }: { itemKey: StoreItemKey }) {
                 </button>
               </form>
             )}
-          </div>
         </div>
       </section>
     </main>
