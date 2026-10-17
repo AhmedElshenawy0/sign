@@ -37,6 +37,23 @@ export default function SmoothScroll({ children }: { children: ReactNode }) {
   const nativeScroll =
     pathname === "/store" || pathname.startsWith("/store/");
 
+  useEffect(() => {
+    const html = document.documentElement;
+    if (!nativeScroll) {
+      html.classList.remove("store-page");
+      return;
+    }
+
+    html.classList.add("store-page");
+    html.classList.remove("lenis", "lenis-smooth", "lenis-stopped");
+    html.style.removeProperty("height");
+    html.style.removeProperty("overflow");
+    document.body.style.removeProperty("overflow");
+    document.body.style.removeProperty("height");
+    document.body.style.removeProperty("position");
+    return () => html.classList.remove("store-page");
+  }, [nativeScroll]);
+
   if (nativeScroll) return <>{children}</>;
 
   return (

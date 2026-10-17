@@ -218,8 +218,6 @@ export default function StoreProduct({ itemKey }: { itemKey: StoreItemKey }) {
     setActive(0);
     setSelectedQty(1);
     setOpen(new Set(DEFAULT_OPEN));
-    document.documentElement.classList.add("store-page");
-    return () => document.documentElement.classList.remove("store-page");
   }, [itemKey]);
 
   function toggleSection(id: AccordionId) {
@@ -291,7 +289,7 @@ export default function StoreProduct({ itemKey }: { itemKey: StoreItemKey }) {
               </div>
             </div>
 
-            <div className="mt-2.5 flex gap-2 overflow-x-auto sm:hidden">
+            <div className="mt-2.5 flex gap-2 overflow-x-auto overflow-y-hidden overscroll-x-contain sm:hidden">
               {gallery.map((src, index) => (
                 <button
                   key={`m-${src}-${index}`}

@@ -125,8 +125,6 @@ export default function Store() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    document.documentElement.classList.add("store-page");
-    return () => document.documentElement.classList.remove("store-page");
   }, []);
 
   return (

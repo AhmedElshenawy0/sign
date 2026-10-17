@@ -59,8 +59,6 @@ export default function StoreRequest({
   useEffect(() => {
     window.scrollTo(0, 0);
     setQty(clampQty(initialQty));
-    document.documentElement.classList.add("store-page");
-    return () => document.documentElement.classList.remove("store-page");
   }, [itemKey, initialQty]);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
