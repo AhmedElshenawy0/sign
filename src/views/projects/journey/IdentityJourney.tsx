@@ -87,7 +87,7 @@ export default function IdentityJourney({ project }: { project: Project }) {
         </motion.h1>
         {project.story?.trim() ? (
           <motion.p
-            className="mx-auto mt-5 max-w-lg text-center text-base leading-relaxed text-white/65"
+            className="mx-auto mt-5 max-w-lg text-center text-base leading-relaxed text-neutral-500"
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6 }}

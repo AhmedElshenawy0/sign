@@ -104,7 +104,7 @@ function PackagingJourney({ project }: { project: Project }) {
         </motion.h1>
         {project.story?.trim() ? (
           <motion.p
-            className="mx-auto mt-5 max-w-lg text-center text-white/65"
+            className="mx-auto mt-5 max-w-lg text-center text-neutral-500"
             initial={reduce ? false : { opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.38, duration: 0.6, ease: EASE }}
@@ -134,7 +134,7 @@ function PackagingJourney({ project }: { project: Project }) {
             {cards.map((item, index) => (
               <motion.div
                 key={`${item.url}-${index}`}
-                className="overflow-hidden rounded-[1.5rem] border border-white/10 bg-white/[0.03]"
+                className="overflow-hidden rounded-[1.5rem] border border-[#e7e2d8] bg-white"
                 initial={reduce ? false : { opacity: 0, y: 28 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.3 }}
@@ -143,7 +143,7 @@ function PackagingJourney({ project }: { project: Project }) {
               >
                 <RevealMedia src={item.url} alt={frameLabel(item, t)} className="aspect-[4/5] w-full object-cover" />
                 {stillCaption(item, lang, frameLabel(item, t)) ? (
-                  <p className="px-4 py-3 text-[11px] font-bold uppercase tracking-[0.18em] text-white/55">
+                  <p className="px-4 py-3 text-[11px] font-bold uppercase tracking-[0.18em] text-neutral-400">
                     {stillCaption(item, lang, frameLabel(item, t))}
                   </p>
                 ) : null}
@@ -196,7 +196,7 @@ function PrintsJourney({ project }: { project: Project }) {
           {fan.map((src, index) => (
             <motion.div
               key={`${src}-${index}`}
-              className="absolute w-[42%] max-w-xs overflow-hidden rounded-2xl border border-white/15 shadow-2xl"
+              className="absolute w-[42%] max-w-xs overflow-hidden rounded-2xl border border-[#e7e2d8] shadow-[0_24px_50px_rgba(40,30,20,0.10)]"
               initial={reduce ? false : { opacity: 0, y: 48, rotate: 0 }}
               animate={{ opacity: 1, y: 0, rotate: reduce ? 0 : rotations[index] ?? 0 }}
               transition={{ delay: 0.12 + index * 0.12, duration: 0.8, ease: EASE }}
@@ -215,7 +215,7 @@ function PrintsJourney({ project }: { project: Project }) {
           {project.title}
         </motion.h1>
         {project.story?.trim() ? (
-          <p className="mx-auto mt-5 max-w-lg text-center text-white/65">{project.story.trim()}</p>
+          <p className="mx-auto mt-5 max-w-lg text-center text-neutral-500">{project.story.trim()}</p>
         ) : null}
       </section>
 
@@ -269,11 +269,11 @@ function SocialJourney({ project }: { project: Project }) {
           <h1 className="mb-6 text-4xl font-black uppercase tracking-tight md:text-6xl">
             {project.title}
           </h1>
-          <p className="max-w-md text-base leading-relaxed text-white/70">
+          <p className="max-w-md text-base leading-relaxed text-neutral-500">
             {projectLine(project, t)}
           </p>
           {stillCaption(frames[index], lang, frameLabel(frames[index], t)) ? (
-            <p className="mt-6 text-[11px] font-bold uppercase tracking-[0.18em] text-white/50">
+            <p className="mt-6 text-[11px] font-bold uppercase tracking-[0.18em] text-neutral-400">
               {stillCaption(frames[index], lang, frameLabel(frames[index], t))}
             </p>
           ) : null}
@@ -324,8 +324,7 @@ function OutdoorsJourney({ project }: { project: Project }) {
         ref={heroRef}
         className="relative flex min-h-[92vh] flex-col items-center justify-end overflow-hidden px-6 pb-16 pt-10"
       >
-        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,#05070c_0%,#101826_55%,#1a2433_100%)]" />
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-black to-transparent" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-white to-transparent" />
         <motion.div style={{ scale, opacity, y }} className="relative mb-10 w-full max-w-4xl">
           <motion.div
             style={{ perspective: 1400 }}
@@ -333,8 +332,8 @@ function OutdoorsJourney({ project }: { project: Project }) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.95, ease: EASE }}
           >
-          <div className="mx-auto h-4 w-[18%] rounded-sm bg-white/25" />
-          <div className="mx-auto h-10 w-2 bg-white/20" />
+          <div className="mx-auto h-4 w-[18%] rounded-sm bg-neutral-300" />
+          <div className="mx-auto h-10 w-2 bg-neutral-200" />
           <div
             className="overflow-hidden rounded-sm border-[12px] border-[#2a2a2a] bg-black shadow-[0_50px_80px_rgba(0,0,0,0.55)]"
             style={{ transform: "rotateX(8deg)" }}
@@ -360,7 +359,7 @@ function OutdoorsJourney({ project }: { project: Project }) {
         >
           {project.title}
         </motion.h1>
-        <p className="relative mt-4 max-w-lg text-center text-white/65">
+        <p className="relative mt-4 max-w-lg text-center text-neutral-500">
           {projectLine(project, t)}
         </p>
       </section>
@@ -414,7 +413,7 @@ function StrategyJourney({ project }: { project: Project }) {
           {project.title}
         </motion.h1>
         {project.story?.trim() ? (
-          <p className="mt-5 max-w-xl text-base leading-relaxed text-white/65">
+          <p className="mt-5 max-w-xl text-base leading-relaxed text-neutral-500">
             {project.story.trim()}
           </p>
         ) : null}
@@ -480,18 +479,18 @@ function PhotosJourney({ project }: { project: Project }) {
           {project.title}
         </motion.h1>
         {project.story?.trim() ? (
-          <p className="mt-4 max-w-xl text-white/65">{project.story.trim()}</p>
+          <p className="mt-4 max-w-xl text-neutral-500">{project.story.trim()}</p>
         ) : null}
       </section>
 
-      <div className="mb-8 flex gap-3 overflow-x-auto px-6 pb-4 md:px-12">
+      <div className="mb-8 flex gap-3 overflow-x-auto overflow-y-hidden overscroll-x-contain px-6 pb-4 md:px-12">
         {frames.map((item, index) => (
           <button
             key={`${item.url}-${index}`}
             type="button"
             onClick={() => setActive(index)}
             className={`relative h-28 w-40 shrink-0 overflow-hidden rounded-lg border-2 transition ${
-              active === index ? accent.border : "border-white/15"
+              active === index ? accent.border : "border-[#e7e2d8]"
             }`}
           >
             <img src={item.url} alt="" className="h-full w-full object-cover" />
@@ -502,7 +501,7 @@ function PhotosJourney({ project }: { project: Project }) {
       <section className="mx-auto min-h-[70vh] max-w-6xl px-6 pb-16 md:px-12">
         <motion.div
           key={current?.url}
-          className="overflow-hidden rounded-[2rem] border border-white/10"
+          className="overflow-hidden rounded-[2rem] border border-[#e7e2d8]"
           initial={reduce ? false : { opacity: 0.4, scale: 0.98 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.55, ease: EASE }}
@@ -514,7 +513,7 @@ function PhotosJourney({ project }: { project: Project }) {
           />
         </motion.div>
         {stillCaption(current, lang, frameLabel(current, t)) ? (
-          <p className="mt-5 text-center text-sm text-white/60">
+          <p className="mt-5 text-center text-sm text-neutral-500">
             {stillCaption(current, lang, frameLabel(current, t))}
           </p>
         ) : null}
@@ -562,7 +561,7 @@ function VideosJourney({ project }: { project: Project }) {
         >
           {project.title}
         </motion.h1>
-        <p className="mx-auto mt-4 max-w-xl text-center text-white/65">
+        <p className="mx-auto mt-4 max-w-xl text-center text-neutral-500">
           {projectLine(project, t)}
         </p>
       </section>
@@ -585,7 +584,6 @@ function NfcJourney({ project }: { project: Project }) {
         ref={heroRef}
         className="relative flex min-h-[90vh] flex-col items-center justify-center px-6 py-16"
       >
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(14,152,93,0.12),transparent_50%),radial-gradient(circle_at_20%_80%,rgba(85,37,131,0.10),transparent_45%),radial-gradient(circle_at_80%_80%,rgba(229,68,17,0.08),transparent_45%)]" />
         <BrandDots className="relative z-[1] mb-5" />
         <motion.p
           className="relative z-[1] mb-8 text-[10px] font-black uppercase tracking-[0.35em] text-main-green"
@@ -615,7 +613,7 @@ function NfcJourney({ project }: { project: Project }) {
           {project.title}
         </motion.h1>
         {project.story?.trim() ? (
-          <p className="relative mx-auto mt-4 max-w-lg text-center text-white/65">
+          <p className="relative mx-auto mt-4 max-w-lg text-center text-neutral-500">
             {project.story.trim()}
           </p>
         ) : null}

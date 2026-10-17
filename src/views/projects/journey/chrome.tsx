@@ -131,14 +131,14 @@ export function JourneyIntro({
       exit={{ opacity: 1 }}
     >
       <motion.div
-        className="absolute inset-y-0 left-0 w-1/2 bg-[#05070c]"
+        className="absolute inset-y-0 left-0 w-1/2 bg-white"
         initial={{ x: 0 }}
         animate={{ x: 0 }}
         exit={{ x: "-101%" }}
         transition={{ duration: 0.78, ease: EASE }}
       />
       <motion.div
-        className="absolute inset-y-0 right-0 w-1/2 bg-[#05070c]"
+        className="absolute inset-y-0 right-0 w-1/2 bg-white"
         initial={{ x: 0 }}
         animate={{ x: 0 }}
         exit={{ x: "101%" }}
@@ -163,7 +163,7 @@ export function JourneyIntro({
           transition={{ delay: 0.18, duration: 0.5, ease: EASE }}
         >
           {groupLabel}
-          <span className="mx-2 text-white/35">·</span>
+          <span className="mx-2 text-neutral-300">·</span>
           {typeLabel}
         </motion.p>
         <motion.h2
@@ -201,25 +201,20 @@ export function JourneyShell({
 
   return (
     <div
-      className={`relative min-h-screen overflow-x-hidden bg-[#05070c] text-white ${
+      className={`relative min-h-screen overflow-x-hidden bg-white text-neutral-950 ${
         ready ? "" : "h-screen overflow-hidden"
       }`}
       dir={isArabic ? "rtl" : "ltr"}
     >
-      <div className="pointer-events-none fixed inset-0 z-0 bg-[radial-gradient(ellipse_at_top,rgba(14,152,93,0.14),transparent_42%),radial-gradient(ellipse_at_bottom_left,rgba(85,37,131,0.12),transparent_40%),radial-gradient(ellipse_at_bottom_right,rgba(229,68,17,0.10),transparent_38%)]" />
-      <div
-        className="pointer-events-none fixed inset-0 z-0 opacity-[0.09]"
-        style={{ backgroundImage: "url('/images/noisy3.png')" }}
-      />
       <ScrollProgress />
-      <header className="pointer-events-none sticky top-0 z-40 flex items-start justify-between gap-4 px-6 py-6 md:px-12">
+      <header className="pointer-events-none sticky top-0 z-40 flex items-start justify-between gap-4 bg-gradient-to-b from-white via-white/90 to-transparent px-6 py-6 md:px-12">
         <Link
           href="/projects"
-          className="pointer-events-auto inline-flex rounded-full border border-white/20 bg-black/50 px-4 py-2 text-[10px] font-black uppercase tracking-[0.22em] text-white/80 backdrop-blur-md transition hover:border-main-green hover:text-main-green"
+          className="pointer-events-auto inline-flex rounded-full border border-[#e7e2d8] bg-white/90 px-4 py-2 text-[10px] font-black uppercase tracking-[0.22em] text-neutral-600 backdrop-blur-md transition hover:border-main-green hover:text-main-green"
         >
           {t("projects.journey.back")}
         </Link>
-        <p className="max-w-[55%] text-end text-[10px] font-black uppercase tracking-[0.22em] text-white/50">
+        <p className="max-w-[55%] text-end text-[10px] font-black uppercase tracking-[0.22em] text-neutral-400">
           {t(`projects.groups.${groupId}.label`)}
           <span className={`mx-2 ${accent.text}`}>·</span>
           {t(`projects.types.${project.type}`)}
@@ -277,7 +272,7 @@ export function JourneyClose({ project }: { project: Project }) {
         {project.title}
       </motion.h1>
       <motion.p
-        className="mx-auto mb-10 max-w-xl text-base font-medium leading-relaxed text-white/70 md:text-lg"
+        className="mx-auto mb-10 max-w-xl text-base font-medium leading-relaxed text-neutral-500 md:text-lg"
         initial={{ opacity: 0, y: 16 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
@@ -287,7 +282,7 @@ export function JourneyClose({ project }: { project: Project }) {
       </motion.p>
       <Link
         href="/projects"
-        className="inline-flex rounded-full border border-white/20 px-5 py-2.5 text-[10px] font-black uppercase tracking-[0.22em] text-white/80 transition hover:border-main-green hover:text-main-green"
+        className="inline-flex rounded-full border border-[#e7e2d8] px-5 py-2.5 text-[10px] font-black uppercase tracking-[0.22em] text-neutral-600 transition hover:border-main-green hover:text-main-green"
       >
         {t("projects.journey.back")}
       </Link>
@@ -393,7 +388,7 @@ export function TiltFrame({
           my.set(0);
         }}
         style={reduce ? undefined : { rotateX, rotateY, transformStyle: "preserve-3d" }}
-        className="overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.03] shadow-[0_40px_80px_rgba(0,0,0,0.45)]"
+        className="overflow-hidden rounded-[2rem] border border-[#e7e2d8] bg-white shadow-[0_24px_50px_rgba(40,30,20,0.08)]"
       >
         <RevealMedia src={src} alt={alt} className="w-full object-contain" />
       </motion.div>
@@ -450,7 +445,7 @@ export function CopyChapter({
           {title}
         </motion.h2>
         <motion.p
-          className="max-w-md text-base leading-relaxed text-white/70 md:text-lg"
+          className="max-w-md text-base leading-relaxed text-neutral-500 md:text-lg"
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -466,11 +461,11 @@ export function CopyChapter({
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.7, ease: EASE }}
         >
-          <div className="overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.03]">
+          <div className="overflow-hidden rounded-[2rem] border border-[#e7e2d8] bg-white">
             <RevealMedia src={image} alt={alt ?? title} className="w-full object-contain" />
           </div>
           {caption ? (
-            <p className="mt-4 text-sm leading-relaxed text-white/55">{caption}</p>
+            <p className="mt-4 text-sm leading-relaxed text-neutral-400">{caption}</p>
           ) : null}
         </motion.div>
       ) : null}
@@ -497,7 +492,7 @@ export function FrameChapter({
 
   return (
     <section className="relative mx-auto flex min-h-[90vh] max-w-5xl flex-col items-center justify-center px-6 py-20">
-      <span className="pointer-events-none absolute top-10 select-none text-[22vw] font-black leading-none text-white/[0.035] md:text-[8rem]">
+      <span className="pointer-events-none absolute top-10 select-none text-[22vw] font-black leading-none text-neutral-950/[0.05] md:text-[8rem]">
         {number}
       </span>
       <motion.p
@@ -519,7 +514,7 @@ export function FrameChapter({
         </motion.h2>
       ) : null}
       <motion.div
-        className="relative w-full overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.03] shadow-[0_40px_100px_rgba(0,0,0,0.45)]"
+        className="relative w-full overflow-hidden rounded-[2rem] border border-[#e7e2d8] bg-white shadow-[0_24px_50px_rgba(40,30,20,0.08)]"
         initial={{ opacity: 0, y: 28 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.3 }}
@@ -529,7 +524,7 @@ export function FrameChapter({
       </motion.div>
       {caption ? (
         <motion.p
-          className="relative mt-6 max-w-md text-center text-sm leading-relaxed text-white/65 md:text-base"
+          className="relative mt-6 max-w-md text-center text-sm leading-relaxed text-neutral-500 md:text-base"
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
