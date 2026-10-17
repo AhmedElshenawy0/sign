@@ -9,6 +9,7 @@ export default function SiteShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const isAdmin = pathname.startsWith("/admin");
   const isStudio = pathname.startsWith("/studio");
+  const isStore = pathname === "/store" || pathname.startsWith("/store/");
   const isProjectJourney = /^\/projects\/[^/]+$/.test(pathname);
   const hideChrome = isAdmin || isProjectJourney || isStudio;
 
@@ -19,7 +20,9 @@ export default function SiteShell({ children }: { children: React.ReactNode }) {
           ? "min-h-screen bg-slate-950"
           : isStudio
             ? "min-h-screen"
-            : "overflow-x-clip"
+            : isStore
+              ? ""
+              : "overflow-x-clip"
       }
     >
       {!hideChrome && <Navbar />}

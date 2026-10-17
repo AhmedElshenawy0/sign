@@ -132,7 +132,7 @@ export default function Store() {
   return (
     <main
       dir={isArabic ? "rtl" : "ltr"}
-      className="relative min-h-screen overflow-x-clip bg-white text-neutral-950"
+      className="relative min-h-screen bg-white text-neutral-950"
     >
       <div className="pointer-events-none absolute inset-0 z-0 opacity-20" aria-hidden>
         <NoisyBg />

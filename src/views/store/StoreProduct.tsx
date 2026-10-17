@@ -108,6 +108,8 @@ export default function StoreProduct({ itemKey }: { itemKey: StoreItemKey }) {
     window.scrollTo(0, 0);
     setActive(0);
     setOpen(new Set(DEFAULT_OPEN));
+    document.documentElement.classList.add("store-page");
+    return () => document.documentElement.classList.remove("store-page");
   }, [itemKey]);
 
   function toggleSection(id: AccordionId) {
@@ -128,7 +130,7 @@ export default function StoreProduct({ itemKey }: { itemKey: StoreItemKey }) {
   return (
     <main
       dir={isArabic ? "rtl" : "ltr"}
-      className="relative min-h-screen overflow-x-clip bg-white text-neutral-950"
+      className="relative min-h-screen bg-white text-neutral-950"
     >
       <div className="pointer-events-none absolute inset-0 z-0 opacity-20" aria-hidden>
         <NoisyBg />

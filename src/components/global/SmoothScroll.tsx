@@ -33,6 +33,12 @@ function LenisPageSync() {
 }
 
 export default function SmoothScroll({ children }: { children: ReactNode }) {
+  const pathname = usePathname();
+  const nativeScroll =
+    pathname === "/store" || pathname.startsWith("/store/");
+
+  if (nativeScroll) return <>{children}</>;
+
   return (
     <ReactLenis
       root
